@@ -13,11 +13,7 @@ export default {
       msg: 'Welcome to Your Vue.js App'
     }
   },
-  methods: {
-    test() {
-      console.log(111)
-    }
-  }
+  methods: {}
 }
 </script>
 
