@@ -8,13 +8,13 @@
 <script>
 export default {
   name: 'HelloWorld',
-  data () {
+  data() {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
   },
   methods: {
-    test () {
+    test() {
       console.log(111)
     }
   }
@@ -22,8 +22,8 @@ export default {
 </script>
 
 <style scoped lang="less">
-  @color: #6cf;
-  .hello{
-    color: @color;
-  }
+@color: #6cf;
+.hello {
+  color: @color;
+}
 </style>
