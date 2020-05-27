@@ -6,11 +6,10 @@
 </template>
 
 <script>
-import Hello from './components/HelloWorld'
 export default {
   name: 'App',
-  components: {
-    Hello
+  created() {
+    console.log(process.env.NODE_ENV)
   }
 }
 </script>
