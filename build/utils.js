@@ -57,9 +57,11 @@ exports.cssLoaders = function (options) {
     css: generateLoaders(),
     postcss: generateLoaders(),
     less: generateLoaders('less', {
-      javascriptEnabled: true,
-      modifyVars: {
-        'primary-color': '#0090FF'
+      javascriptEnabled: true
+    }).concat({
+      loader: 'sass-resources-loader',
+      options: {
+        resources: [path.resolve(__dirname, '../src/assets/style/var.less')]
       }
     }),
     sass: generateLoaders('sass', { indentedSyntax: true }),

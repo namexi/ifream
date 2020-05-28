@@ -1,0 +1,55 @@
+// -------- Colors -----------
+@import "~ant-design-vue/dist/antd.less";
+
+body{
+  background-color: #fafafa;
+}
+.menu-container.fold{
+  .ant-menu.ant-menu-dark{
+    .ant-menu-submenu {
+      &.ant-menu-submenu-selected {
+        .ant-menu-submenu-title {
+          border-left: 2px solid #fff;
+          background-color: @color-menu-active;
+        }
+      }
+    }
+  }
+}
+.ant-menu.ant-menu-dark{
+  border-right: none;
+  background-color: @color-menu;
+  .ant-menu-submenu{
+    &.ant-menu-submenu-active{
+      color: #fff;
+    }
+    // 二级菜单的容器
+    .ant-menu-sub{
+      background-color: @color-menu !important;
+      box-shadow: none;
+    }
+  }
+
+
+  .ant-menu-item{
+    border-left: 2px transparent solid;
+    box-sizing: border-box;
+  }
+  .ant-menu-item-selected{
+    background-color: @color-menu-active;
+    border-left: 2px #fff solid;
+  }
+}
+// 收起后的二级弹窗
+.ant-menu-submenu-popup{
+  .ant-menu-submenu-content{
+    background-color: @color-menu;
+    .ant-menu-item-selected{
+      background-color: @color-menu-active;
+    }
+  }
+}
+
+//.ant-menu-dark .ant-menu-inline.ant-menu-sub{
+//  background-color: @main-blue-color;class="ant-menu-item ant-menu-item-selected"ant-menu-submenu ant-menu-submenu-popup ant-menu-dark ant-menu-submenu-placement-rightTop
+//}ant-menu ant-menu-vertical ant-menu-sub ant-menu-submenu-content
