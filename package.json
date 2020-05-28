@@ -13,8 +13,10 @@
   },
   "dependencies": {
     "ant-design-vue": "^1.6.1",
+    "axios": "^0.19.2",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
+    "nearby-common": "git+https://gitee.com/codersimon/nearby-common.git",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1"
   },
