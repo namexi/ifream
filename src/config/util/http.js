@@ -5,13 +5,14 @@ import axios from 'axios'
 let instance = axios.create({
   baseURL: BASE_URL,
   timeout: 60000,
-  headers: { Authorization: getToken() }
+  headers: { Authorization: getToken() || '' }
 })
 
 instance.interceptors.response.use(
   (response) => {
-    console.log(response.data)
-    return response.data
+    const body = response.data || {}
+    const { data } = body
+    return { res: data || {}, body }
   },
   () => {}
 )

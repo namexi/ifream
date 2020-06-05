@@ -43,6 +43,7 @@
 </template>
 
 <script>
+import { getSession } from 'nearby-common'
 export default {
   name: 'index',
   created() {},
@@ -51,6 +52,15 @@ export default {
       rootSubmenuKeys: ['sub1', 'sub2', 'sub3', 'sub4', 'sub5', 'sub6', 'sub7', 'sub8', 'sub9', 'sub10'],
       openKeys: ['sub1'],
       collapsed: false
+    }
+  },
+  beforeRouteEnter(to, f, next) {
+    const token = getSession('token')
+    if (!token) {
+      next('/login')
+      // next()
+    } else {
+      next()
     }
   },
   methods: {

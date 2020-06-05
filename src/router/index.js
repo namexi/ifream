@@ -17,6 +17,21 @@ const router = new Router({
         }
       ]
     },
+    {
+      path: '/login',
+      name: 'login',
+      component: (resolve) => require(['@pages/login/login'], resolve)
+    },
+    {
+      path: '/wxLogin',
+      name: 'wxLoginCallBack',
+      component: (resolve) => require(['@pages/login/login'], resolve)
+    },
+    {
+      path: '/user/login',
+      name: 'accountLogin',
+      component: (resolve) => require(['@pages/login/accountLogin'], resolve)
+    },
     { path: '*', redirect: '/' }
   ]
 })
