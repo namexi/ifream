@@ -1,7 +1,11 @@
-import { Button, Menu, Icon, Dropdown, Input, message, FormModel, Spin } from 'ant-design-vue'
+import { Button, Menu, Icon, Dropdown, Input, message, FormModel, Spin, Modal } from 'ant-design-vue'
+import antDirective from 'ant-design-vue/lib/_util/antDirective'
 import Vue from 'vue'
 
+Vue.use(antDirective) // use all ant directives
 Vue.prototype.$message = message
+Vue.prototype.$confirm = Modal.confirm
+// Vue.component(Modal.name, Modal)
 Vue.component(Button.name, Button)
 Vue.component(Menu.name, Menu)
 Vue.component(Menu.Item.name, Menu.Item)

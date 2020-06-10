@@ -35,7 +35,7 @@
             </div>
           </a-dropdown>
           <span class="user">{{ userInfo.name }}</span>
-          <span class="logout">[退出]</span>
+          <span class="logout" @click="handleLogout">[退出]</span>
         </div>
       </div>
       <div class="main-router">
@@ -47,7 +47,7 @@
 
 <script>
 import { getUserInfo } from 'Service'
-import { getToken, openSubSystem } from 'Config/util'
+import { getToken, openSubSystem, setToken, http } from 'Config/util'
 import store from 'Config/store/store'
 export default {
   name: 'home',
@@ -62,6 +62,9 @@ export default {
     userInfo: {
       get() {
         return store.state.userInfo
+      },
+      set(val) {
+        store.commit('updateUser', val)
       }
     }
   },
@@ -81,6 +84,22 @@ export default {
       })
   },
   methods: {
+    handleLogout() {
+      this.$confirm({
+        centered: true,
+        title: '退出登录',
+        content: '确定要退出登录吗？',
+        okText: '确定退出',
+        cancelText: '取消',
+        onOk: () => {
+          http.defaults.headers['Authorization'] = ''
+          this.userInfo = {}
+          setToken('')
+          this.$router.push('/login')
+        },
+        onCancel() {}
+      })
+    },
     goHome() {
       this.$router.push('/')
     },

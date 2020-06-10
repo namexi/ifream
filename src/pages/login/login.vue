@@ -10,7 +10,7 @@
     <div class="login-card-container">
       <div class="login-card">
         <div class="logo-container">
-          <img src="@/assets/icon/logo_dark.png" alt="" class="logo-img-dark" />
+          <img src="@/assets/icon/logo_dark.png" @click="jumpAccountLogin" alt="" class="logo-img-dark" />
         </div>
         <div class="title-name">联联周边游</div>
         <div class="login-way">
@@ -51,6 +51,11 @@ export default {
     }
   },
   methods: {
+    jumpAccountLogin() {
+      if (!isProd) {
+        this.$router.push('/user/login')
+      }
+    },
     checkRoute() {
       const wxCode = getQueryString('code')
       if (!isNil(wxCode)) {
@@ -85,7 +90,7 @@ export default {
     },
     loginSuccess(token = '') {
       setToken(token)
-      http.defaults.headers.common['Authorization'] = token
+      http.defaults.headers['Authorization'] = token
       this.$router.replace('/')
     },
     loginWithCode(code) {
