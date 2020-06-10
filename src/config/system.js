@@ -12,6 +12,10 @@ export const subSysTemConfig = {
     name: 'design',
     url: `${prefixUrl}/design/index.html`
   },
+  technology: {
+    name: 'technology',
+    url: `${prefixUrl}/technology/index.html`
+  },
   finance: {
     name: 'finance',
     url: `${prefixUrl}/finance/index.html`,
