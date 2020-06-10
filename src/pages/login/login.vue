@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import { getAuthAppId, loginWithCode as wxLoginWithCode, wxBind } from '@service'
-import { isInWechat, isNil, wxCallBackUrl, isProd, wxAuthLogin, wxAuthCallBackUrl, setToken, http } from '@config/util'
+import { getAuthAppId, loginWithCode as wxLoginWithCode, wxBind } from 'Service'
+import { isInWechat, isNil, wxCallBackUrl, isProd, wxAuthLogin, wxAuthCallBackUrl, setToken, http } from 'Config/util'
 import { getQueryString, addQueryString } from 'nearby-common'
-import { AccountLogin } from '@/components'
+import { AccountLogin } from 'Components'
 export default {
   name: 'login',
   components: { AccountLogin },
@@ -53,17 +53,16 @@ export default {
   methods: {
     checkRoute() {
       const wxCode = getQueryString('code')
-      const wxState = getQueryString('state')
-      if (!isNil(wxCode) && !isNil(wxState)) {
+      if (!isNil(wxCode)) {
         // 网址query上的code是微信自动登录来的
         this.platform = 2
-        return this.loginWithCode(wxCode, wxState)
+        return this.loginWithCode(wxCode)
       }
-      const { code, state } = this.$route.query
-      if (!isNil(code) && !isNil(state)) {
+      const { code } = this.$route.query
+      if (!isNil(code)) {
         // 路由query上的code是通过扫码跳转的
         this.platform = 1
-        return this.loginWithCode(code, state)
+        return this.loginWithCode(code)
       }
       if (isInWechat) {
         // 在微信环境直接登录
@@ -79,7 +78,7 @@ export default {
     },
     onBind({ userName, password }) {
       this.loading = true
-      wxBind(userName, password, this.uid).then(({ res }) => {
+      wxBind(userName, password, this.uid).then((res) => {
         this.loginSuccess(res.token)
         this.loading = false
       })
@@ -89,8 +88,8 @@ export default {
       http.defaults.headers.common['Authorization'] = token
       this.$router.replace('/')
     },
-    loginWithCode(code, state) {
-      wxLoginWithCode(code, state, this.platform).then(({ res }) => {
+    loginWithCode(code) {
+      wxLoginWithCode(code, this.platform).then((res) => {
         const errCode = parseInt(res.code)
         switch (errCode) {
           case 1:
@@ -99,7 +98,7 @@ export default {
             break
           case 2:
             // 未绑定账号，需要授权绑定
-            this.$message.error(res.errMessage)
+            this.$message.error(res.message)
             this.uid = res.token.id
             this.scene = 'account'
             break
@@ -112,7 +111,7 @@ export default {
     },
     requestQrCode() {
       // 扫码在微信生态属于网站应用登录，需要从服务器获取appId去请求二维码
-      getAuthAppId(this.platform).then(({ res }) => {
+      getAuthAppId(this.platform).then((res) => {
         if (!res.appId) return
         const appId = res.appId || ''
         if (!appId) return
@@ -131,13 +130,12 @@ export default {
       })
     },
     autoLogin() {
-      getAuthAppId(this.platform).then(({ res }) => {
+      getAuthAppId(this.platform).then((res) => {
         const appId = res.appId || ''
         if (!appId) return
         const versionCode = getQueryString('v') || '233'
         const url = addQueryString(wxAuthCallBackUrl, 'versionCode', versionCode)
         const callback = encodeURIComponent(url)
-        alert(JSON.stringify({ p: this.platform, url }))
         wxAuthLogin(appId, callback, 0, '123456')
       })
     }

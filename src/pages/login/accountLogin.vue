@@ -24,9 +24,9 @@
 </template>
 
 <script>
-import { AccountLogin } from '@/components'
-import { accountLogin } from '@service'
-import { setToken, http } from '@config/util'
+import { AccountLogin } from 'Components'
+import { accountLogin } from 'Service'
+import { setToken, http } from 'Config/util'
 export default {
   name: 'accountLoginPage',
   components: { AccountLogin },
@@ -40,14 +40,15 @@ export default {
     onLogin({ userName, password }) {
       this.loading = true
       accountLogin(userName, password)
-        .then(({ res }) => {
+        .then((res) => {
           this.loading = false
           const token = res.token || ''
           setToken(token)
-          http.defaults.headers.common['Authorization'] = token
+          http.defaults.headers['Authorization'] = token
           this.$router.replace('/')
         })
         .catch((e) => {
+          console.log(e)
           this.loading = false
         })
     }

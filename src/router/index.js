@@ -8,29 +8,34 @@ const router = new Router({
       path: '/',
       name: 'home',
       redirect: 'welcome',
-      component: (resolve) => require(['@pages/index'], resolve),
+      component: (resolve) => require(['Pages/index'], resolve),
       children: [
         {
           path: '/welcome',
           name: 'welcome',
-          component: (resolve) => require(['@pages/welcome/welcome'], resolve)
+          component: (resolve) => require(['Pages/welcome/welcome'], resolve)
+        },
+        {
+          path: '/frame/*:path',
+          name: 'subSystem',
+          component: (resolve) => require(['Pages/frame'], resolve)
         }
       ]
     },
     {
       path: '/login',
       name: 'login',
-      component: (resolve) => require(['@pages/login/login'], resolve)
+      component: (resolve) => require(['Pages/login/login'], resolve)
     },
     {
       path: '/wxLogin',
       name: 'wxLoginCallBack',
-      component: (resolve) => require(['@pages/login/login'], resolve)
+      component: (resolve) => require(['Pages/login/login'], resolve)
     },
     {
       path: '/user/login',
       name: 'accountLogin',
-      component: (resolve) => require(['@pages/login/accountLogin'], resolve)
+      component: (resolve) => require(['Pages/login/accountLogin'], resolve)
     },
     { path: '*', redirect: '/' }
   ]

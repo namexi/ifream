@@ -1,17 +1,20 @@
 <template>
   <div class="home">
     <div class="side-bar" :class="collapsed ? 'fold' : 'unfold'">
-      <div class="logo-container">
+      <div class="logo-container" @click="goHome">
         <img src="../assets/icon/logo.png" alt="" class="logo" />
+        <!--<img :src="userInfo.headimgurl" alt="" class="logo" />-->
         <div class="sys-title" v-if="!collapsed">联联周边游产品系统</div>
       </div>
       <div class="menu-container no-scroll-bar" :class="collapsed ? 'fold' : 'unfold'">
         <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" theme="dark" @openChange="onOpenChange">
-          <a-sub-menu v-for="i in 10" :key="'sub' + i">
+          <a-sub-menu v-for="(superItem, i) in userInfo.menuList" :key="'super-' + i + '-' + superItem.id">
             <span slot="title">
-              <a-icon type="mail" /><span>Navigation {{ i }}</span></span
+              <a-icon :type="superItem.icon" /><span>{{ superItem.name }}</span></span
             >
-            <a-menu-item v-for="j in 10" :key="'i' + i + j"> Option {{ j }} </a-menu-item>
+            <a-menu-item v-for="(subItem, j) in superItem.children" :key="'sub-' + j + '-' + subItem.id">
+              <div @click="onClick({ superItem, subItem })">{{ subItem.name }}</div>
+            </a-menu-item>
           </a-sub-menu>
         </a-menu>
       </div>
@@ -31,7 +34,7 @@
               <img src="../assets/qrcode/ass3.png" class="assistant-code" alt="assistant" />
             </div>
           </a-dropdown>
-          <span class="user">刘逍simon</span>
+          <span class="user">{{ userInfo.name }}</span>
           <span class="logout">[退出]</span>
         </div>
       </div>
@@ -43,33 +46,60 @@
 </template>
 
 <script>
-import { getSession } from 'nearby-common'
+import { getUserInfo } from 'Service'
+import { getToken, openSubSystem } from 'Config/util'
+import store from 'Config/store/store'
 export default {
-  name: 'index',
+  name: 'home',
   created() {},
   data() {
     return {
-      rootSubmenuKeys: ['sub1', 'sub2', 'sub3', 'sub4', 'sub5', 'sub6', 'sub7', 'sub8', 'sub9', 'sub10'],
-      openKeys: ['sub1'],
+      openKeys: [],
       collapsed: false
     }
   },
-  beforeRouteEnter(to, f, next) {
-    const token = getSession('token')
-    if (!token) {
-      next('/login')
-      // next()
-    } else {
-      next()
+  computed: {
+    userInfo: {
+      get() {
+        return store.state.userInfo
+      }
     }
   },
+  beforeRouteEnter(to, f, next) {
+    const token = getToken()
+    if (!token) {
+      next('/login')
+      return
+    }
+    getUserInfo()
+      .then((res) => {
+        store.commit('updateUser', res)
+        next()
+      })
+      .catch(() => {
+        next('/login')
+      })
+  },
   methods: {
+    goHome() {
+      this.$router.push('/')
+    },
     onToggleCollapse() {
       this.collapsed = !this.collapsed
     },
+    onClick({ superItem, subItem }) {
+      const { alias = '', path = '' } = superItem
+      if (path.startsWith('http://') || path.startsWith('https://')) {
+        console.log(alias)
+        openSubSystem(alias, subItem.path)
+      } else {
+        this.$router.push(subItem.path)
+      }
+    },
     onOpenChange(openKeys) {
+      const keys = this.userInfo.menuList.map((e, i) => `super-${i}-${e.id}`)
       const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1)
-      if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+      if (keys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys
       } else {
         this.openKeys = latestOpenKey ? [latestOpenKey] : []
@@ -103,6 +133,7 @@ export default {
     color: #fff;
     transition: width 0.5s ease-out;
     .logo-container {
+      cursor: pointer;
       height: @header-height;
       display: flex;
       flex-shrink: 0;
@@ -110,6 +141,7 @@ export default {
       border-bottom: 1px solid #417cff;
       justify-content: center;
       .logo {
+        border-radius: 100%;
         height: 26px;
         width: 26px;
       }

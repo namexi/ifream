@@ -1,13 +1,11 @@
-import { getSession, setSession } from 'nearby-common'
+import { getSystem } from '../system'
+import router from '@/router'
 
-export function getToken() {
-  return getSession('token') || ''
-}
-
-export function setToken(token) {
-  setSession('token', token)
-}
-
+/**
+ * 判断是否为空，额外校验了字符串undefined和字符串null
+ * @param t target 要校验的参数
+ * @return {boolean}
+ */
 export function isNil(t) {
   if (typeof t === 'undefined' || t === null || t === 'undefined' || t === 'null') {
     return true
@@ -16,6 +14,24 @@ export function isNil(t) {
   } else if (typeof t === 'string') {
     return t.replace(/(^\s*)|(\s*$)/g, '').length === 0
   }
+}
+
+/**
+ * 跳转到子系统
+ * @param name 子系统名称
+ * @param url 子系统路由地址
+ * @param query 路由参数query
+ */
+export function openSubSystem(name, url, query = {}) {
+  const system = getSystem(name)
+  if (!system) return
+  router.push({
+    path: '/frame' + url,
+    query: {
+      ...query,
+      sysName: name
+    }
+  })
 }
 
 // 微信授权登录
