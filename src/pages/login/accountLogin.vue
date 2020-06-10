@@ -48,7 +48,6 @@ export default {
           this.$router.replace('/')
         })
         .catch((e) => {
-          console.log(e)
           this.loading = false
         })
     }

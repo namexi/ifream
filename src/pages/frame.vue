@@ -56,7 +56,6 @@ export default {
         url = addQueryString(url, 'token', getToken())
         const queryStr = this.stringifyQuery()
         const realUrl = `${url}#${path}${queryStr}`
-        console.log(realUrl)
         this.url = realUrl
       })
     },

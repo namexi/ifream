@@ -90,7 +90,6 @@ export default {
     onClick({ superItem, subItem }) {
       const { alias = '', path = '' } = superItem
       if (path.startsWith('http://') || path.startsWith('https://')) {
-        console.log(alias)
         openSubSystem(alias, subItem.path)
       } else {
         this.$router.push(subItem.path)
