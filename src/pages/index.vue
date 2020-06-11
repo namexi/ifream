@@ -7,12 +7,12 @@
         <div class="sys-title" v-if="!collapsed">联联周边游产品系统</div>
       </div>
       <div class="menu-container no-scroll-bar" :class="collapsed ? 'fold' : 'unfold'">
-        <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" theme="dark" @openChange="onOpenChange">
-          <a-sub-menu v-for="(superItem, i) in userInfo.menuList" :key="'super-' + i + '-' + superItem.id">
+        <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" :defaultSelectedKeys="defaultKeys" theme="dark" @openChange="onOpenChange">
+          <a-sub-menu v-for="superItem in userInfo.menuList" :key="superItem.id">
             <span slot="title">
               <a-icon :type="superItem.icon" /><span>{{ superItem.name }}</span></span
             >
-            <a-menu-item v-for="(subItem, j) in superItem.children" :key="'sub-' + j + '-' + subItem.id">
+            <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
               <div @click="onClick({ superItem, subItem })">{{ subItem.name }}</div>
             </a-menu-item>
           </a-sub-menu>
@@ -47,14 +47,29 @@
 
 <script>
 import { getUserInfo } from 'Service'
-import { getToken, openSubSystem, setToken, http } from 'Config/util'
+import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
 import store from 'Config/store/store'
 export default {
   name: 'home',
-  created() {},
+  created() {
+    const menus = this.userInfo.menuList || []
+    const items = []
+    menus.forEach((e) => {
+      items.push(...e.children)
+    })
+    let currentPath = this.$route.path
+    if (currentPath.startsWith('/frame/')) {
+      currentPath = currentPath.slice(6)
+    }
+    const menu = items.find((e) => e.path === currentPath)
+    if (!menu) return
+    this.openKeys = [menu.superId]
+    this.defaultKeys = [menu.id]
+  },
   data() {
     return {
       openKeys: [],
+      defaultKeys: [],
       collapsed: false
     }
   },
@@ -108,14 +123,14 @@ export default {
     },
     onClick({ superItem, subItem }) {
       const { alias = '', path = '' } = superItem
-      if (path.startsWith('http://') || path.startsWith('https://')) {
+      if (isUrl(path)) {
         openSubSystem(alias, subItem.path)
       } else {
         this.$router.push(subItem.path)
       }
     },
     onOpenChange(openKeys) {
-      const keys = this.userInfo.menuList.map((e, i) => `super-${i}-${e.id}`)
+      const keys = this.userInfo.menuList.map((e) => e.id)
       const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1)
       if (keys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys
