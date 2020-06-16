@@ -16,6 +16,10 @@ export const subSysTemConfig = {
     name: 'technology',
     url: `${prefixUrl}/technology/index.html`
   },
+  common: {
+    name: 'common',
+    url: `${prefixUrl}/common/index.html`
+  },
   finance: {
     name: 'finance',
     url: `${prefixUrl}/finance/index.html`,
