@@ -8,10 +8,9 @@ export const currentHost = `${location.protocol}//${location.host}`
 let baseUrl = 'https://oa.lianlianlvyou.com'
 
 if (isDev) {
-  // baseUrl = 'http://192.101.50.134:8080'
-  baseUrl = 'http://192.167.246.37:8188'
+  baseUrl = 'http://192.167.246.199:32001'
 } else if (isTest) {
-  baseUrl = 'http://192.167.246.37:8188'
+  baseUrl = 'http://192.167.246.199:32011'
 }
 
 export const BASE_URL = baseUrl
