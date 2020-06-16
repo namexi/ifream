@@ -26,6 +26,46 @@ export const subSysTemConfig = {
     pages: {
       contractDetail: '/contract/detail/:id?'
     }
+  },
+  administration: {
+    name: 'administration',
+    url: `${prefixUrl}/administration/index.html`
+  },
+  human: {
+    name: 'human',
+    url: `${prefixUrl}/human/index.html`
+  },
+  customer: {
+    name: 'customer',
+    url: `${prefixUrl}/customer/index.html`
+  },
+  product: {
+    name: 'product',
+    url: `${prefixUrl}/product/index.html`
+  },
+  docking: {
+    name: 'docking',
+    url: `${prefixUrl}/docking/index.html`
+  },
+  brand: {
+    name: 'brand',
+    url: `${prefixUrl}/brand/index.html`
+  },
+  third: {
+    name: 'third',
+    url: `${prefixUrl}/third/index.html`
+  },
+  contract: {
+    name: 'contract',
+    url: `${prefixUrl}/contract/index.html`
+  },
+  market: {
+    name: 'market',
+    url: `${prefixUrl}/market/index.html`
+  },
+  order: {
+    name: 'order',
+    url: `${prefixUrl}/order/index.html`
   }
 }
 
