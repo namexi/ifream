@@ -12,8 +12,8 @@
             <span slot="title">
               <a-icon :type="superItem.icon" /><span>{{ superItem.name }}</span></span
             >
-            <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
-              <div @click="onClick({ superItem, subItem })">{{ subItem.name }}</div>
+            <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+              <div>{{ subItem.name }}</div>
             </a-menu-item>
           </a-sub-menu>
         </a-menu>
