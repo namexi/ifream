@@ -2,6 +2,8 @@ import { mscf, openSubSystem } from './util'
 import { message } from 'ant-design-vue'
 import { getSystem } from '@/config/system'
 import { compile } from 'path-to-regexp'
+import router from '@/router'
+import { addQueryString } from 'nearby-common'
 
 function getPath(route, params) {
   let toPath = compile(route)
@@ -28,4 +30,11 @@ mscf.on('redirect', (e) => {
   }
   targetPage = getPath(targetPage, params)
   openSubSystem(target, targetPage, query)
+})
+
+// 子系统切换了域名
+mscf.on('routeChange', (e) => {
+  let path = e.data
+  path = '/frame' + addQueryString(path, 'sysName', e.origin)
+  router.replace(path)
 })
