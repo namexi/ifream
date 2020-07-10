@@ -120,6 +120,7 @@ export default {
     },
     onToggleCollapse() {
       this.collapsed = !this.collapsed
+      this.openKeys = [] // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
     onClick({ superItem, subItem }) {
       const { alias = '', path = '' } = superItem

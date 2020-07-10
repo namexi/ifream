@@ -9,6 +9,7 @@ let baseUrl = 'https://oa.lianlianlvyou.com'
 
 if (isDev) {
   baseUrl = 'http://192.167.246.199:32001'
+  baseUrl = 'http://192.167.246.199:32011'
 } else if (isTest) {
   baseUrl = 'http://192.167.246.199:32011'
 }

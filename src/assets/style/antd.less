@@ -4,6 +4,9 @@
 body{
   background-color: #fafafa;
 }
+.ant-menu-item{
+  margin: 0 !important;
+}
 .menu-container.fold{
   .ant-menu.ant-menu-dark{
     .ant-menu-submenu {
@@ -36,16 +39,22 @@ body{
     box-sizing: border-box;
   }
   .ant-menu-item-selected{
-    background-color: @color-menu-active;
+    background-color: @color-menu-active !important;
     border-left: 2px #fff solid;
   }
 }
 // 收起后的二级弹窗
 .ant-menu-submenu-popup{
   .ant-menu-submenu-content{
-    background-color: @color-menu;
+    background-color: @color-menu !important;
+    max-height: 90vh;
+    overflow: auto;
+    &::-webkit-scrollbar{
+      display: none;
+      width: 0;
+    }
     .ant-menu-item-selected{
-      background-color: @color-menu-active;
+      background-color: @color-menu-active !important;
     }
   }
 }
