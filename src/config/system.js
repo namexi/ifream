@@ -70,8 +70,5 @@ export const subSysTemConfig = {
 }
 
 export function getSystem(name = '') {
-  console.log(name)
-  console.log(subSysTemConfig)
-  console.log(subSysTemConfig[name])
   return subSysTemConfig[name]
 }

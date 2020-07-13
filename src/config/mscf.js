@@ -22,7 +22,6 @@ mscf.on('toast.warning', (e) => {
 // 某个系统想跳转到其他子系统
 mscf.on('redirect', (e) => {
   const { target, page, params, query } = e.data
-  console.log(e.data)
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   let targetPage = system.pages[page]
