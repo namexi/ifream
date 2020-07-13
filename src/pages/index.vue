@@ -127,7 +127,7 @@ export default {
       if (isUrl(path)) {
         openSubSystem(alias, subItem.path)
       } else {
-        this.$router.push(subItem.path)
+        this.$router.push(subItem.path).catch((e) => console.log(e))
       }
     },
     onOpenChange(openKeys) {
