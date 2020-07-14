@@ -21,7 +21,7 @@
     "nearby-common": "git+https://gitee.com/codersimon/nearby-common.git",
     "path-to-regexp": "^6.1.0",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1",
+    "vue-router": "^3.0.0",
     "vuex": "^3.4.0"
   },
   "devDependencies": {
