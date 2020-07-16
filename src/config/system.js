@@ -24,7 +24,7 @@ export const subSysTemConfig = {
     name: 'finance',
     url: `${prefixUrl}/finance/index.html`,
     pages: {
-      contractDetail: '/contract/detail/:id?'
+      contractDetail: '/business/contract/detail'
     }
   },
   administration: {
