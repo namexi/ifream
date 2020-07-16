@@ -34,7 +34,11 @@ mscf.on('redirect', (e) => {
 
 // 子系统切换了域名
 mscf.on('routeChange', (e) => {
+  console.log('父系统收到的消息：')
+  console.log(e)
   let path = e.data
   path = '/frame' + addQueryString(path, 'sysName', e.origin)
+  console.log('要去的path：')
+  console.log(path)
   router.replace(path)
 })
