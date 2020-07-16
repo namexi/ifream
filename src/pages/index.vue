@@ -10,8 +10,9 @@
         <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" :defaultSelectedKeys="defaultKeys" theme="dark" @openChange="onOpenChange">
           <a-sub-menu v-for="superItem in userInfo.menuList" :key="superItem.id">
             <span slot="title">
-              <a-icon :type="superItem.icon" /><span>{{ superItem.name }}</span></span
-            >
+              <i :class="superItem.icon" class="menu-icon"></i>
+              <span class="menu-name">{{ superItem.name }}</span>
+            </span>
             <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
               <div>{{ subItem.name }}</div>
             </a-menu-item>
@@ -165,7 +166,7 @@ export default {
     flex-direction: column;
     background-color: @color-menu;
     color: #fff;
-    transition: width 0.5s ease-out;
+    transition: width 0.1s ease-out;
     .logo-container {
       cursor: pointer;
       height: @header-height;
@@ -188,6 +189,17 @@ export default {
     .menu-container {
       height: 100%;
       overflow: hidden auto;
+      .menu-icon {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+      &.fold {
+        .menu-name {
+          max-width: 0;
+          opacity: 0;
+          width: 0;
+        }
+      }
     }
     &.fold {
       width: 80px;
