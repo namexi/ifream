@@ -130,7 +130,7 @@ export default {
           redirect_uri: encodeURIComponent(href),
           state: '123456',
           style: '',
-          href: 'https://app-oa-web-lianlianlvyou-com.oss-cn-beijing.aliyuncs.com/css/qr_code.css'
+          href: 'http://ll-oss-oaapp.oss-cn-beijing.aliyuncs.com/css/qr_code.css'
         })
       })
     },
