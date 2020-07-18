@@ -1,7 +1,7 @@
 import { http } from '@/config/util'
 
 // todo check this api
-export const getAuthAppId = (authType = 1) => http.get('/common/login/getAppId?platform=' + authType)
+export const getAuthAppId = (authType = 1) => http.get('/common/open/login/getAppId?platform=' + authType)
 
 // 账号密码登录
 export const accountLogin = (userName, password) => http.post('/common/open/login/loginByPassword', { phoneNumber: userName, password })

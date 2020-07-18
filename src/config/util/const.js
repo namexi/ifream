@@ -5,7 +5,7 @@ export const wxLoginUrl = `https://cd-nt.lianlianlvyou.com/?isOaWeb=1&versionCod
 export const wxCallBackUrl = 'https://nb-oa-web.lianlianlvyou.com/#/login' // 扫码登录回调地址
 export const wxAuthCallBackUrl = 'https://cd-nt.lianlianlvyou.com/?isOaWeb=1#/redirectUrl' // 微信授权登录回调地址
 export const currentHost = `${location.protocol}//${location.host}`
-let baseUrl = 'https://oa.lianlianlvyou.com'
+let baseUrl = 'https://oas.lianlianlvyou.com'
 
 if (isDev) {
   baseUrl = 'http://192.167.246.199:32001'
