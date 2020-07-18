@@ -49,6 +49,7 @@
 <script>
 import { getUserInfo } from 'Service'
 import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
+import { getQueryString, deleteQueryString } from 'nearby-common'
 import store from 'Config/store/store'
 export default {
   name: 'home',
@@ -85,6 +86,13 @@ export default {
     }
   },
   beforeRouteEnter(to, f, next) {
+    const urlToken = getQueryString('token')
+    if (urlToken) {
+      setToken(urlToken)
+      let href = location.href
+      href = deleteQueryString(href, 'token')
+      location.href = href
+    }
     const token = getToken()
     if (!token) {
       next('/login')

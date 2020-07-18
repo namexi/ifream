@@ -46,7 +46,7 @@ export default {
     return {
       loading: false,
       platform: 1,
-      scene: 'account', // web网页扫码登录 wx自动登录 account账号密码绑定
+      scene: 'account', // web网页扫码登录 wx自动登录 account账号密码登录
       uid: ''
     }
   },
@@ -99,7 +99,7 @@ export default {
         switch (errCode) {
           case 1:
             // 1是微信登录出错，需要重新扫码
-            location.reload(true)
+            location.reload()
             break
           case 2:
             // 未绑定账号，需要授权绑定
@@ -233,6 +233,8 @@ export default {
     .bg-container {
       padding: 0;
       overflow: hidden;
+      width: 100vw;
+      height: 100vh;
       .title-container {
         display: none;
       }
