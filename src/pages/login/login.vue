@@ -109,7 +109,7 @@ export default {
             break
           default:
             // 登录成功
-            this.loginSuccess(res.token)
+            this.loginSuccess(res.data.token)
             break
         }
       })
