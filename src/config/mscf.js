@@ -4,6 +4,7 @@ import { getSystem } from '@/config/system'
 import { compile } from 'path-to-regexp'
 import router from '@/router'
 import { addQueryString } from 'nearby-common'
+import _ from 'lodash'
 
 function getPath(route, params) {
   let toPath = compile(route)
@@ -32,8 +33,7 @@ mscf.on('redirect', (e) => {
   openSubSystem(target, targetPage, query)
 })
 
-// 子系统切换了域名
-mscf.on('routeChange', (e) => {
+const handler = _.debounce((e) => {
   console.log('父系统收到的消息：')
   console.log(e)
   let path = e.data
@@ -41,4 +41,6 @@ mscf.on('routeChange', (e) => {
   console.log('要去的path：')
   console.log(path)
   router.replace(path)
-})
+}, 200)
+// 子系统切换了域名
+mscf.on('routeChange', handler)
