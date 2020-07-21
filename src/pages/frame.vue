@@ -63,7 +63,6 @@ export default {
       if (!query) return ''
       let copyQuery = JSON.parse(JSON.stringify(query))
       delete copyQuery.sysName
-      delete copyQuery._r
       return '?' + json2params(copyQuery)
     }
   }
