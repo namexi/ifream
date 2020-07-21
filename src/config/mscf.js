@@ -37,7 +37,9 @@ const handler = _.debounce((e) => {
   let path = e.data
   console.log('父系统收到的消息，需要跳转：')
   console.log(path)
-  path = '/frame' + addQueryString(path, 'sysName', e.origin)
+  path = addQueryString(path, 'sysName', e.origin)
+  path = addQueryString(path, '_r', parseInt(Math.random() * 100))
+  path = '/frame' + path
   router.replace(path)
 }, 200)
 // 子系统切换了域名

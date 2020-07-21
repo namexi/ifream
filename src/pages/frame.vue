@@ -55,8 +55,7 @@ export default {
         url = deleteQueryString(url, 'token')
         url = addQueryString(url, 'token', getToken())
         const queryStr = this.stringifyQuery()
-        const realUrl = `${url}#${path}${queryStr}`
-        this.url = realUrl
+        this.url = `${url}#${path}${queryStr}`
       })
     },
     stringifyQuery() {
@@ -64,6 +63,7 @@ export default {
       if (!query) return ''
       let copyQuery = JSON.parse(JSON.stringify(query))
       delete copyQuery.sysName
+      delete copyQuery._r
       return '?' + json2params(copyQuery)
     }
   }
