@@ -34,12 +34,10 @@ mscf.on('redirect', (e) => {
 })
 
 const handler = _.debounce((e) => {
-  console.log('父系统收到的消息：')
-  console.log(e)
   let path = e.data
-  path = '/frame' + addQueryString(path, 'sysName', e.origin)
-  console.log('要去的path：')
+  console.log('父系统收到的消息，需要跳转：')
   console.log(path)
+  path = '/frame' + addQueryString(path, 'sysName', e.origin)
   router.replace(path)
 }, 200)
 // 子系统切换了域名
