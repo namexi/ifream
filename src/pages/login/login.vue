@@ -104,12 +104,14 @@ export default {
         switch (errCode) {
           case 1:
             // 1是微信登录出错，需要重新扫码
-            location.reload()
+            const { hash, origin, pathname } = location
+            const path = origin + pathname + hash
+            location.replace(path)
             break
           case 2:
             // 未绑定账号，需要授权绑定
             this.$message.error(res.message)
-            this.uid = res.token.id
+            this.uid = res.data
             this.scene = 'account'
             break
           default:
