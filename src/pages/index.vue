@@ -7,17 +7,40 @@
         <div class="sys-title" v-if="!collapsed">联联周边游产品系统</div>
       </div>
       <div class="menu-container no-scroll-bar" :class="collapsed ? 'fold' : 'unfold'">
-        <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" :defaultSelectedKeys="defaultKeys" theme="dark" @openChange="onOpenChange">
-          <a-sub-menu v-for="superItem in userInfo.menuList" :key="superItem.id">
-            <span slot="title">
-              <i :class="superItem.icon" class="menu-icon"></i>
-              <span class="menu-name">{{ superItem.name }}</span>
-            </span>
-            <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
-              <div>{{ subItem.name }}</div>
-            </a-menu-item>
-          </a-sub-menu>
-        </a-menu>
+        <div class="search-container" @click="onSearchClick">
+          <div v-if="collapsed" class="home-search-menu">
+            <a-icon style="font-size: 16px;" type="search" />
+          </div>
+          <a-input v-else class="search-input home-search-menu" v-model="search.keyword" @change="onKeywordChange" placeholder="菜单搜索">
+            <a-icon slot="prefix" type="search" />
+          </a-input>
+        </div>
+        <template v-if="!search.keyword">
+          <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" :defaultSelectedKeys="defaultKeys" theme="dark" @openChange="onOpenChange">
+            <a-sub-menu v-for="superItem in userInfo.menuList" :key="superItem.id">
+              <span slot="title">
+                <i :class="superItem.icon" class="menu-icon"></i>
+                <span class="menu-name">{{ superItem.name }}</span>
+              </span>
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+                <div style="font-size: 13px;">{{ subItem.name }}</div>
+              </a-menu-item>
+            </a-sub-menu>
+          </a-menu>
+        </template>
+        <template v-else>
+          <a-menu :open-keys="search.openKeys" mode="inline" :inline-collapsed="collapsed" theme="dark" @openChange="onSearchOpenChange">
+            <a-sub-menu v-for="superItem in menuList" :key="superItem.id">
+              <span slot="title">
+                <i :class="superItem.icon" class="menu-icon"></i>
+                <span class="menu-name">{{ superItem.name }}</span>
+              </span>
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+                <div style="font-size: 13px;">{{ subItem.name }}</div>
+              </a-menu-item>
+            </a-sub-menu>
+          </a-menu>
+        </template>
       </div>
     </div>
     <div class="main-container">
@@ -72,10 +95,18 @@ export default {
     return {
       openKeys: [],
       defaultKeys: [],
-      collapsed: false
+      collapsed: false,
+      search: {
+        keyword: '',
+        openKeys: [],
+        collapsed: false
+      }
     }
   },
   computed: {
+    menuList() {
+      return this.getSearchMenu(this.search.keyword)
+    },
     userInfo: {
       get() {
         return store.state.userInfo
@@ -108,6 +139,28 @@ export default {
       })
   },
   methods: {
+    onSearchClick() {
+      if (this.collapsed) {
+        this.onToggleCollapse()
+      }
+    },
+    /**
+     * 通过关键字找到子菜单含有该关键字的菜单列表
+     * @param kw
+     * @return {[]}
+     */
+    getSearchMenu(kw) {
+      let res = []
+      this.userInfo.menuList.forEach((superItem) => {
+        let findSubItem = superItem.children.filter((e) => e.name.indexOf(kw) !== -1)
+        if (findSubItem && findSubItem.length) {
+          const copySuper = JSON.parse(JSON.stringify(superItem))
+          copySuper.children = findSubItem
+          res.push(copySuper)
+        }
+      })
+      return res
+    },
     handleLogout() {
       this.$confirm({
         centered: true,
@@ -124,12 +177,16 @@ export default {
         onCancel() {}
       })
     },
+    onKeywordChange() {
+      this.search.openKeys = []
+    },
     goHome() {
       this.$router.push('/')
     },
     onToggleCollapse() {
       this.collapsed = !this.collapsed
       this.openKeys = [] // 关闭所有打开的二级菜单，防止二级菜单飘窗
+      this.search.openKeys = []
     },
     onClick({ superItem, subItem }) {
       const { alias = '', path = '' } = superItem
@@ -137,6 +194,15 @@ export default {
         openSubSystem(alias, subItem.path)
       } else {
         this.$router.push(subItem.path)
+      }
+    },
+    onSearchOpenChange(openKeys) {
+      const keys = this.menuList.map((e) => e.id)
+      const latestOpenKey = openKeys.find((key) => this.search.openKeys.indexOf(key) === -1)
+      if (keys.indexOf(latestOpenKey) === -1) {
+        this.search.openKeys = openKeys
+      } else {
+        this.search.openKeys = latestOpenKey ? [latestOpenKey] : []
       }
     },
     onOpenChange(openKeys) {
@@ -197,6 +263,18 @@ export default {
     .menu-container {
       height: 100%;
       overflow: hidden auto;
+      .search-container {
+        cursor: pointer;
+        height: 62px;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: transparent;
+        padding: 14px;
+        .search-input {
+          border-radius: 34px;
+          overflow: hidden;
+        }
+      }
       .menu-icon {
         font-size: 14px;
         margin-right: 10px;

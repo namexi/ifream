@@ -57,18 +57,22 @@ export default {
       }
     },
     checkRoute() {
+      console.log('route change!')
       const wxCode = getQueryString('code')
       if (!isNil(wxCode)) {
+        console.log('wxCode: ', wxCode)
         // 网址query上的code是微信自动登录来的
         this.platform = 2
         return this.loginWithCode(wxCode)
       }
       const { code } = this.$route.query
       if (!isNil(code)) {
+        console.log('code: ', code)
         // 路由query上的code是通过扫码跳转的
         this.platform = 1
         return this.loginWithCode(code)
       }
+      console.log('no code!')
       if (isInWechat) {
         // 在微信环境直接登录
         this.platform = 2
@@ -94,6 +98,7 @@ export default {
       this.$router.replace('/')
     },
     loginWithCode(code) {
+      console.log(code)
       wxLoginWithCode(code, this.platform).then((res) => {
         const errCode = parseInt(res.code)
         switch (errCode) {
