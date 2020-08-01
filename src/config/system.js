@@ -1,6 +1,6 @@
 import { isDebug } from './util/env'
 
-const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com'
+const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug/'
 const devDeployUrl = 'http://192.167.249.180:9085'
 const prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
 export const subSysTemConfig = {
