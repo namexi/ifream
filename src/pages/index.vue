@@ -151,14 +151,17 @@ export default {
      */
     getSearchMenu(kw) {
       let res = []
+      let openKeys = []
       this.userInfo.menuList.forEach((superItem) => {
         let findSubItem = superItem.children.filter((e) => e.name.indexOf(kw) !== -1)
         if (findSubItem && findSubItem.length) {
           const copySuper = JSON.parse(JSON.stringify(superItem))
+          openKeys.push(copySuper.id)
           copySuper.children = findSubItem
           res.push(copySuper)
         }
       })
+      this.search.openKeys = openKeys
       return res
     },
     handleLogout() {
