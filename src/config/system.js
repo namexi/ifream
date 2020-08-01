@@ -1,12 +1,17 @@
 import { isDebug } from './util/env'
 
-const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
+const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com'
 const devDeployUrl = 'http://192.167.249.180:9085'
 const prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
 export const subSysTemConfig = {
   crm: {
     name: 'crm',
-    url: `${prefixUrl}/crm/index.html`
+    url: `${prefixUrl}/crm/index.html`,
+    pages: {
+      addContractDetail: '/supplier/addContract/detail',
+      supplierDetail: '/supplier/detail',
+      addContract: '/supplier/addContract'
+    }
   },
   design: {
     name: 'design',
