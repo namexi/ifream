@@ -8,6 +8,10 @@ export const subSysTemConfig = {
     name: 'crm',
     url: `${prefixUrl}/crm/index.html`
   },
+  warehouse: {
+    name: 'warehouse',
+    url: `${prefixUrl}/warehouse/index.html`
+  },
   design: {
     name: 'design',
     url: `${prefixUrl}/design/index.html`
