@@ -55,7 +55,11 @@ export default {
         url = deleteQueryString(url, 'token')
         url = addQueryString(url, 'token', getToken())
         const queryStr = this.stringifyQuery()
-        this.url = `${url}#${path}${queryStr}`
+        url = `${url}#${path}${queryStr}`
+        this.url = url
+        this.$nextTick(() => {
+          this.$refs.frame.contentWindow.location.replace(url)
+        })
       })
     },
     stringifyQuery() {
