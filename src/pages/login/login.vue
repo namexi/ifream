@@ -87,10 +87,14 @@ export default {
     },
     onBind({ userName, password }) {
       this.loading = true
-      wxBind(userName, password, this.uid).then((res) => {
-        this.loginSuccess(res.token)
-        this.loading = false
-      })
+      wxBind(userName, password, this.uid)
+        .then((res) => {
+          this.loginSuccess(res.token)
+          this.loading = false
+        })
+        .catch((e) => {
+          this.loading = false
+        })
     },
     loginSuccess(token = '') {
       setToken(token)
@@ -98,14 +102,14 @@ export default {
       this.$router.replace('/')
     },
     loginWithCode(code) {
-      console.log(code)
       wxLoginWithCode(code, this.platform).then((res) => {
         const errCode = parseInt(res.code)
         switch (errCode) {
           case 1:
             // 1是微信登录出错，需要重新扫码
-            const { hash, origin, pathname } = location
-            const path = origin + pathname + hash
+            console.log('error code 1')
+            const { origin, pathname } = location
+            const path = origin + pathname
             location.replace(path)
             break
           case 2:
@@ -217,8 +221,8 @@ export default {
       display: flex;
       flex-direction: column;
       .logo-container {
-        display: flex;
-        justify-content: center;
+        /*display: block;*/
+        text-align: center;
         .logo-img-dark {
           width: 61px;
           height: 61px;
