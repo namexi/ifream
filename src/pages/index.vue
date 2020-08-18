@@ -297,10 +297,13 @@ export default {
   .main-container {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    position: relative;
     .title-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
       height: @header-height;
+      width: 100%;
       background-color: #fff;
       box-shadow: 0 0 5px 0 rgba(79, 79, 79, 0.15);
       display: flex;
@@ -341,7 +344,7 @@ export default {
       height: 100%;
       width: 100%;
       box-sizing: border-box;
-      padding: 15px;
+      padding: @header-height+15px 15px 15px;
     }
   }
 }
