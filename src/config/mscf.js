@@ -1,9 +1,20 @@
-import { mscf, openSubSystem } from './util'
-import { message } from 'ant-design-vue'
-import { getSystem } from '@/config/system'
-import { compile } from 'path-to-regexp'
+import {
+  mscf,
+  openSubSystem
+} from './util'
+import {
+  message
+} from 'ant-design-vue'
+import {
+  getSystem
+} from '@/config/system'
+import {
+  compile
+} from 'path-to-regexp'
 import router from '@/router'
-import { addQueryString } from 'nearby-common'
+import {
+  addQueryString
+} from 'nearby-common'
 import _ from 'lodash'
 
 function getPath(route, params) {
@@ -22,7 +33,12 @@ mscf.on('toast.warning', (e) => {
 
 // 某个系统想跳转到其他子系统
 mscf.on('redirect', (e) => {
-  const { target, page, params, query } = e.data
+  const {
+    target,
+    page,
+    params,
+    query
+  } = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   let targetPage = system.pages[page]
@@ -46,3 +62,9 @@ const handler = _.debounce((e) => {
 }, 200)
 // 子系统切换了域名
 mscf.on('routeChange', handler)
+
+// 401 跳转登陆页
+mscf.on('loginExpire', () => {
+  message.error('用户已失效，请重新授权登录！')
+  router.push('/login')
+})
