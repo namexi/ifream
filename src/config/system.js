@@ -77,6 +77,10 @@ export const subSysTemConfig = {
   order: {
     name: 'order',
     url: `${prefixUrl}/order/index.html`
+  },
+  weike: {
+    name: 'weike',
+    url: `${prefixUrl}/weike/index.html`
   }
 }
 
