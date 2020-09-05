@@ -27,11 +27,11 @@ export default {
       system: null
     }
   },
-  // watch: {
-  //   $route(val) {
-  //     this.parseRouter()
-  //   }
-  // },
+  watch: {
+    $route(val) {
+      this.parseRouter()
+    }
+  },
   // beforeRouteEnter(to, f, next) {
   //   next((vm) => {
   //     vm.parseRouter()
