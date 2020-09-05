@@ -27,18 +27,19 @@ export default {
       system: null
     }
   },
-  watch: {
-    $route(val) {
-      this.parseRouter()
-    }
-  },
-  beforeRouteEnter(to, f, next) {
-    next((vm) => {
-      vm.parseRouter()
-    })
-  },
+  // watch: {
+  //   $route(val) {
+  //     this.parseRouter()
+  //   }
+  // },
+  // beforeRouteEnter(to, f, next) {
+  //   next((vm) => {
+  //     vm.parseRouter()
+  //   })
+  // },
   methods: {
     parseRouter() {
+      console.log(111)
       const { sysName } = this.$route.query
       if (!sysName) return console.error('没有找到系统')
       const system = getSystem(sysName) // 从query上解析出要跳转到哪个系统

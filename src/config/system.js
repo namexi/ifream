@@ -1,6 +1,5 @@
-import {
-  isDebug
-} from './util/env'
+/* eslint-disable */
+import {isDebug} from './util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const devDeployUrl = 'http://192.168.10.113:9085'

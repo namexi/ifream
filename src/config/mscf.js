@@ -1,22 +1,14 @@
-import {
-  mscf,
-  openSubSystem
-} from './util'
-import {
-  message
-} from 'ant-design-vue'
-import {
-  getSystem
-} from '@/config/system'
-import {
-  compile
-} from 'path-to-regexp'
+/* eslint-disable */
+import {mscf,openSubSystem} from './util'
+import {message} from 'ant-design-vue'
+import {getSystem} from '@/config/system'
+import {compile} from 'path-to-regexp'
 import router from '@/router'
-import {
-  addQueryString
-} from 'nearby-common'
+import {addQueryString} from 'nearby-common'
 import _ from 'lodash'
-
+message.config({
+  duration:6
+})
 function getPath(route, params) {
   let toPath = compile(route)
   return toPath(params)
@@ -33,12 +25,7 @@ mscf.on('toast.warning', (e) => {
 
 // 某个系统想跳转到其他子系统
 mscf.on('redirect', (e) => {
-  const {
-    target,
-    page,
-    params,
-    query
-  } = e.data
+  const {target,page,params,query} = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   let targetPage = system.pages[page]
