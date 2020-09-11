@@ -34,6 +34,13 @@ export function openSubSystem(name, url, query = {}) {
   })
 }
 
+export function isUrl(url = '') {
+  if (typeof url === 'string') {
+    return url.startsWith('http://') || url.startsWith('https://')
+  }
+  return false
+}
+
 // 微信授权登录
 export function wxAuthLogin(appId, redirectUrl, silence = 1, state = '') {
   const scope = silence ? 'snsapi_base' : 'snsapi_userinfo'

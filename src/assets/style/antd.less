@@ -4,6 +4,9 @@
 body{
   background-color: #fafafa;
 }
+.ant-menu-item{
+  margin: 0 !important;
+}
 .menu-container.fold{
   .ant-menu.ant-menu-dark{
     .ant-menu-submenu {
@@ -36,20 +39,51 @@ body{
     box-sizing: border-box;
   }
   .ant-menu-item-selected{
-    background-color: @color-menu-active;
+    background-color: @color-menu-active !important;
     border-left: 2px #fff solid;
   }
 }
 // 收起后的二级弹窗
 .ant-menu-submenu-popup{
   .ant-menu-submenu-content{
-    background-color: @color-menu;
+    background-color: @color-menu !important;
+    max-height: 90vh;
+    overflow: auto;
+    &::-webkit-scrollbar{
+      display: none;
+      width: 0;
+    }
     .ant-menu-item-selected{
-      background-color: @color-menu-active;
+      background-color: @color-menu-active !important;
     }
   }
 }
 
+.home-search-menu{
+  background-color: transparent;
+  color: #fff !important;
+  border-radius: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  .ant-input-prefix{
+    color: #fff !important;
+  }
+  .ant-input{
+    background-color: #84aaff;
+    color: #fff;
+    border-color: #84aaff;
+    &:-ms-input-placeholder{
+      font-size: 13px;
+      color: #fff;
+    }
+    &::-webkit-input-placeholder{
+      font-size: 13px;
+      color: #fff;
+    }
+  }
+}
 //.ant-menu-dark .ant-menu-inline.ant-menu-sub{
 //  background-color: @main-blue-color;class="ant-menu-item ant-menu-item-selected"ant-menu-submenu ant-menu-submenu-popup ant-menu-dark ant-menu-submenu-placement-rightTop
 //}ant-menu ant-menu-vertical ant-menu-sub ant-menu-submenu-content

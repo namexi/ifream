@@ -46,7 +46,7 @@ export default {
     return {
       loading: false,
       platform: 1,
-      scene: 'account', // web网页扫码登录 wx自动登录 account账号密码绑定
+      scene: 'account', // web网页扫码登录 wx自动登录 account账号密码登录
       uid: ''
     }
   },
@@ -57,18 +57,22 @@ export default {
       }
     },
     checkRoute() {
+      console.log('route change!')
       const wxCode = getQueryString('code')
       if (!isNil(wxCode)) {
+        console.log('wxCode: ', wxCode)
         // 网址query上的code是微信自动登录来的
         this.platform = 2
         return this.loginWithCode(wxCode)
       }
       const { code } = this.$route.query
       if (!isNil(code)) {
+        console.log('code: ', code)
         // 路由query上的code是通过扫码跳转的
         this.platform = 1
         return this.loginWithCode(code)
       }
+      console.log('no code!')
       if (isInWechat) {
         // 在微信环境直接登录
         this.platform = 2
@@ -83,10 +87,14 @@ export default {
     },
     onBind({ userName, password }) {
       this.loading = true
-      wxBind(userName, password, this.uid).then((res) => {
-        this.loginSuccess(res.token)
-        this.loading = false
-      })
+      wxBind(userName, password, this.uid)
+        .then((res) => {
+          this.loginSuccess(res.token)
+          this.loading = false
+        })
+        .catch((e) => {
+          this.loading = false
+        })
     },
     loginSuccess(token = '') {
       setToken(token)
@@ -99,17 +107,20 @@ export default {
         switch (errCode) {
           case 1:
             // 1是微信登录出错，需要重新扫码
-            location.reload(true)
+            console.log('error code 1')
+            const { origin, pathname } = location
+            const path = origin + pathname
+            location.replace(path)
             break
           case 2:
             // 未绑定账号，需要授权绑定
             this.$message.error(res.message)
-            this.uid = res.token.id
+            this.uid = res.data
             this.scene = 'account'
             break
           default:
             // 登录成功
-            this.loginSuccess(res.token)
+            this.loginSuccess(res.data.token)
             break
         }
       })
@@ -130,7 +141,7 @@ export default {
           redirect_uri: encodeURIComponent(href),
           state: '123456',
           style: '',
-          href: 'https://app-oa-web-lianlianlvyou-com.oss-cn-beijing.aliyuncs.com/css/qr_code.css'
+          href: 'https://cdn.lianlianlvyou.com/lib/css/qr_code.css'
         })
       })
     },
@@ -210,8 +221,8 @@ export default {
       display: flex;
       flex-direction: column;
       .logo-container {
-        display: flex;
-        justify-content: center;
+        /*display: block;*/
+        text-align: center;
         .logo-img-dark {
           width: 61px;
           height: 61px;
@@ -233,6 +244,8 @@ export default {
     .bg-container {
       padding: 0;
       overflow: hidden;
+      width: 100vw;
+      height: 100vh;
       .title-container {
         display: none;
       }

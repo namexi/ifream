@@ -7,16 +7,40 @@
         <div class="sys-title" v-if="!collapsed">联联周边游产品系统</div>
       </div>
       <div class="menu-container no-scroll-bar" :class="collapsed ? 'fold' : 'unfold'">
-        <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" theme="dark" @openChange="onOpenChange">
-          <a-sub-menu v-for="(superItem, i) in userInfo.menuList" :key="'super-' + i + '-' + superItem.id">
-            <span slot="title">
-              <a-icon :type="superItem.icon" /><span>{{ superItem.name }}</span></span
-            >
-            <a-menu-item v-for="(subItem, j) in superItem.children" :key="'sub-' + j + '-' + subItem.id">
-              <div @click="onClick({ superItem, subItem })">{{ subItem.name }}</div>
-            </a-menu-item>
-          </a-sub-menu>
-        </a-menu>
+        <div class="search-container" @click="onSearchClick">
+          <div v-if="collapsed" class="home-search-menu">
+            <a-icon style="font-size: 16px;" type="search" />
+          </div>
+          <a-input v-else class="search-input home-search-menu" v-model="search.keyword" @change="onKeywordChange" placeholder="菜单搜索">
+            <a-icon slot="prefix" type="search" />
+          </a-input>
+        </div>
+        <template v-if="!search.keyword">
+          <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" :defaultSelectedKeys="defaultKeys" theme="dark" @openChange="onOpenChange">
+            <a-sub-menu v-for="superItem in userInfo.menuList" :key="superItem.id">
+              <span slot="title">
+                <i :class="superItem.icon" class="menu-icon"></i>
+                <span class="menu-name">{{ superItem.name }}</span>
+              </span>
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+                <div style="font-size: 13px;">{{ subItem.name }}</div>
+              </a-menu-item>
+            </a-sub-menu>
+          </a-menu>
+        </template>
+        <template v-else>
+          <a-menu :open-keys="search.openKeys" mode="inline" :inline-collapsed="collapsed" theme="dark" @openChange="onSearchOpenChange">
+            <a-sub-menu v-for="superItem in menuList" :key="superItem.id">
+              <span slot="title">
+                <i :class="superItem.icon" class="menu-icon"></i>
+                <span class="menu-name">{{ superItem.name }}</span>
+              </span>
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+                <div style="font-size: 13px;">{{ subItem.name }}</div>
+              </a-menu-item>
+            </a-sub-menu>
+          </a-menu>
+        </template>
       </div>
     </div>
     <div class="main-container">
@@ -39,7 +63,7 @@
         </div>
       </div>
       <div class="main-router">
-        <router-view />
+        <router-view ref="iframe" />
       </div>
     </div>
   </div>
@@ -47,18 +71,42 @@
 
 <script>
 import { getUserInfo } from 'Service'
-import { getToken, openSubSystem, setToken, http } from 'Config/util'
+import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
+import { getQueryString, deleteQueryString } from 'nearby-common'
 import store from 'Config/store/store'
 export default {
   name: 'home',
-  created() {},
+  created() {
+    const menus = this.userInfo.menuList || []
+    const items = []
+    menus.forEach((e) => {
+      items.push(...e.children)
+    })
+    let currentPath = this.$route.path
+    if (currentPath.startsWith('/frame/')) {
+      currentPath = currentPath.slice(6)
+    }
+    const menu = items.find((e) => e.path === currentPath)
+    if (!menu) return
+    this.openKeys = [menu.superId]
+    this.defaultKeys = [menu.id]
+  },
   data() {
     return {
       openKeys: [],
-      collapsed: false
+      defaultKeys: [],
+      collapsed: false,
+      search: {
+        keyword: '',
+        openKeys: [],
+        collapsed: false
+      }
     }
   },
   computed: {
+    menuList() {
+      return this.getSearchMenu(this.search.keyword)
+    },
     userInfo: {
       get() {
         return store.state.userInfo
@@ -69,6 +117,13 @@ export default {
     }
   },
   beforeRouteEnter(to, f, next) {
+    const urlToken = getQueryString('token')
+    if (urlToken) {
+      setToken(urlToken)
+      let href = location.href
+      href = deleteQueryString(href, 'token')
+      location.href = href
+    }
     const token = getToken()
     if (!token) {
       next('/login')
@@ -84,6 +139,31 @@ export default {
       })
   },
   methods: {
+    onSearchClick() {
+      if (this.collapsed) {
+        this.onToggleCollapse()
+      }
+    },
+    /**
+     * 通过关键字找到子菜单含有该关键字的菜单列表
+     * @param kw
+     * @return {[]}
+     */
+    getSearchMenu(kw) {
+      let res = []
+      let openKeys = []
+      this.userInfo.menuList.forEach((superItem) => {
+        let findSubItem = superItem.children.filter((e) => e.name.indexOf(kw) !== -1)
+        if (findSubItem && findSubItem.length) {
+          const copySuper = JSON.parse(JSON.stringify(superItem))
+          openKeys.push(copySuper.id)
+          copySuper.children = findSubItem
+          res.push(copySuper)
+        }
+      })
+      this.search.openKeys = openKeys
+      return res
+    },
     handleLogout() {
       this.$confirm({
         centered: true,
@@ -100,22 +180,41 @@ export default {
         onCancel() {}
       })
     },
+    onKeywordChange() {
+      this.search.openKeys = []
+    },
     goHome() {
       this.$router.push('/')
     },
     onToggleCollapse() {
       this.collapsed = !this.collapsed
+      this.openKeys = [] // 关闭所有打开的二级菜单，防止二级菜单飘窗
+      this.search.openKeys = []
     },
     onClick({ superItem, subItem }) {
+      // debugger
+      this.$store.dispatch('setLoading',true)
+      this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
-      if (path.startsWith('http://') || path.startsWith('https://')) {
+      if (isUrl(path)) {
         openSubSystem(alias, subItem.path)
+        this.$refs.iframe.parseRouter()
       } else {
         this.$router.push(subItem.path)
       }
+      // debugger
+    },
+    onSearchOpenChange(openKeys) {
+      const keys = this.menuList.map((e) => e.id)
+      const latestOpenKey = openKeys.find((key) => this.search.openKeys.indexOf(key) === -1)
+      if (keys.indexOf(latestOpenKey) === -1) {
+        this.search.openKeys = openKeys
+      } else {
+        this.search.openKeys = latestOpenKey ? [latestOpenKey] : []
+      }
     },
     onOpenChange(openKeys) {
-      const keys = this.userInfo.menuList.map((e, i) => `super-${i}-${e.id}`)
+      const keys = this.userInfo.menuList.map((e) => e.id)
       const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1)
       if (keys.indexOf(latestOpenKey) === -1) {
         this.openKeys = openKeys
@@ -149,7 +248,7 @@ export default {
     flex-direction: column;
     background-color: @color-menu;
     color: #fff;
-    transition: width 0.5s ease-out;
+    transition: width 0.1s ease-out;
     .logo-container {
       cursor: pointer;
       height: @header-height;
@@ -172,6 +271,29 @@ export default {
     .menu-container {
       height: 100%;
       overflow: hidden auto;
+      .search-container {
+        cursor: pointer;
+        height: 62px;
+        width: 100%;
+        box-sizing: border-box;
+        background-color: transparent;
+        padding: 14px;
+        .search-input {
+          border-radius: 34px;
+          overflow: hidden;
+        }
+      }
+      .menu-icon {
+        font-size: 14px;
+        margin-right: 10px;
+      }
+      &.fold {
+        .menu-name {
+          max-width: 0;
+          opacity: 0;
+          width: 0;
+        }
+      }
     }
     &.fold {
       width: 80px;
@@ -180,10 +302,13 @@ export default {
   .main-container {
     height: 100%;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    position: relative;
     .title-bar {
+      position: absolute;
+      top: 0;
+      left: 0;
       height: @header-height;
+      width: 100%;
       background-color: #fff;
       box-shadow: 0 0 5px 0 rgba(79, 79, 79, 0.15);
       display: flex;
@@ -224,7 +349,7 @@ export default {
       height: 100%;
       width: 100%;
       box-sizing: border-box;
-      padding: 15px;
+      padding: @header-height+15px 15px 15px;
     }
   }
 }
