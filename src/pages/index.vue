@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="main-router">
-        <router-view />
+        <router-view ref="iframe" />
       </div>
     </div>
   </div>
@@ -192,12 +192,17 @@ export default {
       this.search.openKeys = []
     },
     onClick({ superItem, subItem }) {
+      // debugger
+      this.$store.dispatch('setLoading',true)
+      this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
       if (isUrl(path)) {
         openSubSystem(alias, subItem.path)
+        this.$refs.iframe.parseRouter()
       } else {
         this.$router.push(subItem.path)
       }
+      // debugger
     },
     onSearchOpenChange(openKeys) {
       const keys = this.menuList.map((e) => e.id)
