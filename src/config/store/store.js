@@ -5,12 +5,16 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     userInfo: null,
-    loading:true
+    loading:true,
+    childrenjump:false
   },
   actions:{
     setLoading({commit},v) {
       commit('loadingChange',v)
-    }
+    },
+    setChildrenJump({commit},v) {
+      commit('loadingChange',v)
+    },
   },
   mutations: {
     updateUser(state, userInfo) {
@@ -18,10 +22,13 @@ export default new Vuex.Store({
     },
     loadingChange(state,v){
       state.loading = v
+    },
+    childrenjumpChange(state,v){
+      state.childrenjump = v
     }
   },
   getters:{
-    getLoading:state => state.loading
-    
+    getLoading:state => state.loading,
+    getChildrenjump: state => state.childrenjump
   }
 })

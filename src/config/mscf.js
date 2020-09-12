@@ -29,12 +29,14 @@ mscf.on('redirect', (e) => {
   const {target,page,params,query} = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
+  store.dispatch('setLoading',false)
   let targetPage = system.pages[page]
   if (!targetPage) {
     return console.error(`Invalid target page: "${page}"!`)
   }
   targetPage = getPath(targetPage, params)
   openSubSystem(target, targetPage, query)
+  store.dispatch('childrenjumpChange',true)
 })
 
 const handler = _.debounce((e) => {
