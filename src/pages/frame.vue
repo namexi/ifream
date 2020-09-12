@@ -39,12 +39,16 @@ export default {
       loading: false
     }
   },
-  // watch: {
-  //   $route(val) {
-  //     console.log('点击')
-  //     this.parseRouter()
-  //   }
-  // },
+  watch: {
+    $route(val,v) {
+      if(val.path !== v.path) {
+        this.loading = false
+        this.$store.dispatch('setLoading',true)
+        this.parseRouter()
+      }
+      if(val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading',false)
+    }
+  },
   // beforeRouteEnter(to, f, next) {
   //   next((vm) => {
   //     vm.parseRouter()
@@ -96,7 +100,8 @@ export default {
   },
   computed:{
     ...mapGetters([
-    'getLoading'
+    'getLoading',
+    'getChildrenjump'
     ]),
     // loading(){
     //   return this.$store.getters.getLoading
