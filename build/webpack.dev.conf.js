@@ -64,7 +64,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     ])
   ]
 })
-
+console.log(devWebpackConfig.plugins)
 module.exports = new Promise((resolve, reject) => {
   portfinder.basePort = process.env.PORT || config.dev.port
   portfinder.getPort((err, port) => {

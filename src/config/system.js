@@ -2,8 +2,12 @@
 import {isDebug} from './util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
+const debugDeployUrl =  'https://nb-oa-web.lianlianlvyou.com/debug'
 const devDeployUrl = 'http://192.168.10.113:9085'
-const prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
+console.log(process.env.NODE_ENV === 'debug')
+let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
+if (process.env.NODE_ENV === 'debug') prefixUrl = debugDeployUrl
+console.log(prefixUrl)
 export const subSysTemConfig = {
   crm: {
     name: 'crm',

@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import store from 'Config/store/store'
-
+import Router from "vue-router";
 import './assets/style/reset.less'
 import './assets/style/antd.less'
 import './assets/style/global.less'
@@ -25,6 +25,11 @@ Vue.use(Monitor, {
   performance: true,
   custom: true
 })
+
+const routerPush = Router.prototype.push;
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error);
+}
 
 Vue.config.productionTip = false
 /* eslint-disable no-new */
