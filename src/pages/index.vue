@@ -321,7 +321,8 @@ export default {
       width: 100%;
       background-color: #fff;
       box-shadow: 0 0 5px 0 rgba(79, 79, 79, 0.15);
-      display: flex;
+      // display: flex;
+      display: -webkit-box;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #eee;
