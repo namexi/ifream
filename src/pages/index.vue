@@ -58,7 +58,16 @@
               <img src="../assets/qrcode/ass3.png" class="assistant-code" alt="assistant" />
             </div>
           </a-dropdown>
-          <span class="user">{{ userInfo.name }}</span>
+          <!-- <span class="user">{{ userInfo.name }}</span> -->
+          <a-popover class="user">
+            <template slot="content">
+              <p v-for="(items,i) in userInfo.deptPositionName" :key="i">{{items}}</p>
+              <!-- <p>Content</p> -->
+            </template>
+            <span>
+              {{ userInfo.name }}
+            </span>
+          </a-popover>
           <span class="logout" @click="handleLogout">[退出]</span>
         </div>
       </div>
@@ -90,6 +99,7 @@ export default {
     if (!menu) return
     this.openKeys = [menu.superId]
     this.defaultKeys = [menu.id]
+    console.log(this.userInfo)
   },
   data() {
     return {
