@@ -22,7 +22,7 @@
                 <i :class="superItem.icon" class="menu-icon"></i>
                 <span class="menu-name">{{ superItem.name }}</span>
               </span>
-              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native.stop="onClick({ superItem, subItem })">
                 <div style="font-size: 13px;">{{ subItem.name }}</div>
               </a-menu-item>
             </a-sub-menu>
@@ -206,6 +206,8 @@ export default {
     },
     onClick({ superItem, subItem }) {
       // debugger
+      // 再次点击
+      console.log('点击')
       this.$store.dispatch('setLoading',true)
       this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
