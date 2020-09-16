@@ -50,6 +50,25 @@ export default {
       uid: ''
     }
   },
+  beforeRouteEnter(
+    to, from ,next
+  ){
+    const {query} = to
+    for(let k in query) {
+      if(query.hasOwnProperty(k)) {
+        next()
+        return
+        // break
+      } 
+    }
+    // if(rand && String(rand) ==='1') return 
+    next({
+      path: to.fullPath,
+      query:{
+        rand:1
+      }
+    })
+  },
   methods: {
     jumpAccountLogin() {
       if (!isProd) {
@@ -131,7 +150,8 @@ export default {
         if (!res.appId) return
         const appId = res.appId || ''
         if (!appId) return
-        const href = `${isProd ? location.href : wxCallBackUrl}`
+        const href = `${isProd ? `${location.href}` : wxCallBackUrl}`
+        console.log(encodeURIComponent(href))
         // eslint-disable-next-line
         new WxLogin({
           self_redirect: false,

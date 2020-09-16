@@ -22,7 +22,7 @@
                 <i :class="superItem.icon" class="menu-icon"></i>
                 <span class="menu-name">{{ superItem.name }}</span>
               </span>
-              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native.stop="onClick({ superItem, subItem })">
                 <div style="font-size: 13px;">{{ subItem.name }}</div>
               </a-menu-item>
             </a-sub-menu>
@@ -49,6 +49,7 @@
           <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" class="collapse-icon" />
         </div>
         <div class="title-right">
+          <a class="user" :href="srcHerf" target="_blank">回到旧版</a>
           <a-dropdown placement="bottomCenter">
             <a class="assistant ant-dropdown-link" href="javascript:;">联系技术助理</a>
             <div slot="overlay" class="assistant-list">
@@ -58,7 +59,16 @@
               <img src="../assets/qrcode/ass3.png" class="assistant-code" alt="assistant" />
             </div>
           </a-dropdown>
-          <span class="user">{{ userInfo.name }}</span>
+          <!-- <span class="user">{{ userInfo.name }}</span> -->
+          <a-popover class="user">
+            <template slot="content">
+              <p v-for="(items,i) in userInfo.deptPositionName" :key="i">{{items}}</p>
+              <!-- <p>Content</p> -->
+            </template>
+            <span>
+              {{ userInfo.name }}
+            </span>
+          </a-popover>
           <span class="logout" @click="handleLogout">[退出]</span>
         </div>
       </div>
@@ -114,6 +124,9 @@ export default {
       set(val) {
         store.commit('updateUser', val)
       }
+    },
+    srcHerf(){
+      return `https://ooa.lianlianlvyou.com/?token=${getToken()}#/`
     }
   },
   beforeRouteEnter(to, f, next) {
@@ -193,6 +206,8 @@ export default {
     },
     onClick({ superItem, subItem }) {
       // debugger
+      // 再次点击
+      console.log('点击')
       this.$store.dispatch('setLoading',true)
       this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
@@ -311,7 +326,8 @@ export default {
       width: 100%;
       background-color: #fff;
       box-shadow: 0 0 5px 0 rgba(79, 79, 79, 0.15);
-      display: flex;
+      // display: flex;
+      display: -webkit-box;
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px solid #eee;
