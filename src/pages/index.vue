@@ -49,6 +49,7 @@
           <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" class="collapse-icon" />
         </div>
         <div class="title-right">
+          <a class="user" :href="srcHerf" target="_blank">回到旧版</a>
           <a-dropdown placement="bottomCenter">
             <a class="assistant ant-dropdown-link" href="javascript:;">联系技术助理</a>
             <div slot="overlay" class="assistant-list">
@@ -99,7 +100,6 @@ export default {
     if (!menu) return
     this.openKeys = [menu.superId]
     this.defaultKeys = [menu.id]
-    console.log(this.userInfo)
   },
   data() {
     return {
@@ -124,6 +124,9 @@ export default {
       set(val) {
         store.commit('updateUser', val)
       }
+    },
+    srcHerf(){
+      return `https://ooa.lianlianlvyou.com/?token=${getToken()}#/`
     }
   },
   beforeRouteEnter(to, f, next) {
