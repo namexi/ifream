@@ -13,6 +13,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isTest = process.env.NODE_ENV === 'testing'
 const config = isTest ? allConfig.test : allConfig.build
+console.log(config)
 
 const prodEnv = require('../config/prod.env')
 const testEnv = require('../config/test.env')
