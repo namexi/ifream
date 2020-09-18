@@ -41,6 +41,7 @@ export default {
   },
   watch: {
     $route(val,v) {
+      // console.log('watch')
       if(val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading',true)
@@ -67,6 +68,7 @@ export default {
     getPath() {
       this.$nextTick(() => {
         if (!this.system) return
+        if(this.$refs.frame) console.log(this.$refs.frame.contentWindow)
         let path = this.$route.path
         path = path.substr(6) // 解析出子应用路由
         let url = this.system.url
@@ -77,8 +79,10 @@ export default {
         this.url = url
         // this.$store.dispatch('setLoading',false)
         this.$nextTick(() => {
+          // 再次点击 子系统没有发消息 区别是再次点击还是首次点击
           this.$refs.frame.contentWindow.location.replace(url)
           if(this.loading) this.$store.dispatch('setLoading',false)
+          console.log('loading missing',this.getChildrenjump,this.loading)
           // if(!this.$refs.frame.contentWindow) {
           //   console.log('没有适口了')
           //   this.$store.dispatch('setLoading',true)
@@ -113,10 +117,12 @@ export default {
 <style scoped lang="less">
 .frame-container[frame] {
   width: 100%;
+  // min-width: 1200px;
   height: 100%;
   .frame {
     height: 100%;
     width: 100%;
+    min-width: 1200px;
   }
 }
 </style>
