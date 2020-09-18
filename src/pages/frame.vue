@@ -76,10 +76,10 @@ export default {
         const queryStr = this.stringifyQuery()
         url = `${url}#${path}${queryStr}`
         this.url = url
-         if(this.$refs.frame) { // 重复点击
-            const location = this.$refs.frame.contentWindow.location
-            this.$store.dispatch('setLoading',!url === location)
-         }
+        //  if(this.$refs.frame) { // 重复点击
+        //     const location = this.$refs.frame.contentWindow.location
+        //     this.$store.dispatch('setLoading',!url === location)
+        //  }
         // this.$store.dispatch('setLoading',false)
         this.$nextTick(() => {
           // 再次点击 子系统没有发消息 区别是再次点击还是首次点击
