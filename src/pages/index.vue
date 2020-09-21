@@ -222,7 +222,7 @@ export default {
         this.$nextTick(() => {
           const iframeDom = this.$refs.iframe.$refs.frame
         //  test
-        console.log(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 )
+        console.log(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 , iframeDom.contentWindow.location )
         //contentWindow contentWindow.location.reload(true) 
         if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location) {
           console.log('111','baseURI/contentWindow is true')
