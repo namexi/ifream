@@ -41,7 +41,7 @@ export default {
   },
   watch: {
     $route(val,v) {
-      // console.log('watch')
+      console.log('watch')
       if(val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading',true)
@@ -52,6 +52,7 @@ export default {
   },
   // beforeRouteEnter(to, f, next) {
   //   next((vm) => {
+  //     console.log(f.path,to.path)
   //     vm.parseRouter()
   //   })
   // },

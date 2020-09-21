@@ -23,8 +23,8 @@
                 <span class="menu-name">{{ superItem.name }}</span>
               </span>
               <a-menu-item v-for="subItem in superItem.children" :key="subItem.id 
-              " @click.native.stop="onClick({ superItem, subItem })">
-                <div style="font-size: 13px;">{{ subItem.name }}</div>
+              ">
+                <div style="font-size: 13px; padding-left: 48px;" @click="handleClick({ superItem, subItem },$event)">{{ subItem.name }}</div>
               </a-menu-item>
             </a-sub-menu>
           </a-menu>
@@ -36,8 +36,8 @@
                 <i :class="superItem.icon" class="menu-icon"></i>
                 <span class="menu-name">{{ superItem.name }}</span>
               </span>
-              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id" @click.native="onClick({ superItem, subItem })">
-                <div style="font-size: 13px;">{{ subItem.name }}</div>
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
+                <div style="font-size: 13px; padding-left:48px" @click="handleClick({ superItem, subItem },$event)">{{ subItem.name }}</div>
               </a-menu-item>
             </a-sub-menu>
           </a-menu>
@@ -73,7 +73,7 @@
           <span class="logout" @click="handleLogout">[退出]</span>
         </div>
       </div>
-      <div class="main-router">
+      <div class="main-router" >
         <router-view ref="iframe" />
       </div>
     </div>
@@ -85,6 +85,7 @@ import { getUserInfo } from 'Service'
 import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
 import { getQueryString, deleteQueryString } from 'nearby-common'
 import store from 'Config/store/store'
+import { mapGetters } from 'vuex'
 export default {
   name: 'home',
   created() {
@@ -115,6 +116,10 @@ export default {
     }
   },
   computed: {
+       ...mapGetters([
+    'getLoading',
+    'getChildrenjump'
+    ]),
     menuList() {
       return this.getSearchMenu(this.search.keyword)
     },
@@ -205,15 +210,27 @@ export default {
       this.openKeys = [] // 关闭所有打开的二级菜单，防止二级菜单飘窗
       this.search.openKeys = []
     },
-    onClick({ superItem, subItem }) {
+    handleClick({ superItem, subItem },event) {
       // debugger
       // 再次点击
+      console.dir(event)
       this.$store.dispatch('setLoading',true)
       this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
       if (isUrl(path)) {
         openSubSystem(alias, subItem.path)
-        this.$refs.iframe.parseRouter()
+        this.$nextTick(() => {
+          const iframeDom = this.$refs.iframe.$refs.frame
+        // this.$refs.iframe.parseRouter() test
+        //contentWindow contentWindow.location.reload(true) 
+        if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow) {
+         iframeDom.contentWindow.location.reload(true)
+         this.$store.dispatch('setLoading',false)
+         console.log('111','baseURI/contentWindow is true')
+        }
+        // console.dir(this.$route.fullPath)
+        })
+       
       } else {
         const {alias,path} = subItem
         if(alias === 'oa') return window.location.href = path
@@ -315,6 +332,7 @@ export default {
     &.fold {
       width: 80px;
     }
+   
   }
   .main-container {
     height: 100%;
