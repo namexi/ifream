@@ -221,12 +221,15 @@ export default {
         openSubSystem(alias, subItem.path)
         this.$nextTick(() => {
           const iframeDom = this.$refs.iframe.$refs.frame
-        // this.$refs.iframe.parseRouter() test
+        //  test
+        console.log(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 )
         //contentWindow contentWindow.location.reload(true) 
-        if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow) {
-         iframeDom.contentWindow.location.reload(true)
-         this.$store.dispatch('setLoading',false)
-         console.log('111','baseURI/contentWindow is true')
+        if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location) {
+          console.log('111','baseURI/contentWindow is true')
+          this.$store.dispatch('setLoading',false)
+          // this.$refs.iframe.parseRouter()
+          //  iframeDom.contentWindow.location.replace(url)
+          iframeDom.contentWindow.location.reload()
         }
         // console.dir(this.$route.fullPath)
         })
