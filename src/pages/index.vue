@@ -135,6 +135,11 @@ export default {
       return `https://ooa.lianlianlvyou.com/?token=${getToken()}#/`
     }
   },
+  watch:{
+    $route(val,v) {
+      // console.log(val,v)
+    }
+  },
   beforeRouteEnter(to, f, next) {
     const urlToken = getQueryString('token')
     if (urlToken) {
@@ -218,22 +223,24 @@ export default {
       this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
       if (isUrl(path)) {
-        openSubSystem(alias, subItem.path)
         this.$nextTick(() => {
           const iframeDom = this.$refs.iframe.$refs.frame
         //  test
-        console.log(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 , iframeDom.contentWindow.location )
-        //contentWindow contentWindow.location.reload(true) 
-        if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location) {
-          console.log('111','baseURI/contentWindow is true')
-          this.$store.dispatch('setLoading',false)
-          // this.$refs.iframe.parseRouter()
-          //  iframeDom.contentWindow.location.replace(url)
-          iframeDom.contentWindow.location.reload()
+        if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location ) {
+          // iframeDom.contentWindow.location.reload()
+          this.$refs.iframe.loading = true
+          if(this.getLoading) {
+            console.log('111')
+            //  iframeDom.contentWindow.location.reload()
+             this.$store.dispatch('setLoading',false)
+              this.$refs.iframe.parseRouter()
+          }
+          // this.$store.dispatch('setLoading',false)
+         
         }
-        // console.dir(this.$route.fullPath)
         })
-       
+        openSubSystem(alias, subItem.path)
+        // this.$refs.iframe.parseRouter()
       } else {
         const {alias,path} = subItem
         if(alias === 'oa') return window.location.href = path
