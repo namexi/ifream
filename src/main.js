@@ -21,7 +21,7 @@ Vue.use(Monitor, {
   ajax: true,
   js: true,
   promise: true,
-  blank: true,
+  blank: false,
   performance: true,
   custom: true
 })
