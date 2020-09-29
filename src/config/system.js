@@ -85,6 +85,10 @@ export const subSysTemConfig = {
   weike: {
     name: 'weike',
     url: `${prefixUrl}/weike/index.html`
+  },
+  channelData:{
+    name:'channelData',
+    url: `${prefixUrl}/channelData/index.html`
   }
 }
 
