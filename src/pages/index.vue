@@ -112,7 +112,8 @@ export default {
         keyword: '',
         openKeys: [],
         collapsed: false
-      }
+      },
+      prePath: null
     }
   },
   computed: {
@@ -138,6 +139,7 @@ export default {
   watch:{
     $route(val,v) {
       // console.log(val,v)
+      this.prePath = val.path
     }
   },
   beforeRouteEnter(to, f, next) {
@@ -221,25 +223,24 @@ export default {
       console.dir(event)
       this.$store.dispatch('setLoading',true)
       this.$refs.iframe.loading = false
+      // 当前系统路径
       const { alias = '', path = '' } = superItem
       if (isUrl(path)) {
-      //  this.$nextTick(() => {
-        //  const iframeDom = this.$refs.iframe.$refs.frame
-        //  test
-        //if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location ) {
-          // iframeDom.contentWindow.location.reload()
-        //  this.$refs.iframe.loading = true
-        //  if(this.getLoading) {
-            //  iframeDom.contentWindow.location.reload()
-            //  this.$store.dispatch('setLoading',false)
-          //    this.$refs.iframe.parseRouter()
-         // }
-          // this.$store.dispatch('setLoading',false)
-         
-        //}
-        //})
+        this.$nextTick(() => {
+        // 当前页面路径
+        const { path } = subItem
+        const iframeDom = this.$refs.iframe.$refs.frame
         openSubSystem(alias, subItem.path)
+        // 重复点击
+        if(this.prePath && this.prePath.indexOf(path) !== -1 ) {
+          this.$refs.iframe.loading = true
+          setTimeout(() => {
+            this.$refs.iframe.parseRouter()
+          },1000)
+          return
+        }
         this.$refs.iframe.parseRouter()
+        })
       } else {
         const {alias,path} = subItem
         if(alias === 'oa') return window.location.href = path
