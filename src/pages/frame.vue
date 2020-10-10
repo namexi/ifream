@@ -41,13 +41,14 @@ export default {
   },
   watch: {
     $route(val,v) {
+      //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
-      if(val.path !== v.path) {
+      if(val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading',false)
+      else if(val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading',true)
         this.parseRouter()
       }
-      if(val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading',false)
     }
   },
   // beforeRouteEnter(to, f, next) {
@@ -70,7 +71,10 @@ export default {
       this.$nextTick(() => {
         if (!this.system) return
         let path = this.$route.path
-        path = path.substr(6) // 解析出子应用路由
+        path = path.substr(6) // 解析出子应用路由 去掉/frame
+        // let { fullPath } = this.$route
+        // fullPath = fullPath.substr(6)
+        // console.log(fullPath,123)
         let url = this.system.url
         url = deleteQueryString(url, 'token')
         url = addQueryString(url, 'token', getToken())
@@ -83,8 +87,17 @@ export default {
         //  }
         // this.$store.dispatch('setLoading',false)
         this.$nextTick(() => {
+           
           // 再次点击 子系统没有发消息 区别是再次点击还是首次点击
-          this.$refs.frame.contentWindow.location.replace(url)
+          
+          // if(this.$route)
+    
+          // const { path } = this.$route
+                console.log(path,url)
+          if( url.indexOf(path) !== -1 )  { 
+            this.$refs.frame.contentWindow.location.reload()
+            this.$store.dispatch('setLoading',false)
+          } else this.$refs.frame.contentWindow.location.replace(url)
           if(this.loading) this.$store.dispatch('setLoading',false)
           // console.log('loading missing',this.getChildrenjump,this.loading)
           // if(!this.$refs.frame.contentWindow) {

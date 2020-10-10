@@ -223,24 +223,23 @@ export default {
       this.$refs.iframe.loading = false
       const { alias = '', path = '' } = superItem
       if (isUrl(path)) {
-        this.$nextTick(() => {
-          const iframeDom = this.$refs.iframe.$refs.frame
+      //  this.$nextTick(() => {
+        //  const iframeDom = this.$refs.iframe.$refs.frame
         //  test
-        if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location ) {
+        //if(iframeDom.baseURI.indexOf(this.$route.fullPath)!== -1 && iframeDom.contentWindow.location ) {
           // iframeDom.contentWindow.location.reload()
-          this.$refs.iframe.loading = true
-          if(this.getLoading) {
-            console.log('111')
+        //  this.$refs.iframe.loading = true
+        //  if(this.getLoading) {
             //  iframeDom.contentWindow.location.reload()
-             this.$store.dispatch('setLoading',false)
-              this.$refs.iframe.parseRouter()
-          }
+            //  this.$store.dispatch('setLoading',false)
+          //    this.$refs.iframe.parseRouter()
+         // }
           // this.$store.dispatch('setLoading',false)
          
-        }
-        })
+        //}
+        //})
         openSubSystem(alias, subItem.path)
-        // this.$refs.iframe.parseRouter()
+        this.$refs.iframe.parseRouter()
       } else {
         const {alias,path} = subItem
         if(alias === 'oa') return window.location.href = path

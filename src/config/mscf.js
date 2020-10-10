@@ -48,8 +48,9 @@ const handler = _.debounce((e) => {
   store.dispatch('setLoading',false)
   sessionStorage.setItem('last-path', path)
   path = addQueryString(path, 'sysName', e.origin)
- 
+
   path = '/frame' + path
+  console.log(path)
   router.replace(path)
   
 }, 200)
