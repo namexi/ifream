@@ -76,7 +76,10 @@ export const subSysTemConfig = {
   },
   market: {
     name: 'market',
-    url: `${prefixUrl}/market/index.html`
+    url: `${prefixUrl}/market/index.html`,
+    pages: {
+      addProductPush: '/order/product/addProductPush'
+    }
   },
   order: {
     name: 'order',
