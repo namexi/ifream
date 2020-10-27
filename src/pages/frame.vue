@@ -44,9 +44,12 @@ export default {
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       if(val.path !== v.path) {
+        
+        console.log(val, v)
         this.loading = false
         this.$store.dispatch('setLoading',true)
-        this.parseRouter()
+        // this.parseRouter()
+        if(val.query.sysName !== v.query.sysName) this.parseRouter()
       }
       if(val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading',false)
     }
