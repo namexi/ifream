@@ -138,8 +138,9 @@ export default {
   },
   watch:{
     $route(val,v) {
-      // console.log(val,v)
+      console.log(val,v)
       this.prePath = val.path
+      this.sysName = val.query.sysName
     }
   },
   beforeRouteEnter(to, f, next) {
@@ -239,8 +240,8 @@ export default {
           },1000)
           return
         }
-        // this.$refs.iframe.parseRouter()
         })
+        if(this.sysName && alias === this.sysName) this.$refs.iframe.parseRouter()
       } else {
         const {alias,path} = subItem
         if(alias === 'oa') return window.location.href = path
