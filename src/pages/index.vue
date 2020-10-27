@@ -239,7 +239,7 @@ export default {
           },1000)
           return
         }
-        this.$refs.iframe.parseRouter()
+        // this.$refs.iframe.parseRouter()
         })
       } else {
         const {alias,path} = subItem
