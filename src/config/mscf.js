@@ -40,7 +40,7 @@ mscf.on('redirect', (e) => {
 })
 
 // 打开新窗口
-mcf.on('openNewSystem',e => {
+mscf.on('openNewSystem',e => {
   const {target,page,params,query} = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
