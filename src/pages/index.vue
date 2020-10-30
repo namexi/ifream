@@ -113,7 +113,8 @@ export default {
         openKeys: [],
         collapsed: false
       },
-      prePath: null
+      prePath: null,
+      sysName:null
     }
   },
   computed: {
@@ -234,17 +235,17 @@ export default {
         openSubSystem(alias, subItem.path)
         // 重复点击
         if(this.prePath && this.prePath.indexOf(path) !== -1 ) {
-          this.$refs.iframe.loading = true
           setTimeout(() => {
+            this.$refs.iframe.loading = true
             this.$refs.iframe.parseRouter()
           },1000)
           return
         }
         })
-        if(this.sysName && alias === this.sysName) this.$refs.iframe.parseRouter()
+        if(this.sysName && alias === this.sysName)  this.$refs.iframe.parseRouter()
       } else {
         const {alias,path} = subItem
-        
+
         if(alias === 'oa') return window.location.href = `${path}?token=${getToken()}`
         this.$router.push(subItem.path)
       }

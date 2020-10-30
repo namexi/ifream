@@ -34,6 +34,17 @@ export function openSubSystem(name, url, query = {}) {
   })
 }
 
+//新窗口
+export function openNewSystem(name, url, query = {}) {
+  const system = getSystem(name)
+  if (!system) return
+  let queryStr = ''
+  for(let k in query) {
+     queryStr = queryStr + `${query[k]}&`
+  }
+  window.open(`./frame${url}?${queryStr}`)
+}
+
 export function isUrl(url = '') {
   if (typeof url === 'string') {
     return url.startsWith('http://') || url.startsWith('https://')

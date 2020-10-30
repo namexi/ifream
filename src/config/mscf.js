@@ -1,5 +1,5 @@
 /* eslint-disable */
-import {mscf,openSubSystem} from './util'
+import {mscf,openSubSystem,openNewSystem} from './util'
 import {message} from 'ant-design-vue'
 import {getSystem} from '@/config/system'
 import {compile} from 'path-to-regexp'
@@ -36,6 +36,21 @@ mscf.on('redirect', (e) => {
   }
   targetPage = getPath(targetPage, params)
   openSubSystem(target, targetPage, query)
+  store.dispatch('childrenjumpChange',true)
+})
+
+// 打开新窗口
+mcf.on('openNewSystem',e => {
+  const {target,page,params,query} = e.data
+  const system = getSystem(target)
+  if (!system) return console.error(`Unregistered system: "${target}"!`)
+  store.dispatch('setLoading',false)
+  let targetPage = system.pages[page]
+  if (!targetPage) {
+    return console.error(`Invalid target page: "${page}"!`)
+  }
+  targetPage = getPath(targetPage, params)
+  openNewSystem(target, targetPage, query)
   store.dispatch('childrenjumpChange',true)
 })
 
