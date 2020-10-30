@@ -43,7 +43,7 @@ export function openNewSystem(name, url, query = {}) {
      queryStr = queryStr + `${k}=${query[k]}&`
      
   }
-  window.open(`./frame${url}?${queryStr}`)
+  window.open(`./#/frame${url}?${queryStr}`)
 }
 
 export function isUrl(url = '') {
