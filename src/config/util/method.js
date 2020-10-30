@@ -40,7 +40,8 @@ export function openNewSystem(name, url, query = {}) {
   if (!system) return
   let queryStr = ''
   for(let k in query) {
-     queryStr = queryStr + `${query[k]}&`
+     queryStr = queryStr + `${k}=${query[k]}&`
+     
   }
   window.open(`./frame${url}?${queryStr}`)
 }
