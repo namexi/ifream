@@ -166,7 +166,7 @@ export default {
   methods: {
     // 下载浏览器
     downloadChrome() {
-      window.open(downloadChromeUrl, '_blank');
+      window.open(this.downloadChromeUrl, '_blank');
     },
     onSearchClick() {
       if (this.collapsed) {
