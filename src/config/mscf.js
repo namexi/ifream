@@ -1,15 +1,28 @@
 /* eslint-disable */
-import {mscf,openSubSystem,openNewSystem} from './util'
-import {message} from 'ant-design-vue'
-import {getSystem} from '@/config/system'
-import {compile} from 'path-to-regexp'
+import {
+  mscf,
+  openSubSystem,
+  openNewSystem
+} from './util'
+import {
+  message
+} from 'ant-design-vue'
+import {
+  getSystem
+} from '@/config/system'
+import {
+  compile
+} from 'path-to-regexp'
 import router from '@/router'
-import {addQueryString} from 'nearby-common'
+import {
+  addQueryString
+} from 'nearby-common'
 import store from '@/config/store/store.js'
 import _ from 'lodash'
 message.config({
-  duration:6
+  duration: 6
 })
+
 function getPath(route, params) {
   let toPath = compile(route)
   return toPath(params)
@@ -26,32 +39,42 @@ mscf.on('toast.warning', (e) => {
 
 // 某个系统想跳转到其他子系统
 mscf.on('redirect', (e) => {
-  const {target,page,params,query} = e.data
+  const {
+    target,
+    page,
+    params,
+    query
+  } = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
-  store.dispatch('setLoading',false)
+  store.dispatch('setLoading', false)
   let targetPage = system.pages[page]
   if (!targetPage) {
     return console.error(`Invalid target page: "${page}"!`)
   }
   targetPage = getPath(targetPage, params)
   openSubSystem(target, targetPage, query)
-  store.dispatch('childrenjumpChange',true)
+  store.dispatch('childrenjumpChange', true)
 })
 
 // 打开新窗口
-mscf.on('openNewSystem',e => {
-  const {target,page,params,query} = e.data
+mscf.on('openNewSystem', e => {
+  const {
+    target,
+    page,
+    params,
+    query
+  } = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
-  store.dispatch('setLoading',false)
+  store.dispatch('setLoading', false)
   let targetPage = system.pages[page]
   if (!targetPage) {
     return console.error(`Invalid target page: "${page}"!`)
   }
   targetPage = getPath(targetPage, params)
   openNewSystem(target, targetPage, query)
-  store.dispatch('childrenjumpChange',true)
+  store.dispatch('childrenjumpChange', true)
 })
 
 const handler = _.debounce((e) => {
@@ -60,7 +83,7 @@ const handler = _.debounce((e) => {
   if (lastPath && lastPath === path) return
   console.log('父系统收到的消息，需要跳转：')
   console.log(path)
-  store.dispatch('setLoading',false)
+  store.dispatch('setLoading', false)
   sessionStorage.setItem('last-path', path)
   path = addQueryString(path, 'sysName', e.origin)
 

@@ -9,7 +9,7 @@
       <div class="menu-container no-scroll-bar" :class="collapsed ? 'fold' : 'unfold'">
         <div class="search-container" @click="onSearchClick">
           <div v-if="collapsed" class="home-search-menu">
-            <a-icon style="font-size: 16px;" type="search" />
+            <a-icon style="font-size: 16px" type="search" />
           </div>
           <a-input v-else class="search-input home-search-menu" v-model="search.keyword" @change="onKeywordChange" placeholder="菜单搜索">
             <a-icon slot="prefix" type="search" />
@@ -22,9 +22,8 @@
                 <i :class="superItem.icon" class="menu-icon"></i>
                 <span class="menu-name">{{ superItem.name }}</span>
               </span>
-              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id 
-              ">
-                <div style="font-size: 13px; padding-left: 48px;" @click="handleClick({ superItem, subItem },$event)">{{ subItem.name }}</div>
+              <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
+                <div style="font-size: 13px; padding-left: 48px" @click="handleClick({ superItem, subItem }, $event)">{{ subItem.name }}</div>
               </a-menu-item>
             </a-sub-menu>
           </a-menu>
@@ -37,7 +36,7 @@
                 <span class="menu-name">{{ superItem.name }}</span>
               </span>
               <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
-                <div style="font-size: 13px; padding-left:48px" @click="handleClick({ superItem, subItem },$event)">{{ subItem.name }}</div>
+                <div style="font-size: 13px; padding-left: 48px" @click="handleClick({ superItem, subItem }, $event)">{{ subItem.name }}</div>
               </a-menu-item>
             </a-sub-menu>
           </a-menu>
@@ -50,6 +49,7 @@
           <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" class="collapse-icon" />
         </div>
         <div class="title-right">
+          <a-button v-if="downloadChromeUrl" type="link" icon="download" size="large" @click="downloadChrome"> 下载浏览器 </a-button>
           <a class="user" :href="srcHerf" target="_blank">回到旧版</a>
           <a-dropdown placement="bottomCenter">
             <a class="assistant ant-dropdown-link" href="javascript:;">联系技术助理</a>
@@ -63,7 +63,7 @@
           <!-- <span class="user">{{ userInfo.name }}</span> -->
           <a-popover class="user">
             <template slot="content">
-              <p v-for="(items,i) in userInfo.deptPositionName" :key="i">{{items}}</p>
+              <p v-for="(items, i) in userInfo.deptPositionName" :key="i">{{ items }}</p>
               <!-- <p>Content</p> -->
             </template>
             <span>
@@ -73,7 +73,7 @@
           <span class="logout" @click="handleLogout">[退出]</span>
         </div>
       </div>
-      <div class="main-router" >
+      <div class="main-router">
         <router-view ref="iframe" />
       </div>
     </div>
@@ -81,27 +81,27 @@
 </template>
 
 <script>
-import { getUserInfo } from 'Service'
-import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
-import { getQueryString, deleteQueryString } from 'nearby-common'
-import store from 'Config/store/store'
-import { mapGetters } from 'vuex'
+import { getUserInfo } from 'Service';
+import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util';
+import { getQueryString, deleteQueryString } from 'nearby-common';
+import store from 'Config/store/store';
+import { mapGetters } from 'vuex';
 export default {
   name: 'home',
   created() {
-    const menus = this.userInfo.menuList || []
-    const items = []
+    const menus = this.userInfo.menuList || [];
+    const items = [];
     menus.forEach((e) => {
-      items.push(...e.children)
-    })
-    let currentPath = this.$route.path
+      items.push(...e.children);
+    });
+    let currentPath = this.$route.path;
     if (currentPath.startsWith('/frame/')) {
-      currentPath = currentPath.slice(6)
+      currentPath = currentPath.slice(6);
     }
-    const menu = items.find((e) => e.path === currentPath)
-    if (!menu) return
-    this.openKeys = [menu.superId]
-    this.defaultKeys = [menu.id]
+    const menu = items.find((e) => e.path === currentPath);
+    if (!menu) return;
+    this.openKeys = [menu.superId];
+    this.defaultKeys = [menu.id];
   },
   data() {
     return {
@@ -114,62 +114,63 @@ export default {
         collapsed: false
       },
       prePath: null,
-      sysName:null
-    }
+      sysName: null
+    };
   },
   computed: {
-       ...mapGetters([
-    'getLoading',
-    'getChildrenjump'
-    ]),
+    ...mapGetters(['getLoading', 'getChildrenjump']),
     menuList() {
-      return this.getSearchMenu(this.search.keyword)
+      return this.getSearchMenu(this.search.keyword);
     },
     userInfo: {
       get() {
-        return store.state.userInfo
+        return store.state.userInfo;
       },
       set(val) {
-        store.commit('updateUser', val)
+        store.commit('updateUser', val);
       }
     },
-    srcHerf(){
-      return `https://ooa.lianlianlvyou.com/?token=${getToken()}#/`
+    srcHerf() {
+      return `https://ooa.lianlianlvyou.com/?token=${getToken()}#/`;
     }
   },
-  watch:{
-    $route(val,v) {
+  watch: {
+    $route(val, v) {
       // console.log(val,v)
-      this.prePath = val.path
-      this.sysName = val.query.sysName
+      this.prePath = val.path;
+      this.sysName = val.query.sysName;
     }
   },
   beforeRouteEnter(to, f, next) {
-    const urlToken = getQueryString('token')
+    const urlToken = getQueryString('token');
     if (urlToken) {
-      setToken(urlToken)
-      let href = location.href
-      href = deleteQueryString(href, 'token')
-      location.href = href
+      setToken(urlToken);
+      let href = location.href;
+      href = deleteQueryString(href, 'token');
+      location.href = href;
     }
-    const token = getToken()
+    const token = getToken();
     if (!token) {
-      next('/login')
-      return
+      next('/login');
+      return;
     }
     getUserInfo()
       .then((res) => {
-        store.commit('updateUser', res)
-        next()
+        store.commit('updateUser', res);
+        next();
       })
       .catch(() => {
-        next('/login')
-      })
+        next('/login');
+      });
   },
   methods: {
+    // 下载浏览器
+    downloadChrome() {
+      window.open(downloadChromeUrl, '_blank');
+    },
     onSearchClick() {
       if (this.collapsed) {
-        this.onToggleCollapse()
+        this.onToggleCollapse();
       }
     },
     /**
@@ -178,19 +179,19 @@ export default {
      * @return {[]}
      */
     getSearchMenu(kw) {
-      let res = []
-      let openKeys = []
+      let res = [];
+      let openKeys = [];
       this.userInfo.menuList.forEach((superItem) => {
-        let findSubItem = superItem.children.filter((e) => e.name.indexOf(kw) !== -1)
+        let findSubItem = superItem.children.filter((e) => e.name.indexOf(kw) !== -1);
         if (findSubItem && findSubItem.length) {
-          const copySuper = JSON.parse(JSON.stringify(superItem))
-          openKeys.push(copySuper.id)
-          copySuper.children = findSubItem
-          res.push(copySuper)
+          const copySuper = JSON.parse(JSON.stringify(superItem));
+          openKeys.push(copySuper.id);
+          copySuper.children = findSubItem;
+          res.push(copySuper);
         }
-      })
-      this.search.openKeys = openKeys
-      return res
+      });
+      this.search.openKeys = openKeys;
+      return res;
     },
     handleLogout() {
       this.$confirm({
@@ -200,77 +201,78 @@ export default {
         okText: '确定退出',
         cancelText: '取消',
         onOk: () => {
-          http.defaults.headers['Authorization'] = ''
-          this.userInfo = {}
-          setToken('')
-          this.$router.push('/login')
+          http.defaults.headers['Authorization'] = '';
+          this.userInfo = {};
+          setToken('');
+          this.$router.push('/login');
         },
         onCancel() {}
-      })
+      });
     },
     onKeywordChange() {
-      this.search.openKeys = []
+      this.search.openKeys = [];
     },
     goHome() {
-      this.$router.push('/')
+      this.$router.push('/');
     },
     onToggleCollapse() {
-      this.collapsed = !this.collapsed
-      this.openKeys = [] // 关闭所有打开的二级菜单，防止二级菜单飘窗
-      this.search.openKeys = []
+      this.collapsed = !this.collapsed;
+      this.openKeys = []; // 关闭所有打开的二级菜单，防止二级菜单飘窗
+      this.search.openKeys = [];
     },
-    handleClick({ superItem, subItem },event) {
+    handleClick({ superItem, subItem }, event) {
       // debugger
       // 再次点击
-      console.dir(event)
-      this.$store.dispatch('setLoading',true)
-      this.$refs.iframe.loading = false
+      console.dir(event);
+      this.$store.dispatch('setLoading', true);
+      this.$refs.iframe.loading = false;
       // 当前系统路径
-      const { alias = '', path = '' } = superItem
+      const { alias = '', path = '' } = superItem;
       if (isUrl(path)) {
         this.$nextTick(() => {
-        // 当前页面路径
-        const { path } = subItem
-        const iframeDom = this.$refs.iframe.$refs.frame
-        openSubSystem(alias, subItem.path)
-        // 重复点击
-        if(this.prePath && this.prePath.indexOf(path) !== -1 ) {
-          setTimeout(() => {
-            this.$refs.iframe.loading = true
-            this.$refs.iframe.parseRouter()
-          },1000)
-          return
-        }
-        })
-        if(this.sysName && alias === this.sysName)  this.$refs.iframe.parseRouter()
+          // 当前页面路径
+          const { path } = subItem;
+          const iframeDom = this.$refs.iframe.$refs.frame;
+          openSubSystem(alias, subItem.path);
+          // 重复点击
+          if (this.prePath && this.prePath.indexOf(path) !== -1) {
+            //
+            setTimeout(() => {
+              this.$refs.iframe.loading = true;
+              this.$refs.iframe.parseRouter();
+            }, 1000);
+            return;
+          }
+        });
+        if (this.sysName && alias === this.sysName) this.$refs.iframe.parseRouter();
       } else {
-        const {alias,path} = subItem
+        const { alias, path } = subItem;
 
-        if(alias === 'oa') return window.location.href = `${path}?token=${getToken()}`
-        this.$router.push(subItem.path)
+        if (alias === 'oa') return (window.location.href = `${path}?token=${getToken()}`);
+        this.$router.push(subItem.path);
       }
       // debugger
     },
     onSearchOpenChange(openKeys) {
-      const keys = this.menuList.map((e) => e.id)
-      const latestOpenKey = openKeys.find((key) => this.search.openKeys.indexOf(key) === -1)
+      const keys = this.menuList.map((e) => e.id);
+      const latestOpenKey = openKeys.find((key) => this.search.openKeys.indexOf(key) === -1);
       if (keys.indexOf(latestOpenKey) === -1) {
-        this.search.openKeys = openKeys
+        this.search.openKeys = openKeys;
       } else {
-        this.search.openKeys = latestOpenKey ? [latestOpenKey] : []
+        this.search.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
     },
     onOpenChange(openKeys) {
-      const keys = this.userInfo.menuList.map((e) => e.id)
-      const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1)
+      const keys = this.userInfo.menuList.map((e) => e.id);
+      const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1);
       if (keys.indexOf(latestOpenKey) === -1) {
-        this.openKeys = openKeys
+        this.openKeys = openKeys;
       } else {
-        this.openKeys = latestOpenKey ? [latestOpenKey] : []
+        this.openKeys = latestOpenKey ? [latestOpenKey] : [];
       }
     }
   }
-}
+};
 </script>
 
 <style scoped lang="less">
@@ -345,7 +347,6 @@ export default {
     &.fold {
       width: 80px;
     }
-   
   }
   .main-container {
     height: 100%;
