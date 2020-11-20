@@ -1,8 +1,10 @@
 /* eslint-disable */
-import {isDebug} from './util/env'
+import {
+  isDebug
+} from './util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
-const debugDeployUrl =  'https://nb-oa-web.lianlianlvyou.com/debug'
+const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
 const devDeployUrl = 'http://192.168.10.113:9085'
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -56,7 +58,11 @@ export const subSysTemConfig = {
   },
   product: {
     name: 'product',
-    url: `${prefixUrl}/product/index.html`
+    url: `${prefixUrl}/product/index.html`,
+    pages: {
+      productManagerList: '/product/productManager/list',
+      productMaster: '/product/productMaster/list'
+    }
   },
   docking: {
     name: 'docking',
@@ -89,9 +95,13 @@ export const subSysTemConfig = {
     name: 'weike',
     url: `${prefixUrl}/weike/index.html`
   },
-  channelData:{
-    name:'channelData',
+  channelData: {
+    name: 'channelData',
     url: `${prefixUrl}/channelData/index.html`
+  },
+  dataCenter: {
+    name: 'dataCenter',
+    url: `${prefixUrl}/dataCenter/index.html`
   }
 }
 
