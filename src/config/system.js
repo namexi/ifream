@@ -26,7 +26,10 @@ export const subSysTemConfig = {
   },
   design: {
     name: 'design',
-    url: `${prefixUrl}/design/index.html`
+    url: `${prefixUrl}/design/index.html`,
+    pages: {
+      productInfoEdit: '/productInfo/edit'
+    }
   },
   technology: {
     name: 'technology',
@@ -62,8 +65,7 @@ export const subSysTemConfig = {
     pages: {
       productManagerList: '/product/productManager/list',
       productMaster: '/product/productMaster/list',
-      branchManagerList: '/product/branchManager/list',
-      productInfoListEleBusiness: '/productInfo/list/eleBusiness'
+      branchManagerList: '/product/branchManager/list'
     }
   },
   docking: {
