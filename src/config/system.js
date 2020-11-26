@@ -1,15 +1,15 @@
 /* eslint-disable */
 import {
   isDebug
-} from './util/env'
+} from './util/env';
 
-const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
-const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'http://192.168.10.113:9085'
-console.log(process.env.NODE_ENV === 'debug')
-let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
-if (process.env.NODE_ENV === 'debug') prefixUrl = debugDeployUrl
-console.log(prefixUrl)
+const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new';
+const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug';
+const devDeployUrl = 'http://192.168.10.113:9085';
+console.log(process.env.NODE_ENV === 'debug');
+let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl;
+if (process.env.NODE_ENV === 'debug') prefixUrl = debugDeployUrl;
+console.log(prefixUrl);
 export const subSysTemConfig = {
   crm: {
     name: 'crm',
@@ -61,7 +61,9 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/product/index.html`,
     pages: {
       productManagerList: '/product/productManager/list',
-      productMaster: '/product/productMaster/list'
+      productMaster: '/product/productMaster/list',
+      branchManagerList: '/product/branchManager/list',
+      productInfoListEleBusiness: '/productInfo/list/eleBusiness'
     }
   },
   docking: {
@@ -84,7 +86,8 @@ export const subSysTemConfig = {
     name: 'market',
     url: `${prefixUrl}/market/index.html`,
     pages: {
-      addProductPush: '/order/product/addProductPush'
+      addProductPush: '/order/product/addProductPush',
+      agentUserDayStatistical: '/agent/user/day/statistical'
     }
   },
   order: {
@@ -103,8 +106,8 @@ export const subSysTemConfig = {
     name: 'dataCenter',
     url: `${prefixUrl}/dataCenter/index.html`
   }
-}
+};
 
 export function getSystem(name = '') {
-  return subSysTemConfig[name]
+  return subSysTemConfig[name];
 }
