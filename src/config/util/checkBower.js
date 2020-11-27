@@ -18,11 +18,14 @@ export const downloadChrome = (function () {
   if ((tem = ua.match(/version\/(\d+)/i)) != null) M.splice(1, 1, tem[1]);
   M = M.join(' ');
   if (/Chrome/.test(M)) {
-    message.success({
-      content: '已是谷歌内核，无需下载！'
-    })
+    // message.success({
+    //   content: '已是谷歌内核，无需下载！'
+    // })
     return false
   }
+  message.success({
+    content: '为了您更好的体验，请点击下载浏览器下载谷歌浏览器！'
+  })
   return isWin64 ? 'http://ll-oss-oa.oss-cn-beijing.aliyuncs.com/tools/ChromeSetup_x86.exe' : 'http://ll-oss-oa.oss-cn-beijing.aliyuncs.com/tools/ChromeSetup_x64.exe';
 })
 // module.exports = navigator
