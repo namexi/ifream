@@ -9,6 +9,8 @@ const webpack = require('webpack')
 const config = require('../config')
 const webpackConfig = require('./webpack.prod.conf')
 
+
+process.env.NODE_ENV = process.env.NODE_ENV ? process.env.NODE_ENV : 'productuon'
 console.log('current env: ' + process.env.NODE_ENV)
 
 const spinner = ora(`building for ${process.env.NODE_ENV}...`)

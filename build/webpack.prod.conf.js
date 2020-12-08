@@ -12,11 +12,13 @@ const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const isTest = process.env.NODE_ENV === 'testing'
+const isDev = process.env.NODE_ENV === 'development'
 const config = isTest ? allConfig.test : allConfig.build
 console.log(config)
 
 const prodEnv = require('../config/prod.env')
 const testEnv = require('../config/test.env')
+const devEnv = require('../config/dev.env')
 
 const webpackConfig = merge(baseWebpackConfig, {
   module: {
@@ -35,7 +37,7 @@ const webpackConfig = merge(baseWebpackConfig, {
   plugins: [
     // http://vuejs.github.io/vue-loader/en/workflow/production.html
     new webpack.DefinePlugin({
-      'process.env': isTest ? testEnv : prodEnv
+      'process.env': isDev ? devEnv : isTest ? testEnv : prodEnv
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
@@ -58,7 +60,16 @@ const webpackConfig = merge(baseWebpackConfig, {
     // Compress extracted CSS. We are using this plugin so that possible
     // duplicated CSS from different components can be deduped.
     new OptimizeCSSPlugin({
-      cssProcessorOptions: config.productionSourceMap ? { safe: true, map: { inline: false } } : { safe: true }
+      cssProcessorOptions: config.productionSourceMap
+        ? {
+            safe: true,
+            map: {
+              inline: false
+            }
+          }
+        : {
+            safe: true
+          }
     }),
     // generate dist index.html with correct asset hash for caching.
     // you can customize output by editing /index.html
