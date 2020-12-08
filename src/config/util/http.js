@@ -1,15 +1,28 @@
-import { BASE_URL } from './const'
-import { getToken } from './storage'
+import {
+  BASE_URL
+} from './const'
+import {
+  getToken
+} from './storage'
 import axios from 'axios'
 import router from '@/router'
-import { parser } from 'Config/util'
-import { replaceHost } from 'nearby-common'
-import { message as $message } from 'ant-design-vue'
+import {
+  parser
+} from 'Config/util'
+import {
+  replaceHost
+} from 'nearby-common'
+import {
+  message as $message
+} from 'ant-design-vue'
 
+console.log(BASE_URL)
 let instance = axios.create({
   baseURL: BASE_URL,
   timeout: 60000,
-  headers: { Authorization: getToken() || '' }
+  headers: {
+    Authorization: getToken() || ''
+  }
 })
 
 instance.interceptors.request.use((config) => {
@@ -25,7 +38,10 @@ instance.interceptors.request.use((config) => {
 instance.interceptors.response.use(
   (response) => {
     const body = response.data || {}
-    const { code, message } = body
+    const {
+      code,
+      message
+    } = body
     switch (code) {
       case 1002:
       case 1001:
