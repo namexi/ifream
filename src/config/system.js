@@ -51,7 +51,10 @@ export const subSysTemConfig = {
   },
   administration: {
     name: 'administration',
-    url: `${prefixUrl}/administration/index.html`
+    url: `${prefixUrl}/administration/index.html`,
+    pages: {
+      approvalView: '/approvalView'
+    }
   },
   human: {
     name: 'human',
