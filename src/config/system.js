@@ -112,6 +112,10 @@ export const subSysTemConfig = {
   dataCenter: {
     name: 'dataCenter',
     url: `${prefixUrl}/dataCenter/index.html`
+  },
+  knowledge: {
+    name: 'knowledge',
+    url: `${prefixUrl}/knowledge/index.html`
   }
 };
 
