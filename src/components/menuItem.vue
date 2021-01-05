@@ -6,9 +6,8 @@
         <div
           v-for="(subItem, i) in superItem.children"
           :key="subItem.id"
-          ref="menuItem"
+          :ref="menuItem(index, i)"
           class="search-menu-child-title"
-          :class="{ 'select-bg': subItem.isActive }"
           @click.self="exclusiveClick({ superItem, subItem, index: i, i: index }, $event)"
         >
           {{ subItem.name }}
@@ -30,10 +29,14 @@ export default {
       type: Boolean,
       default: false
     },
-    menuList: {
+    value: {
       type: Array,
-      default: () => []
+      default: () => () => []
     },
+    // menuList: {
+    //   type: Array,
+    //   default: () => []
+    // },
     handleClick: {
       type: Function,
       default: () => () => {}
@@ -43,55 +46,39 @@ export default {
       default: () => () => {}
     }
   },
+  model: {
+    prop: 'value',
+    event: 'list'
+  },
   methods: {
+    menuItem(i, index) {
+      return `menuItem-${i}-${index}`
+    },
     exclusiveClick({ superItem, subItem, index, i }, e) {
-      // let domArray = this.$refs.menuItem
-      // for (let i = 0; i < domArray.length; i++) {
-      //   let el = domArray[i]
-      //   el.className = 'search-menu-child-title'
-      //   // el.style.background = 'none !important'
-      // }
-      // // subItem.bg = true
-      // this.menuList[i].children[index].isActive = true
-      // this.$set(this.menuList[i].children[index], {
-      //   ...subItem,
-      //   isActive: true
-      // })
-      // domArray[index].style.background = 'rgba(255, 255, 255, 0.1)'
-      // debugger
       let len = this.menuList.length
-      console.log(len)
+      let menuItemkey = `menuItem-${i}-${index}`
       for (let j = 0; j < len; j++) {
         let el = this.menuList[j]
         let childrenLen = el.children.length
-        console.log(childrenLen)
         for (let k = 0; k < childrenLen; k++) {
-          // let dom = el.children[k]
-          this.menuList[j].children[k].isActive = false
-          this.$set(this.menuList[j].children[k], {
-            ...this.menuList[j].children[k],
-            isActive: false
-          })
+          let menuItemkey = `menuItem-${j}-${k}`
+
+          this.$refs[menuItemkey][0].className = 'search-menu-child-title'
         }
       }
-      this.menuList[i].children[index].isActive = true
-      this.$set(this.menuList[i].children[index], {
-        ...subItem,
-        isActive: true
-      })
-      console.log(this.menuList[i].children[index])
-      // for (let j = 0; j < len; j++) {
-      //   if (j === i) {
-      //     let el = this.menuList[j]
-      //     el.children[index].isActive = true
-      //     this.$set(this.menuList[i].children[index], {
-      //       ...subItem,
-      //       isActive: true
-      //     })
-      //     break
-      //   }
-      // }
-      // debugger
+      this.$refs[menuItemkey][0].className = 'search-menu-child-title select-bg'
+      this.handleClick({ superItem, subItem }, e)
+    }
+  },
+  computed: {
+    menuList: {
+      get() {
+        return this.value
+      },
+      set(v) {
+        console.log(v)
+        this.$emit('list', v)
+      }
     }
   }
 }

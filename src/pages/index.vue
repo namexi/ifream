@@ -143,7 +143,7 @@
         <div class="search-results" v-if="search.keyword">
           共找到<span>12</span> 个与<span>{{ search.keyword }}</span> 相关的产品
         </div>
-        <menu-item :noFavorites="noFavorites" :menuList="userInfo.menuList" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
+        <menu-item :noFavorites="noFavorites" v-model="userInfo.menuList" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
         <!-- <div class="menu-children-list">
           <div v-for="superItem in userInfo.menuList" :key="superItem.id">
             <div class="serach-menu-title">{{ superItem.name }}</div>
