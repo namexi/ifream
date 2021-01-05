@@ -1,4 +1,6 @@
-import { getSystem } from '../system'
+import {
+  getSystem
+} from '../system'
 import router from '@/router'
 
 /**
@@ -35,15 +37,15 @@ export function openSubSystem(name, url, query = {}) {
 }
 
 //新窗口
-export function openNewSystem(name, url, query = {}) {
+export function openNewSystem(name, url, query = {}) {
   const system = getSystem(name)
   if (!system) return
   let queryStr = ''
-  for(let k in query) {
-     queryStr = queryStr + `${k}=${query[k]}&`
-     
+  for (let k in query) {
+    queryStr = queryStr + `${k}=${query[k]}&`
+
   }
-  window.open(`./#/frame${url}?${queryStr}sysName=${name}`)
+  window.open(`./index.html#/frame${url}?${queryStr}sysName=${name}`)
 }
 
 export function isUrl(url = '') {

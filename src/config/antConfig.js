@@ -1,4 +1,16 @@
-import { Button, Menu, Icon, Dropdown, Input, message, FormModel, Spin, Modal, Popover} from 'ant-design-vue'
+import {
+  Button,
+  Menu,
+  Icon,
+  Dropdown,
+  Input,
+  message,
+  FormModel,
+  Spin,
+  Modal,
+  Popover,
+  Breadcrumb
+} from 'ant-design-vue'
 import antDirective from 'ant-design-vue/lib/_util/antDirective'
 import Vue from 'vue'
 
@@ -18,3 +30,5 @@ Vue.component(FormModel.Item.name, FormModel.Item)
 Vue.component(Input.Password.name, Input.Password)
 Vue.component(Spin.name, Spin)
 Vue.component(Popover.name, Popover)
+Vue.component(Breadcrumb.name, Breadcrumb)
+Vue.component(Breadcrumb.Item.name, Breadcrumb.Item)
