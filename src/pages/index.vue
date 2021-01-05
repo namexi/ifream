@@ -2,12 +2,12 @@
   <div class="home">
     <div class="title-bar">
       <div class="title-left" @click="onToggleCollapse">
-        <a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" class="collapse-icon" />
+        <!--<a-icon :type="collapsed ? 'menu-unfold' : 'menu-fold'" class="collapse-icon" />-->
+        <a-icon type="menu" class="collapse-icon" />
       </div>
       <div class="title-mid">
         <a-breadcrumb separator="">
           <a-breadcrumb-item class="breadcrumb-home"> <img src="../assets/icon/icon_home@2x.png" alt="" @click="goHome" /> </a-breadcrumb-item>
-          <!-- <a-breadcrumb-item class="breadcrumb-item" href=""> Application Center </a-breadcrumb-item> -->
           <a-breadcrumb-item class="breadcrumb-item" href=""> <span> Application List </span> </a-breadcrumb-item>
           <a-breadcrumb-item class="breadcrumb-item" href="">
             <span> An Application </span>
@@ -15,21 +15,9 @@
         </a-breadcrumb>
       </div>
       <div class="title-right">
-        <!-- <a-button v-if="downloadChromeUrl" type="link" icon="download" size="large" @click="downloadChrome"> 下载浏览器 </a-button> -->
-        <!-- <a class="user" :href="srcHerf" target="_blank">回到旧版</a> -->
-        <!-- <a-dropdown placement="bottomCenter">
-          <a class="assistant ant-dropdown-link" href="javascript:;">联系技术助理</a>
-          <div slot="overlay" class="assistant-list">
-            <div>微信扫一扫，添加助理微信</div>
-            <img src="../assets/qrcode/ass1.png" class="assistant-code" alt="assistant" />
-            <img src="../assets/qrcode/ass2.png" class="assistant-code" alt="assistant" />
-            <img src="../assets/qrcode/ass3.png" class="assistant-code" alt="assistant" />
-          </div>
-        </a-dropdown> -->
         <div class="logoImg">
           <img src="../assets/icon/logo@2x.png" alt="" />
         </div>
-        <!-- <span class="user">{{ userInfo.name }}</span> -->
         <a-popover class="user usercolor">
           <template slot="content">
             <div class="flex userInfo">
@@ -55,66 +43,29 @@
                 <img src="../assets/icon/chrome-logo@2x.png" alt="" />
                 <p class="three-text">谷歌浏览器</p>
               </div>
-              <!-- <p v-else>无需下载！！</p> -->
             </div>
             <div class="logout" @click="handleLogout">退出登录</div>
-            <!-- <p>Content</p> -->
           </template>
           <span>
             {{ userInfo.name }}
           </span>
         </a-popover>
-        <!-- <span class="logout" @click="handleLogout">[退出]</span> -->
         <div class="userImg">
           <img src="../assets/icon/logo_dark.png" alt="" />
         </div>
       </div>
     </div>
-    <div class="container">
-      <div class="side-bar" :class="collapsed ? 'fold' : 'unfold'">
-        <div class="menu-container no-scroll-bar" :class="collapsed ? 'fold' : 'unfold'">
-          <!-- <div class="search-container" @click="onSearchClick">
-            <div v-if="collapsed" class="home-search-menu">
-              <a-icon style="font-size: 16px" type="search" />
-            </div>
-            <a-input v-else class="search-input home-search-menu" v-model="search.keyword" @change="onKeywordChange" placeholder="菜单搜索">
-              <a-icon slot="prefix" type="search" />
-            </a-input>
-          </div> -->
-          <div>
+    <div class="container" v-show="collapsed">
+      <div class="side-bar">
+        <div class="menu-container no-scroll-bar">
+          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange({})">
             <a-icon type="search" class="menu-icon" />
             <span class="menu-name">菜单搜索</span>
           </div>
-          <div v-for="superItem in userInfo.menuList" :key="superItem.id">
+          <div v-for="superItem in userInfo.menuList" :key="superItem.id" :class="[superItem.isActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange(superItem)">
             <i :class="superItem.icon" class="menu-icon"></i>
             <span class="menu-name">{{ superItem.name }}</span>
           </div>
-          <!-- <template v-if="!search.keyword">
-            <a-menu :open-keys="openKeys" mode="inline" :inline-collapsed="collapsed" :defaultSelectedKeys="defaultKeys" theme="dark" @openChange="onOpenChange">
-              <a-sub-menu v-for="superItem in userInfo.menuList" :key="superItem.id">
-                <span slot="title">
-                  <i :class="superItem.icon" class="menu-icon"></i>
-                  <span class="menu-name">{{ superItem.name }}</span>
-                </span>
-                <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
-                  <div style="font-size: 13px; padding-left: 48px" @click="handleClick({ superItem, subItem }, $event)">{{ subItem.name }}</div>
-                </a-menu-item>
-              </a-sub-menu>
-            </a-menu>
-          </template>
-          <template v-else>
-            <a-menu :open-keys="search.openKeys" mode="inline" :inline-collapsed="collapsed" theme="dark" @openChange="onSearchOpenChange">
-              <a-sub-menu v-for="superItem in menuList" :key="superItem.id">
-                <span slot="title">
-                  <i :class="superItem.icon" class="menu-icon"></i>
-                  <span class="menu-name">{{ superItem.name }}</span>
-                </span>
-                <a-menu-item v-for="subItem in superItem.children" :key="subItem.id">
-                  <div style="font-size: 13px; padding-left: 48px" @click="handleClick({ superItem, subItem }, $event)">{{ subItem.name }}</div>
-                </a-menu-item>
-              </a-sub-menu>
-            </a-menu>
-          </template> -->
         </div>
       </div>
       <div class="menu-sidebar" v-if="menuSidebar">
@@ -143,21 +94,7 @@
         <div class="search-results" v-if="search.keyword">
           共找到<span>12</span> 个与<span>{{ search.keyword }}</span> 相关的产品
         </div>
-        <menu-item :noFavorites="noFavorites" v-model="userInfo.menuList" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
-        <!-- <div class="menu-children-list">
-          <div v-for="superItem in userInfo.menuList" :key="superItem.id">
-            <div class="serach-menu-title">{{ superItem.name }}</div>
-            <div class="search-menu-child">
-              <div v-for="subItem in superItem.children" :key="subItem.id" class="search-menu-child-title" @click.self="handleClick({ superItem, subItem }, $event)">
-                {{ subItem.name }}
-                <div class="span" @click.stop="handleFavorites">
-                  <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
-                  <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> -->
+        <menu-item :noFavorites="noFavorites" v-model="menuItemList" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
       </div>
       <div class="main-container">
         <div class="main-router">
@@ -178,7 +115,6 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'home',
   created() {
-    console.log(this.$route)
     const menus = this.userInfo.menuList || []
     const items = []
     menus.forEach((e) => {
@@ -206,7 +142,9 @@ export default {
       prePath: null,
       sysName: null,
       noFavorites: true,
-      menuSidebar: true
+      menuItemList: [],
+      menuSidebar: false,
+      menuSearchActive: false // 菜单搜索是否选中
     }
   },
   computed: {
@@ -304,6 +242,20 @@ export default {
         onCancel() {}
       })
     },
+    menuChange(item) {
+      this.menuItemList = []
+      this.userInfo.menuList.forEach((row) => {
+        this.$set(row, 'isActive', false)
+      })
+      this.menuSearchActive = false
+      if (item) {
+        this.$set(item, 'isActive', true)
+      } else {
+        this.menuSearchActive = true
+      }
+      this.menuItemList.push(item)
+      this.menuSidebar = true
+    },
     onKeywordChange() {
       this.search.openKeys = []
     },
@@ -383,7 +335,7 @@ export default {
 </script>
 
 <style scoped lang="less">
-@header-height: 55px;
+@header-height: 50px;
 .assistant-list {
   padding: 14px;
   // text-align: center;
@@ -481,15 +433,15 @@ export default {
     justify-content: space-between;
     border-bottom: 1px solid #eee;
     .title-left {
-      height: @header-height;
-      width: @header-height;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-right: 1px solid #eee;
+      height: 50px;
+      width: 50px;
+      text-align: center;
+      line-height: 50px;
+      background-color: #4c84ff;
       cursor: pointer;
       .collapse-icon {
-        font-size: 16px;
+        font-size: 18px;
+        color: #fff;
       }
     }
     .title-mid {
@@ -583,20 +535,20 @@ export default {
           overflow: hidden;
         }
       }
+      .menu-item-list {
+        padding-left: 30px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+      }
+      .menu-selected {
+        background-color: #6c9aff;
+      }
       .menu-icon {
-        font-size: 14px;
+        font-size: 16px;
         margin-right: 10px;
       }
-      &.fold {
-        .menu-name {
-          max-width: 0;
-          opacity: 0;
-          width: 0;
-        }
-      }
-    }
-    &.fold {
-      width: 80px;
     }
   }
   .main-container {
