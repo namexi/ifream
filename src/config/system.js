@@ -1,17 +1,13 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
-const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new';
-const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug';
-const devDeployUrl = 'http://192.168.10.113:9085';
-console.log(process.env.NODE_ENV === 'debug');
-let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl;
-if (isTest) prefixUrl = debugDeployUrl;
-console.log(prefixUrl);
+const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
+const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
+const devDeployUrl = 'http://192.168.10.113:9085'
+console.log(process.env.NODE_ENV === 'debug')
+let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
+if (isTest) prefixUrl = debugDeployUrl
+console.log(prefixUrl)
 export const subSysTemConfig = {
   crm: {
     name: 'crm',
@@ -47,7 +43,8 @@ export const subSysTemConfig = {
     pages: {
       contractDetail: '/business/contract/detail',
       detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
-      merchantsEnter: '/contractDetails/merchantsEnter'
+      merchantsEnter: '/contractDetails/merchantsEnter',
+      contractDescController: '/contractDetails/merchantsEnter'
     }
   },
   administration: {
@@ -118,8 +115,8 @@ export const subSysTemConfig = {
     name: 'knowledge',
     url: `${prefixUrl}/knowledge/index.html`
   }
-};
+}
 
 export function getSystem(name = '') {
-  return subSysTemConfig[name];
+  return subSysTemConfig[name]
 }
