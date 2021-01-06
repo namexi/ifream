@@ -46,7 +46,8 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/finance/index.html`,
     pages: {
       contractDetail: '/business/contract/detail',
-      detailFinanceAdmin: '/business/contract/detailFinanceAdmin'
+      detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
+      merchantsEnter: '/contractDetails/merchantsEnter'
     }
   },
   administration: {
