@@ -44,7 +44,7 @@ export const subSysTemConfig = {
       contractDetail: '/business/contract/detail',
       detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
       merchantsEnter: '/contractDetails/merchantsEnter',
-      contractDescController: '/contractDetails/merchantsEnter'
+      contractDescController: '/contract/desc/controller'
     }
   },
   administration: {
