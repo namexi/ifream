@@ -11,8 +11,8 @@
           @click.self="exclusiveClick({ superItem, subItem, index: i, i: index }, $event)"
         >
           {{ subItem.name }}
-          <div class="span" @click.stop="handleFavorites">
-            <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+          <div class="span" @click.stop="handleFavorites(subItem)">
+            <img v-if="subItem.collection" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
             <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
           </div>
         </div>
@@ -25,10 +25,6 @@
 export default {
   name: 'MenuItem',
   props: {
-    noFavorites: {
-      type: Boolean,
-      default: false
-    },
     value: {
       type: Array,
       default: () => () => []
@@ -44,6 +40,10 @@ export default {
     handleFavorites: {
       type: Function,
       default: () => () => {}
+    },
+    itemMenuValue: {
+      type: Object,
+      default: () => {}
     }
   },
   model: {
@@ -79,6 +79,12 @@ export default {
         console.log(v)
         this.$emit('list', v)
       }
+    }
+  },
+  mounted() {
+    if (this.itemMenuValue && this.itemMenuValue.superItem) {
+      let { superItem, subItem, index, i } = this.itemMenuValue
+      this.exclusiveClick({ superItem, subItem, index, i })
     }
   }
 }

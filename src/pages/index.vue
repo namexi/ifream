@@ -8,9 +8,11 @@
       <div class="title-mid">
         <a-breadcrumb separator="">
           <a-breadcrumb-item class="breadcrumb-home"> <img src="../assets/icon/icon_home@2x.png" alt="" @click="goHome" /> </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item" href=""> <span> Application List </span> </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item" href="">
-            <span> An Application </span>
+          <a-breadcrumb-item class="breadcrumb-item">
+            <a href="/"><span> Application List </span></a>
+          </a-breadcrumb-item>
+          <a-breadcrumb-item class="breadcrumb-item">
+            <a href="/welcome"><span> An Application </span></a>
           </a-breadcrumb-item>
         </a-breadcrumb>
       </div>
@@ -55,10 +57,10 @@
         </div>
       </div>
     </div>
-    <div class="container" v-show="collapsed">
-      <div class="side-bar">
+    <div class="container">
+      <div class="side-bar" v-show="collapsed">
         <div class="menu-container no-scroll-bar">
-          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange({})">
+          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange(null)">
             <a-icon type="search" class="menu-icon" />
             <span class="menu-name">菜单搜索</span>
           </div>
@@ -68,18 +70,15 @@
           </div>
         </div>
       </div>
-      <div class="menu-sidebar" v-if="menuSidebar">
+      <div class="menu-sidebar" v-show="menuSidebar && collapsed">
         <div class="search-container">
-          <a-input class="search-input home-search-menu" v-model="search.keyword" @change="onKeywordChange" placeholder="请输入关键词">
-            <a-icon slot="prefix" type="search" />
+          <a-input class="search-input home-search-menu" v-model="search.name" @change="onKeywordChange" placeholder="请输入关键词">
+            <a-icon slot="prefix" type="search" @click="onKeywordChange" />
           </a-input>
+          <a-icon type="close" @click.native="menuSidebar = false" class="close-side" />
         </div>
-        <div class="favorite-menu">
-          <div class="favorite-menu-title">收藏菜单</div>
-          <div class="favorite-menu-conect">
-            <span> 请款报销列表 </span>
-            <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
-          </div>
+        <div class="favorite-menu" v-if="menuSearchActive">
+          <menu-item v-model="collections" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
         </div>
         <div class="favorite-menu">
           <div class="favorite-menu-title">最近访问</div>
@@ -91,10 +90,10 @@
             </div>
           </div>
         </div>
-        <div class="search-results" v-if="search.keyword">
-          共找到<span>12</span> 个与<span>{{ search.keyword }}</span> 相关的产品
+        <div class="search-results" v-if="search.name">
+          共找到<span>{{ menuItemList.length }}</span> 个与<span>{{ search.name }}</span> 相关的菜单
         </div>
-        <menu-item :noFavorites="noFavorites" v-model="menuItemList" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
+        <menu-item v-model="menuItemList" :handleClick="handleClick" :handleFavorites="handleFavorites" :itemMenuValue="itemMenuValue"></menu-item>
       </div>
       <div class="main-container">
         <div class="main-router">
@@ -107,7 +106,7 @@
 
 <script>
 import MenuItem from '../components/menuItem.vue'
-import { getUserInfo } from 'Service'
+import { getUserInfo, menuCollect, menuSearch } from 'Service'
 import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
 import { getQueryString, deleteQueryString } from 'nearby-common'
 import store from 'Config/store/store'
@@ -117,6 +116,8 @@ export default {
   created() {
     const menus = this.userInfo.menuList || []
     const items = []
+    this.collectionHandle()
+    this.collections = [{ name: '我的收藏', id: 1, children: this.userInfo.collectionList }]
     menus.forEach((e) => {
       items.push(...e.children)
     })
@@ -126,32 +127,49 @@ export default {
     }
     const menu = items.find((e) => e.path === currentPath)
     if (!menu) return
-    this.openKeys = [menu.superId]
-    this.defaultKeys = [menu.id]
+    this.openKeys = menu.superId
+    this.defaultKeys = menu.id
+    this.userInfo.menuList.forEach((item, index) => {
+      // 菜单还原
+      if (item.id === menu.superId) {
+        this.menuChange(item)
+        if (item.children && item.children.length) {
+          item.children.forEach((row, itemIndex) => {
+            if (row.id === menu.id) {
+              let data = {
+                superItem: item,
+                subItem: row,
+                index: itemIndex,
+                i: 0
+              }
+              this.itemMenuValue = data
+            }
+          })
+        }
+      }
+    })
   },
   data() {
     return {
-      openKeys: [],
-      defaultKeys: [],
+      openKeys: null,
+      defaultKeys: null,
       collapsed: false,
       search: {
-        keyword: '',
-        openKeys: [],
+        name: '',
         collapsed: false
       },
       prePath: null,
       sysName: null,
       noFavorites: true,
+      collections: [],
       menuItemList: [],
       menuSidebar: false,
-      menuSearchActive: false // 菜单搜索是否选中
+      menuSearchActive: false, // 菜单搜索是否选中
+      itemMenuValue: {} // 索引数据
     }
   },
   computed: {
     ...mapGetters(['getLoading', 'getChildrenjump']),
-    menuList() {
-      return this.getSearchMenu(this.search.keyword)
-    },
     userInfo: {
       get() {
         return store.state.userInfo
@@ -206,26 +224,6 @@ export default {
         this.onToggleCollapse()
       }
     },
-    /**
-     * 通过关键字找到子菜单含有该关键字的菜单列表
-     * @param kw
-     * @return {[]}
-     */
-    getSearchMenu(kw) {
-      let res = []
-      let openKeys = []
-      this.userInfo.menuList.forEach((superItem) => {
-        let findSubItem = superItem.children.filter((e) => e.name.indexOf(kw) !== -1)
-        if (findSubItem && findSubItem.length) {
-          const copySuper = JSON.parse(JSON.stringify(superItem))
-          openKeys.push(copySuper.id)
-          copySuper.children = findSubItem
-          res.push(copySuper)
-        }
-      })
-      this.search.openKeys = openKeys
-      return res
-    },
     handleLogout() {
       this.$confirm({
         centered: true,
@@ -244,44 +242,58 @@ export default {
     },
     menuChange(item) {
       this.menuItemList = []
+      this.search.name = ''
       this.userInfo.menuList.forEach((row) => {
         this.$set(row, 'isActive', false)
       })
       this.menuSearchActive = false
       if (item) {
         this.$set(item, 'isActive', true)
+        this.openKeys = item.id
+        this.menuItemList.push(item)
       } else {
+        this.openKeys = null
         this.menuSearchActive = true
       }
-      this.menuItemList.push(item)
       this.menuSidebar = true
     },
     onKeywordChange() {
-      this.search.openKeys = []
+      return new Promise((resolve, reject) => {
+        let params = {
+          name: this.search.name,
+          menuId: this.openKeys
+        }
+        menuSearch(params)
+          .then((res) => {
+            this.menuItemList = res || []
+            resolve(res)
+          })
+          .catch((e) => {
+            reject(e)
+          })
+      })
     },
     goHome() {
       this.$router.push('/')
     },
     onToggleCollapse() {
       this.collapsed = !this.collapsed
-      this.openKeys = [] // 关闭所有打开的二级菜单，防止二级菜单飘窗
-      this.search.openKeys = []
+      this.openKeys = null // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
     handleClick({ superItem, subItem }, event) {
-      console.log(this.defaultKeys)
       // debugger
       // 再次点击
-      console.dir(event)
+      // console.dir(event)
       this.$store.dispatch('setLoading', true)
       this.$refs.iframe.loading = false
       // 当前系统路径
       const { alias = '', path = '' } = superItem
-      if (isUrl(path)) {
+      if (isUrl(path ? path : subItem.parentPath)) {
         this.$nextTick(() => {
           // 当前页面路径
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
-          openSubSystem(alias, subItem.path)
+          openSubSystem(alias ? alias : subItem.parentSalias, subItem.path)
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //
@@ -296,32 +308,44 @@ export default {
       } else {
         const { alias, path } = subItem
         if (alias === 'oa') return (window.location.href = `${path}?token=${getToken()}`)
-        this.$router.push(subItem.path)
+        this.$router.push({
+          path: subItem.path
+        })
       }
       // this.menuSidebar = false
       // debugger
     },
-    onSearchOpenChange(openKeys) {
-      const keys = this.menuList.map((e) => e.id)
-      const latestOpenKey = openKeys.find((key) => this.search.openKeys.indexOf(key) === -1)
-      if (keys.indexOf(latestOpenKey) === -1) {
-        this.search.openKeys = openKeys
-      } else {
-        this.search.openKeys = latestOpenKey ? [latestOpenKey] : []
-      }
-    },
-    onOpenChange(openKeys) {
-      const keys = this.userInfo.menuList.map((e) => e.id)
-      const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1)
-      if (keys.indexOf(latestOpenKey) === -1) {
-        this.openKeys = openKeys
-      } else {
-        this.openKeys = latestOpenKey ? [latestOpenKey] : []
-      }
-    },
     // 收藏
-    handleFavorites() {
-      this.noFavorites = !this.noFavorites
+    handleFavorites(item) {
+      menuCollect({ menuId: item.id })
+        .then(() => {
+          item.collection ? (item.collection = 0) : (item.collection = 1)
+          if (item.collection) {
+            this.userInfo.collectionList.push(item)
+          } else {
+            this.userInfo.collectionList.forEach((row, index) => {
+              if (row.id === item.id) {
+                this.userInfo.collectionList.splice(index, 1)
+              }
+            })
+          }
+          this.collectionHandle()
+          this.collections = [{ name: '我的收藏', id: 1, children: this.userInfo.collectionList }]
+        })
+        .catch(() => {})
+    },
+    collectionHandle() {
+      if (this.userInfo.collectionList && this.userInfo.collectionList.length) {
+        // 处理收藏
+        this.userInfo.collectionList.forEach((item) => {
+          this.userInfo.menuList.forEach((list) => {
+            if (list.id === item.superId) {
+              this.$set(item, 'parentSalias', list.alias)
+              this.$set(item, 'parentPath', list.path)
+            }
+          })
+        })
+      }
     },
     // 选中样式
     selectdStyle(v) {
@@ -640,6 +664,14 @@ export default {
         margin-left: 20px;
         margin-right: 20px;
       }
+    }
+    .close-side {
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      position: absolute;
+      top: 18px;
+      right: 14px;
     }
   }
 }
