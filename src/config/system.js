@@ -1,5 +1,9 @@
 /* eslint-disable */
-import { isDebug, isDev, isTest } from '@/config/util/env'
+import {
+  isDebug,
+  isDev,
+  isTest
+} from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -73,7 +77,10 @@ export const subSysTemConfig = {
   },
   docking: {
     name: 'docking',
-    url: `${prefixUrl}/docking/index.html`
+    url: `${prefixUrl}/docking/index.html`,
+    pages: {
+      editDocking: '/editDocking'
+    }
   },
   brand: {
     name: 'brand',
