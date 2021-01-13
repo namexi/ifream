@@ -88,11 +88,15 @@ export const subSysTemConfig = {
   },
   third: {
     name: 'third',
-    url: `${prefixUrl}/third/index.html`
+    url: `${prefixUrl}/third/index.html`,
+
   },
   contract: {
     name: 'contract',
-    url: `${prefixUrl}/contract/index.html`
+    url: `${prefixUrl}/contract/index.html`,
+    pages: {
+      contractCurdAdmin: '/contract/curdAdmin'
+    }
   },
   market: {
     name: 'market',

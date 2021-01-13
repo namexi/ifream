@@ -1,20 +1,23 @@
 // -------- Colors -----------
 @import "~ant-design-vue/dist/antd.less";
+@import "./var.less";
 
-body{
+body {
   background-color: #fafafa;
 }
-.ant-menu-item{
+
+.ant-menu-item {
   margin: 0 !important;
   padding: 0 !important;
 }
+
 // /deep/.ant-menu{
 //   /deep/.ant-menu-item .ant-menu-item-selected {
-   
+
 //  }
 // }
-.menu-container.fold{
-  .ant-menu.ant-menu-dark{
+.menu-container.fold {
+  .ant-menu.ant-menu-dark {
     .ant-menu-submenu {
       &.ant-menu-submenu-selected {
         .ant-menu-submenu-title {
@@ -25,47 +28,54 @@ body{
     }
   }
 }
-.ant-menu.ant-menu-dark{
+
+.ant-menu.ant-menu-dark {
   border-right: none;
   background-color: @color-menu;
-  .ant-menu-submenu{
-    &.ant-menu-submenu-active{
+
+  .ant-menu-submenu {
+    &.ant-menu-submenu-active {
       color: #fff;
     }
+
     // 二级菜单的容器
-    .ant-menu-sub{
-      background-color: @color-menu !important;
+    .ant-menu-sub {
+      background-color: @color-menu  !important;
       box-shadow: none;
     }
   }
 
 
-  .ant-menu-item{
+  .ant-menu-item {
     border-left: 2px transparent solid;
     box-sizing: border-box;
   }
-  .ant-menu-item-selected{
-    background-color: @color-menu-active !important;
+
+  .ant-menu-item-selected {
+    background-color: @color-menu-active  !important;
     border-left: 2px #fff solid;
   }
 }
+
 // 收起后的二级弹窗
-.ant-menu-submenu-popup{
-  .ant-menu-submenu-content{
-    background-color: @color-menu !important;
+.ant-menu-submenu-popup {
+  .ant-menu-submenu-content {
+    background-color: @color-menu  !important;
     max-height: 90vh;
     overflow: auto;
-    &::-webkit-scrollbar{
+
+    &::-webkit-scrollbar {
       display: none;
       width: 0;
     }
-    .ant-menu-item-selected{
-      background-color: @color-menu-active !important;
+
+    .ant-menu-item-selected {
+      background-color: @color-menu-active  !important;
     }
   }
 }
 
-.home-search-menu{
+.home-search-menu {
   background-color: transparent;
   color: #fff !important;
   border-radius: 34px;
@@ -73,23 +83,72 @@ body{
   display: flex;
   align-items: center;
   justify-content: center;
-  .ant-input-prefix{
+
+  .ant-input-prefix {
     color: #fff !important;
   }
-  .ant-input{
-    background-color: #84aaff;
+
+  .ant-input {
+    background-color: #6C9AFF;
     color: #fff;
-    border-color: #84aaff;
-    &:-ms-input-placeholder{
+    // border-color: #84aaff;
+    border: none;
+    border-radius: 0px;
+    border-bottom: 1px solid rgba(255, 255, 255, .5);
+
+    &:-ms-input-placeholder {
       font-size: 13px;
       color: #fff;
+      border: none;
+      border-bottom: 1px solid rgba(255, 255, 255, .5);
     }
-    &::-webkit-input-placeholder{
+
+    &::-webkit-input-placeholder {
       font-size: 13px;
       color: #fff;
+      // border-bottom: 1px solid rgba(255, 255, 255, .5);
+    }
+
+    &:focus {
+      border: none;
+      outline: medium;
+      box-shadow: none;
+      border-bottom: 1px solid rgba(255, 255, 255, .5);
+      color: #000;
+    }
+
+    &:hover {
+      border: none;
+      // border-color: rgba(255, 255, 255, .5);
+      border-bottom: 1px solid rgba(255, 255, 255, .5);
     }
   }
 }
+
 //.ant-menu-dark .ant-menu-inline.ant-menu-sub{
 //  background-color: @main-blue-color;class="ant-menu-item ant-menu-item-selected"ant-menu-submenu ant-menu-submenu-popup ant-menu-dark ant-menu-submenu-placement-rightTop
 //}ant-menu ant-menu-vertical ant-menu-sub ant-menu-submenu-content
+
+.ant-popover {
+  padding: 0;
+  // position: absolute;
+  top: 55px !important;
+
+  .ant-popover-content {
+    width: 426px;
+    background: #FFFFFF;
+
+    .ant-popover-arrow {
+      display: none;
+    }
+
+    .ant-popover-inner-content {
+      padding: 20px 0 0 0;
+    }
+  }
+}
+
+.ant-popover,
+.ant-popover-placement-bottom {
+  padding: 0 !important;
+}

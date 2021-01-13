@@ -12,3 +12,9 @@ export const wxBind = (userName, password, uid) => http.post('/common/open/login
 
 // 获取菜单和用户信息
 export const getUserInfo = () => http.get('/common/login/getUserInfo')
+
+// 菜单收藏/取消收藏
+export const menuCollect = (data) => http.post(`/common/menu/collection/add/cancel?menuId=${data.menuId}`, data)
+
+// 搜索菜单
+export const menuSearch = (data) => http.get('/common/menu/search',{ params: data })

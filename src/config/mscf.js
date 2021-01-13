@@ -23,6 +23,12 @@ message.config({
   duration: 6
 })
 
+// let {
+//   menuList
+// } = store.getters.getUser
+
+// console.log(menuList)
+
 function getPath(route, params) {
   let toPath = compile(route)
   return toPath(params)
@@ -41,6 +47,7 @@ mscf.on('toast.warning', (e) => {
 mscf.on('redirect', (e) => {
   const {
     target,
+    breadCrumbs,
     page,
     params,
     query
@@ -53,8 +60,14 @@ mscf.on('redirect', (e) => {
     return console.error(`Invalid target page: "${page}"!`)
   }
   targetPage = getPath(targetPage, params)
+  // store.dispatch('setBreadCrumbsSystem', {
+  //   target,
+  //   targetPage,
+  //   breadCrumbs
+  // })
+
   openSubSystem(target, targetPage, query)
-  store.dispatch('childrenjumpChange', true)
+  // store.dispatch('childrenjumpChange', true)
 })
 
 // 打开新窗口
@@ -73,8 +86,13 @@ mscf.on('openNewSystem', e => {
     return console.error(`Invalid target page: "${page}"!`)
   }
   targetPage = getPath(targetPage, params)
+  console.log(target, targetPage)
+  store.dispatch('setBreadCrumbsSystem', {
+    target,
+    targetPage
+  })
   openNewSystem(target, targetPage, query)
-  store.dispatch('childrenjumpChange', true)
+  // store.dispatch('childrenjumpChange', true)
 })
 
 const handler = _.debounce((e) => {
