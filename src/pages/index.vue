@@ -185,7 +185,9 @@ export default {
     ...mapGetters(['getLoading', 'getBreadCrumbs']),
     userInfo: {
       get() {
-        return store.state.userInfo
+        let userInfo = store.state.userInfo
+        userInfo.menuList = userInfo.menuList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
+        return userInfo
       },
       set(val) {
         store.commit('updateUser', val)
