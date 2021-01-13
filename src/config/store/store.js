@@ -1,7 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {
+  getUserInfo
+} from 'Service'
+import {
+  data
+} from 'autoprefixer'
 Vue.use(Vuex)
 
+Vue.data = null
 export default new Vuex.Store({
   state: {
     userInfo: null,
@@ -14,6 +21,14 @@ export default new Vuex.Store({
     breadCrumbsSystem: null
   },
   actions: {
+    async setUserInfo({
+      commit
+    }) {
+      let res = Vue.data = await getUserInfo()
+      console.log(res)
+      commit('updateUser', res)
+      return true
+    },
     setLoading({
       commit
     }, v) {
@@ -79,6 +94,13 @@ export default new Vuex.Store({
     getLoading: state => state.loading,
     getChildrenjump: state => state.childrenjump,
     getBreadCrumbs: state => state.breadCrumbs,
-    getBreadCrumbsSystem: state => state.breadCrumbsSystem
+    getBreadCrumbsSystem: state => state.breadCrumbsSystem,
+    // getUserInfo: () => {
+    //   return {
+    //     ...Vue.data,
+    //     menuList: Vue.data.menuList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
+    //   }
+
+    // }
   }
 })

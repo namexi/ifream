@@ -88,7 +88,7 @@ export default {
       },
       set(v) {
         console.log(v)
-        this.$emit('list', v)
+        // this.$emit('list', v)
       }
     }
   },

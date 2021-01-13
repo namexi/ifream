@@ -47,7 +47,6 @@ export default {
   watch: {
     $route(val, v) {
       let { menuList } = this.$store.state.userInfo
-
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       let { path, query } = val
@@ -128,6 +127,7 @@ export default {
       if (arr.length > 0 && obj) {
         findArr = arr.filter((item) => item.alias === obj.target)
         childArr = findArr[0].children
+
         findchild = childArr.filter((item) => obj.targetPage === `/frame${item.path}`)
         if (obj.breadCrumbs) {
           let len = obj.breadCrumbs.length
@@ -141,8 +141,10 @@ export default {
             ...findArr[0],
             children: [...findotherchild, ...findchild]
           })
+
           return
         }
+
         this.$store.commit('uploadbreadCrumbs', {
           ...findArr[0],
           children: [...findchild]

@@ -145,10 +145,11 @@ export default {
     this.userInfo.menuList.forEach((item, index) => {
       // 菜单还原
       if (item.id === menu.superId) {
+        console.log(item)
         this.menuChange(this.userInfo.menuList, item)
         if (item.children && item.children.length) {
           item.children.forEach((row, itemIndex) => {
-            if (row.id === menu.id) {
+            if (row.id === menu.id && row.display == 1) {
               let data = {
                 superItem: item,
                 subItem: row,
@@ -186,7 +187,7 @@ export default {
     userInfo: {
       get() {
         let userInfo = store.state.userInfo
-        userInfo.menuList = userInfo.menuList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
+        //userInfo.menuList = userInfo.menuList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
         return userInfo
       },
       set(val) {
@@ -263,7 +264,11 @@ export default {
       this.menuSearchActive = false
       if (item) {
         this.openKeys = item.id
-        this.menuItemList.push(item)
+        let el = item.children.filter((el) => el.display == 1)
+        this.menuItemList.push({
+          ...item,
+          children: el
+        })
       } else {
         this.openKeys = null
         this.menuSearchActive = true
