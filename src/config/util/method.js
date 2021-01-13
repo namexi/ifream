@@ -26,12 +26,14 @@ export function isNil(t) {
  */
 export function openSubSystem(name, url, query = {}) {
   const system = getSystem(name)
+  console.log(system)
   if (!system) return
   router.push({
     path: '/frame' + url,
     query: {
       ...query,
-      sysName: name
+      sysName: name,
+
     }
   })
 }

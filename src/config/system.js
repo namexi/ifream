@@ -5,13 +5,13 @@ import {
   isTest
 } from '@/config/util/env'
 
-const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new';
-const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug';
-const devDeployUrl = 'http://192.168.10.113:9085';
-console.log(process.env.NODE_ENV === 'debug');
-let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl;
-if (isTest) prefixUrl = debugDeployUrl;
-console.log(prefixUrl);
+const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
+const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
+const devDeployUrl = 'http://192.168.10.113:9085'
+console.log(process.env.NODE_ENV === 'debug')
+let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
+if (isTest) prefixUrl = debugDeployUrl
+console.log(prefixUrl)
 export const subSysTemConfig = {
   crm: {
     name: 'crm',
@@ -46,7 +46,9 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/finance/index.html`,
     pages: {
       contractDetail: '/business/contract/detail',
-      detailFinanceAdmin: '/business/contract/detailFinanceAdmin'
+      detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
+      merchantsEnter: '/contractDetails/merchantsEnter',
+      contractDescController: '/contract/desc/controller'
     }
   },
   administration: {
@@ -75,7 +77,10 @@ export const subSysTemConfig = {
   },
   docking: {
     name: 'docking',
-    url: `${prefixUrl}/docking/index.html`
+    url: `${prefixUrl}/docking/index.html`,
+    pages: {
+      editDocking: '/editDocking'
+    }
   },
   brand: {
     name: 'brand',
@@ -83,11 +88,15 @@ export const subSysTemConfig = {
   },
   third: {
     name: 'third',
-    url: `${prefixUrl}/third/index.html`
+    url: `${prefixUrl}/third/index.html`,
+
   },
   contract: {
     name: 'contract',
-    url: `${prefixUrl}/contract/index.html`
+    url: `${prefixUrl}/contract/index.html`,
+    pages: {
+      contractCurdAdmin: '/contract/curdAdmin'
+    }
   },
   market: {
     name: 'market',
@@ -112,9 +121,13 @@ export const subSysTemConfig = {
   dataCenter: {
     name: 'dataCenter',
     url: `${prefixUrl}/dataCenter/index.html`
+  },
+  knowledge: {
+    name: 'knowledge',
+    url: `${prefixUrl}/knowledge/index.html`
   }
-};
+}
 
 export function getSystem(name = '') {
-  return subSysTemConfig[name];
+  return subSysTemConfig[name]
 }

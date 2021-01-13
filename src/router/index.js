@@ -10,17 +10,15 @@ Router.prototype.push = function push(location) {
 
 const originalReplace = Router.prototype.replace;
 Router.prototype.replace = function replace(location) {
-    return originalReplace.call(this, location).catch(err => err);
+  return originalReplace.call(this, location).catch(err => err);
 }
 const router = new Router({
-  routes: [
-    {
+  routes: [{
       path: '/',
       name: 'home',
       redirect: 'welcome',
       component: (resolve) => require(['Pages/index'], resolve),
-      children: [
-        {
+      children: [{
           path: '/welcome',
           name: 'welcome',
           component: (resolve) => require(['Pages/welcome/welcome'], resolve)
@@ -47,7 +45,14 @@ const router = new Router({
       name: 'accountLogin',
       component: (resolve) => require(['Pages/login/accountLogin'], resolve)
     },
-    { path: '*', redirect: '/' }
+    {
+      path: '*',
+      redirect: '/'
+    }
   ]
+})
+router.beforeEach((to, from, next) => {
+  console.log(23222)
+  next()
 })
 export default router

@@ -9,10 +9,14 @@
         <a-breadcrumb separator="">
           <a-breadcrumb-item class="breadcrumb-home"> <img src="../assets/icon/icon_home@2x.png" alt="" @click="goHome" /> </a-breadcrumb-item>
           <a-breadcrumb-item class="breadcrumb-item">
-            <a href="/"><span> Application List </span></a>
+            <a
+              ><span> {{ getBreadCrumbs.name }} </span></a
+            >
           </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item">
-            <a href="/welcome"><span> An Application </span></a>
+          <a-breadcrumb-item class="breadcrumb-item" v-for="item in getBreadCrumbs.children" :key="item.id">
+            <a
+              ><span @click.self="breadcrumbClick(item)"> {{ item.name }} </span></a
+            >
           </a-breadcrumb-item>
         </a-breadcrumb>
       </div>
@@ -60,41 +64,51 @@
     <div class="container">
       <div class="side-bar" v-show="collapsed">
         <div class="menu-container no-scroll-bar">
-          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange(null)">
+          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange([], null)">
             <a-icon type="search" class="menu-icon" />
             <span class="menu-name">菜单搜索</span>
           </div>
-          <div v-for="superItem in userInfo.menuList" :key="superItem.id" :class="[superItem.isActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange(superItem)">
+          <div v-for="superItem in userInfo.menuList" :key="superItem.id" :class="[superItem.isActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange(userInfo.menuList, superItem)">
             <i :class="superItem.icon" class="menu-icon"></i>
             <span class="menu-name">{{ superItem.name }}</span>
           </div>
         </div>
       </div>
-      <div class="menu-sidebar" v-show="menuSidebar && collapsed">
-        <div class="search-container">
-          <a-input class="search-input home-search-menu" v-model="search.name" @change="onKeywordChange" placeholder="请输入关键词">
-            <a-icon slot="prefix" type="search" @click="onKeywordChange" />
-          </a-input>
-          <a-icon type="close" @click.native="menuSidebar = false" class="close-side" />
-        </div>
-        <div class="favorite-menu" v-if="menuSearchActive">
-          <menu-item v-model="collections" :handleClick="handleClick" :handleFavorites="handleFavorites"></menu-item>
-        </div>
-        <div class="favorite-menu">
-          <div class="favorite-menu-title">最近访问</div>
-          <div class="favorite-menu-conect">
-            <span> 请款报销列表 </span>
-            <div class="span" @click.stop="handleFavorites">
-              <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
-              <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
+      <div class="menu-sidebar-container" v-show="menuSidebar && collapsed">
+        <div class="menu-sidebar">
+          <div class="search-container">
+            <a-input class="search-input home-search-menu" v-model="search.name" @change="onKeywordChange" placeholder="请输入关键词">
+              <a-icon slot="prefix" type="search" @click="onKeywordChange" />
+            </a-input>
+            <a-icon type="close" @click.native="menuSidebar = false" class="close-side" />
+          </div>
+          <div class="favorite-menu" v-if="menuSearchActive">
+            <div class="favorite-menu-title">收藏菜单</div>
+            <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
+              <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
+                <span>{{ subItem.name }}</span>
+                <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+              </div>
             </div>
           </div>
+          <div class="favorite-menu">
+            <!-- <div class="favorite-menu-title">最近访问</div> -->
+            <!-- <div class="favorite-menu-conect">
+              <span> 请款报销列表 </span>
+              <div class="span" @click.stop="handleFavorites">
+                <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+                <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
+              </div>
+            </div> -->
+          </div>
+          <div class="search-results" v-if="search.name">
+            共找到<span>{{ menuItemList.length }}</span> 个与<span>{{ search.name }}</span> 相关的菜单
+          </div>
+          <menu-item v-model="menuItemList" :handleClick="handleClick" :handleFavorites="handleFavorites" :itemMenuValue="itemMenuValue"></menu-item>
         </div>
-        <div class="search-results" v-if="search.name">
-          共找到<span>{{ menuItemList.length }}</span> 个与<span>{{ search.name }}</span> 相关的菜单
-        </div>
-        <menu-item v-model="menuItemList" :handleClick="handleClick" :handleFavorites="handleFavorites" :itemMenuValue="itemMenuValue"></menu-item>
+        <div class="menu-sidebar-vacancy" v-if="menuSidebar" @click.stop="menuSidebar = false"></div>
       </div>
+
       <div class="main-container">
         <div class="main-router">
           <router-view ref="iframe" />
@@ -117,7 +131,6 @@ export default {
     const menus = this.userInfo.menuList || []
     const items = []
     this.collectionHandle()
-    this.collections = [{ name: '我的收藏', id: 1, children: this.userInfo.collectionList }]
     menus.forEach((e) => {
       items.push(...e.children)
     })
@@ -132,7 +145,7 @@ export default {
     this.userInfo.menuList.forEach((item, index) => {
       // 菜单还原
       if (item.id === menu.superId) {
-        this.menuChange(item)
+        this.menuChange(this.userInfo.menuList, item)
         if (item.children && item.children.length) {
           item.children.forEach((row, itemIndex) => {
             if (row.id === menu.id) {
@@ -153,7 +166,7 @@ export default {
     return {
       openKeys: null,
       defaultKeys: null,
-      collapsed: false,
+      collapsed: false, // 父菜单控制隐藏
       search: {
         name: '',
         collapsed: false
@@ -163,13 +176,13 @@ export default {
       noFavorites: true,
       collections: [],
       menuItemList: [],
-      menuSidebar: false,
+      menuSidebar: false, // 子菜单显示隐藏
       menuSearchActive: false, // 菜单搜索是否选中
       itemMenuValue: {} // 索引数据
     }
   },
   computed: {
-    ...mapGetters(['getLoading', 'getChildrenjump']),
+    ...mapGetters(['getLoading', 'getBreadCrumbs']),
     userInfo: {
       get() {
         return store.state.userInfo
@@ -234,44 +247,44 @@ export default {
         onOk: () => {
           http.defaults.headers['Authorization'] = ''
           this.userInfo = {}
+          this.$store.dispatch('clearBreadCrumbs')
           setToken('')
           this.$router.push('/login')
         },
         onCancel() {}
       })
     },
-    menuChange(item) {
+    menuChange(arr = [], item) {
       this.menuItemList = []
       this.search.name = ''
-      this.userInfo.menuList.forEach((row) => {
-        this.$set(row, 'isActive', false)
-      })
+      let seletArr = this.selectdStyle(arr, item)
       this.menuSearchActive = false
       if (item) {
-        this.$set(item, 'isActive', true)
         this.openKeys = item.id
         this.menuItemList.push(item)
       } else {
         this.openKeys = null
         this.menuSearchActive = true
       }
+      // this.$store.dispatch('setBreadCrumbs', item)
       this.menuSidebar = true
     },
-    onKeywordChange() {
-      return new Promise((resolve, reject) => {
-        let params = {
-          name: this.search.name,
-          menuId: this.openKeys
-        }
-        menuSearch(params)
-          .then((res) => {
-            this.menuItemList = res || []
-            resolve(res)
-          })
-          .catch((e) => {
-            reject(e)
-          })
-      })
+    onKeywordChange(v) {
+      if (!v)
+        return new Promise((resolve, reject) => {
+          let params = {
+            name: this.search.name,
+            menuId: this.openKeys
+          }
+          menuSearch(params)
+            .then((res) => {
+              this.menuItemList = res || []
+              resolve(res)
+            })
+            .catch((e) => {
+              reject(e)
+            })
+        })
     },
     goHome() {
       this.$router.push('/')
@@ -284,16 +297,19 @@ export default {
       // debugger
       // 再次点击
       // console.dir(event)
+      if (subItem.display == 0) return
       this.$store.dispatch('setLoading', true)
+      // this.$store.dispatch('setBreadCrumbs', {})
       this.$refs.iframe.loading = false
       // 当前系统路径
       const { alias = '', path = '' } = superItem
-      if (isUrl(path ? path : subItem.parentPath)) {
+      if (isUrl(path)) {
         this.$nextTick(() => {
           // 当前页面路径
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
-          openSubSystem(alias ? alias : subItem.parentSalias, subItem.path)
+          // this.$store.dispatch('setBreadCrumbs', { alias, path })
+          openSubSystem(alias, subItem.path)
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //
@@ -315,7 +331,7 @@ export default {
       // this.menuSidebar = false
       // debugger
     },
-    // 收藏
+    // 收藏功能
     handleFavorites(item) {
       menuCollect({ menuId: item.id })
         .then(() => {
@@ -330,26 +346,53 @@ export default {
             })
           }
           this.collectionHandle()
-          this.collections = [{ name: '我的收藏', id: 1, children: this.userInfo.collectionList }]
         })
         .catch(() => {})
+    },
+    // 收藏区域跳转
+    handleFavoritesClick({ superItem, subItem }, $event) {
+      let arr = this.selectdStyle(superItem.children, subItem)
+      this.handleClick({ superItem, subItem }, $event)
     },
     collectionHandle() {
       if (this.userInfo.collectionList && this.userInfo.collectionList.length) {
         // 处理收藏
-        this.userInfo.collectionList.forEach((item) => {
+        this.userInfo.collectionList.forEach((item, i) => {
           this.userInfo.menuList.forEach((list) => {
             if (list.id === item.superId) {
-              this.$set(item, 'parentSalias', list.alias)
-              this.$set(item, 'parentPath', list.path)
+              this.collections[i] = {
+                ...list,
+                children: [
+                  {
+                    ...item
+                  }
+                ]
+              }
             }
           })
         })
       }
     },
     // 选中样式
-    selectdStyle(v) {
-      console.log(v)
+    selectdStyle(arr = [], item) {
+      arr.forEach((row) => {
+        this.$set(row, 'isActive', false)
+      })
+      if (item) {
+        let index = arr.indexOf(item)
+        this.$set(arr[index], 'isActive', true)
+      }
+      return arr
+    },
+    mainClick() {
+      console.log(1111)
+    },
+    // 面包屑
+    breadcrumbClick(v) {
+      let pathCrumbs = v.path
+      let { path } = this.$route
+      if (path.indexOf(pathCrumbs) !== -1) return false
+      this.handleClick({ superItem: this.getBreadCrumbs, subItem: v })
     }
   },
   components: {
@@ -583,95 +626,112 @@ export default {
       height: 100%;
       width: 100%;
       box-sizing: border-box;
-      padding: @header-height+15px 15px 15px;
+      padding: 15px 15px 15px;
     }
   }
-  .menu-sidebar {
+  .menu-sidebar-container {
+    // position: relative;
     position: absolute;
-    width: 643px;
-    height: 100%;
     left: 200px;
-    background: #6c9aff;
-    padding: 25px 36px;
-    overflow: auto;
-    .favorite-menu {
-      color: #fff;
-      padding-bottom: 20px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      .favorite-menu-title {
-        font-size: 16px;
-        margin: 20px 0;
-      }
-      .favorite-menu-conect {
-        height: 20px;
-        line-height: 20px;
-      }
-      .span {
-        display: inline-block;
-      }
-      img {
-        width: 14px;
-        height: 14px;
-        margin-left: 20px;
-      }
-    }
-    .search-results {
-      font-size: 12px;
-      color: rgba(255, 255, 255, 0.5);
-      margin: 20px 0;
-      span {
-        // width: 18px;
-        height: 14px;
-        background: #ffffff;
-        opacity: 0.5;
-        color: #333333;
-        line-height: 14px;
-        padding: 0 5px;
-        margin: 0 3px;
-        font-weight: 500;
-      }
-    }
-    .serach-menu-title {
-      font-size: 16px;
-      font-weight: 500;
-      color: #ffffff;
-      margin: 20px 0 13px 0px;
-    }
-    .search-menu-child {
-      // padding: 20px;
-    }
-    .search-menu-child-title {
-      display: inline-block;
-      min-width: 166px;
-      line-height: 34px;
-      color: #ffffff;
-      padding: 0 0px 0 8px;
-      margin-right: 20px;
-      margin-bottom: 14px;
-      cursor: pointer;
-      .span {
-        display: none;
-      }
-      &:hover {
-        background: rgba(255, 255, 255, 0.1);
+    width: calc(100% - 200px);
+    height: 100%;
+    display: flex;
+    .menu-sidebar {
+      width: 643px;
+      height: 100%;
+      background: #6c9aff;
+      padding: 25px 36px;
+      overflow: auto;
+      .favorite-menu {
+        color: #fff;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        .favorite-menu-title {
+          font-size: 16px;
+          margin: 20px 0;
+        }
+        .favorite-menu-conect {
+          // height: 20px;
+          line-height: 34px;
+          min-width: 166px;
+          display: inline-block;
+          padding: 0 0 0 8px;
+          // margin-bottom: 14px;
+          cursor: pointer;
+          &:hover {
+            background: rgba(255, 255, 255, 0.1);
+          }
+        }
         .span {
           display: inline-block;
         }
+        img {
+          width: 14px;
+          height: 14px;
+          margin-left: 20px;
+        }
       }
-      img {
-        width: 14px;
-        height: 14px;
-        margin-left: 20px;
+      .search-results {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.5);
+        margin: 20px 0;
+        span {
+          // width: 18px;
+          height: 14px;
+          background: #ffffff;
+          opacity: 0.5;
+          color: #333333;
+          line-height: 14px;
+          padding: 0 5px;
+          margin: 0 3px;
+          font-weight: 500;
+        }
+      }
+      .serach-menu-title {
+        font-size: 16px;
+        font-weight: 500;
+        color: #ffffff;
+        margin: 20px 0 13px 0px;
+      }
+      .search-menu-child {
+        // padding: 20px;
+      }
+      .search-menu-child-title {
+        display: inline-block;
+        min-width: 166px;
+        line-height: 34px;
+        color: #ffffff;
+        padding: 0 0px 0 8px;
         margin-right: 20px;
+        margin-bottom: 14px;
+        cursor: pointer;
+        .span {
+          display: none;
+        }
+        &:hover {
+          background: rgba(255, 255, 255, 0.1);
+          .span {
+            display: inline-block;
+          }
+        }
+        img {
+          width: 14px;
+          height: 14px;
+          margin-left: 20px;
+          margin-right: 20px;
+        }
+      }
+      .close-side {
+        font-size: 16px;
+        color: #fff;
+        cursor: pointer;
+        position: absolute;
+        top: 18px;
+        // right: 14px;
       }
     }
-    .close-side {
-      font-size: 16px;
-      color: #fff;
-      cursor: pointer;
-      position: absolute;
-      top: 18px;
-      right: 14px;
+    .menu-sidebar-vacancy {
+      flex: 1;
     }
   }
 }

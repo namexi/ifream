@@ -8,6 +8,7 @@
           :key="subItem.id"
           :ref="menuItem(index, i)"
           class="search-menu-child-title"
+          v-if="subItem.display == 1"
           @click.self="exclusiveClick({ superItem, subItem, index: i, i: index }, $event)"
         >
           {{ subItem.name }}
@@ -55,6 +56,17 @@ export default {
       return `menuItem-${i}-${index}`
     },
     exclusiveClick({ superItem, subItem, index, i }, e) {
+      // i 是父级索引 index是
+      this.selectstyle(index, i)
+      this.$store.dispatch('setBreadCrumbs', {
+        superItem,
+        subItem,
+        index,
+        i
+      })
+      this.handleClick({ superItem, subItem }, e)
+    },
+    selectstyle(index, i) {
       let len = this.menuList.length
       let menuItemkey = `menuItem-${i}-${index}`
       for (let j = 0; j < len; j++) {
@@ -67,7 +79,6 @@ export default {
         }
       }
       this.$refs[menuItemkey][0].className = 'search-menu-child-title select-bg'
-      this.handleClick({ superItem, subItem }, e)
     }
   },
   computed: {
@@ -84,7 +95,7 @@ export default {
   mounted() {
     if (this.itemMenuValue && this.itemMenuValue.superItem) {
       let { superItem, subItem, index, i } = this.itemMenuValue
-      this.exclusiveClick({ superItem, subItem, index, i })
+      this.selectstyle(index, i)
     }
   }
 }
