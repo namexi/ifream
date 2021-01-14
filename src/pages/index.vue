@@ -84,7 +84,7 @@
           </div>
           <div class="favorite-menu" v-if="menuSearchActive">
             <div class="favorite-menu-title">收藏菜单</div>
-            <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
+            <div class="favorite-menu-conect" v-for="(superItem, index) in collections" :key="superItem.id">
               <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
                 <span>{{ subItem.name }}</span>
                 <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
@@ -285,6 +285,8 @@ export default {
           menuSearch(params)
             .then((res) => {
               this.menuItemList = res || []
+              console.log(this.menuItemList)
+              this.menuItemList = this.menuItemList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
               resolve(res)
             })
             .catch((e) => {
@@ -364,10 +366,12 @@ export default {
       if (this.userInfo.collectionList && this.userInfo.collectionList.length) {
         // 处理收藏
         this.userInfo.collectionList.forEach((item, i) => {
+          console.log(item.superId)
           this.userInfo.menuList.forEach((list) => {
             if (list.id === item.superId) {
               this.collections[i] = {
                 ...list,
+                id: item.id,
                 children: [
                   {
                     ...item
