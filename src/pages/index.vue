@@ -13,7 +13,7 @@
               ><span> {{ getBreadCrumbs.name }} </span></a
             >
           </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item" v-for="item in getBreadCrumbs.children" :key="item.id">
+          <a-breadcrumb-item class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
             <a
               ><span @click.self="breadcrumbClick(item)"> {{ item.name }} </span></a
             >
@@ -277,7 +277,8 @@ export default {
       this.menuSidebar = true
     },
     onKeywordChange(v) {
-      if (!v)
+      console.log(this.openKeys)
+      if (v)
         return new Promise((resolve, reject) => {
           let params = {
             name: this.search.name,

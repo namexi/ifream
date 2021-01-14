@@ -16,7 +16,10 @@ export default new Vuex.Store({
     childrenjump: false,
     breadCrumbs: {
       name: null,
-      children: []
+      children: [{
+        name: null,
+        id: null
+      }]
     },
     breadCrumbsSystem: null
   },

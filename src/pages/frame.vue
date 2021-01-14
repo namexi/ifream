@@ -125,26 +125,39 @@ export default {
       let findchild
       let childArr
       if (arr.length > 0 && obj) {
+        // 查找最后一级
         findArr = arr.filter((item) => item.alias === obj.target)
-        childArr = findArr[0].children
-
+        childArr = findArr[0].children || []
         findchild = childArr.filter((item) => obj.targetPage === `/frame${item.path}`)
         if (obj.breadCrumbs) {
+          // 查找上一级
           let len = obj.breadCrumbs.length
           let findotherchild = []
           if (len > 0) {
             for (let i = 0; i < len; i++) {
-              findotherchild.push(childArr.filter((item) => obj.breadCrumbs[i].indexOf(item.path) !== -1)[0])
+              //上一级
+              let newarr = childArr.filter((item) => obj.breadCrumbs[i].indexOf(item.path) !== -1)[0]
+              if (newarr) findotherchild.push(newarr)
+              // 上一级不存在 就去大菜单里面找吧
+              else {
+                let len = this.$store.state.userInfo.menuList.length
+                for (let j = 0; j < len; j++) {
+                  let item = this.$store.state.userInfo.menuList[j]
+                  let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
+                  if (newarr1) {
+                    findArr = [this.$store.state.userInfo.menuList[j]]
+                    findotherchild.push(newarr1)
+                  }
+                }
+              }
             }
           }
           this.$store.commit('uploadbreadCrumbs', {
             ...findArr[0],
             children: [...findotherchild, ...findchild]
           })
-
           return
         }
-
         this.$store.commit('uploadbreadCrumbs', {
           ...findArr[0],
           children: [...findchild]
@@ -153,7 +166,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['getLoading', 'getBreadCrumbsSystem'])
+    ...mapGetters(['getLoading', 'getBreadCrumbsSystem', 'getBreadCrumbs'])
     // loading(){
     //   return this.$store.getters.getLoading
     // }
