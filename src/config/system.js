@@ -19,7 +19,11 @@ export const subSysTemConfig = {
     pages: {
       addContractDetail: '/supplier/addContract/detail',
       supplierDetail: '/supplier/detail',
-      addContract: '/supplier/addContract'
+      addContract: '/supplier/addContract',
+      addPriceDate: '/crm/addPriceDate',
+      // myClientdetails: '/myClientdetails',
+      // browseCustomers: '/browseCustomers',
+      editCustomers: '/editCustomers'
     }
   },
   warehouse: {
