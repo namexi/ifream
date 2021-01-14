@@ -135,16 +135,23 @@ export default {
         childArr = findArr[0].children || []
         findchild = childArr.filter((item) => {
           let itemPath = item.path
-          let pathSystem = false
           if (itemPath.endsWith('/')) {
             itemPath = itemPath.slice(0, itemPath.length - 1)
           }
-          console.log(obj.targetPage)
-          if (obj.targetPage === `/frame${itemPath}`) return true
-          for (let k in pageSystem) {
-            if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return (pathSystem = true)
-          }
+          return obj.targetPage === `/frame${itemPath}`
         })
+        if (findchild.length === 0) {
+          findchild = childArr.filter((item) => {
+            let itemPath = item.path
+            console.log(pageSystem)
+            if (itemPath.endsWith('/')) {
+              itemPath = itemPath.slice(0, itemPath.length - 1)
+            }
+            for (let k in pageSystem) {
+              if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return true
+            }
+          })
+        }
         console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
