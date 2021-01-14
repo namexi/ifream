@@ -95,7 +95,8 @@ export const subSysTemConfig = {
     name: 'contract',
     url: `${prefixUrl}/contract/index.html`,
     pages: {
-      contractCurdAdmin: '/contract/curdAdmin'
+      contractCurdAdmin: '/contract/curdAdmin',
+      contractCurd: '/contract/curd'
     }
   },
   market: {
