@@ -47,7 +47,7 @@ export default new Vuex.Store({
     }, v) {
       // i 是父级索引 index是children索引
       let routes = {}
-      console.log(v)
+
       let {
         superItem,
         subItem,
@@ -103,7 +103,6 @@ export default new Vuex.Store({
     //     ...Vue.data,
     //     menuList: Vue.data.menuList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
     //   }
-
     // }
   }
 })

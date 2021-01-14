@@ -24,16 +24,21 @@ export function isNil(t) {
  * @param url 子系统路由地址
  * @param query 路由参数query
  */
-export function openSubSystem(name, url, query = {}) {
+export function openSubSystem(name, url, params, query = {}) {
   const system = getSystem(name)
   if (!system) return
+  let path = '/frame' + url
+  if (params && typeof params == 'object') {
+    for (let k in params) {
+      path += `/${params[k]}`
+    }
+  }
   router.push({
-    path: '/frame' + url,
+    path,
     query: {
       ...query,
       sysName: name,
-
-    }
+    },
   })
 }
 

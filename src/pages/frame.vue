@@ -28,6 +28,7 @@ export default {
   created() {
     this.loading = true
     this.parseRouter()
+    console.log(this.$route)
     let { menuList } = this.$store.state.userInfo
     let { path, query } = this.$route
     this.findBreadCrumbs(menuList, {
@@ -46,6 +47,7 @@ export default {
   },
   watch: {
     $route(val, v) {
+      console.log(val)
       let { menuList } = this.$store.state.userInfo
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
@@ -72,6 +74,7 @@ export default {
   // },
   methods: {
     parseRouter() {
+      // debugger
       const { sysName } = this.$route.query
       if (!sysName) return console.error('没有找到系统')
       const system = getSystem(sysName) // 从query上解析出要跳转到哪个系统
@@ -79,6 +82,7 @@ export default {
       this.system = system
       // this.loading = false
       this.getPath()
+      // debugger
     },
     getPath() {
       this.$nextTick(() => {
@@ -125,10 +129,23 @@ export default {
       let findchild
       let childArr
       if (arr.length > 0 && obj) {
+        let pageSystem = getSystem(obj.target).pages
         // 查找最后一级
         findArr = arr.filter((item) => item.alias === obj.target)
         childArr = findArr[0].children || []
-        findchild = childArr.filter((item) => obj.targetPage === `/frame${item.path}`)
+        findchild = childArr.filter((item) => {
+          let itemPath = item.path
+          let pathSystem = false
+          if (itemPath.endsWith('/')) {
+            itemPath = itemPath.slice(0, itemPath.length - 1)
+          }
+          console.log(obj.targetPage)
+          if (obj.targetPage === `/frame${itemPath}`) return true
+          for (let k in pageSystem) {
+            if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return (pathSystem = true)
+          }
+        })
+        console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
           let len = obj.breadCrumbs.length
