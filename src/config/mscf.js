@@ -84,7 +84,7 @@ mscf.on('openNewSystem', e => {
     target,
     targetPage
   })
-  openNewSystem(target, targetPage, params, query)
+  openNewSystem(target, targetPage, query)
   // store.dispatch('childrenjumpChange', true)
 })
 
