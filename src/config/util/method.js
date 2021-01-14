@@ -43,7 +43,6 @@ export function openSubSystem(name, url, params, query = {}) {
     path,
     query: {
       ...query,
-      params: newparams,
       sysName: name,
     },
   })
