@@ -139,12 +139,13 @@ export default {
           if (itemPath.endsWith('/')) {
             itemPath = itemPath.slice(0, itemPath.length - 1)
           }
+          console.log(obj.targetPage)
+          if (obj.targetPage === `/frame${itemPath}`) return true
           for (let k in pageSystem) {
-            pathSystem = pageSystem[k] === itemPath
+            if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return (pathSystem = true)
           }
-          return obj.targetPage === `/frame${itemPath}` || pathSystem
         })
-
+        console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
           let len = obj.breadCrumbs.length
