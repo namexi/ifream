@@ -87,11 +87,10 @@
             <div class="menu-collect-box">
               <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
                 <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
-                  <a-tooltip placement="top" class="tool-box">
-                    <template slot="title"> {{ subItem.name }} </template>
-                    <span class="menu-title">{{ subItem.name }}</span>
+                  <div class="tool-box">
+                    <span class="menu-title" :title="subItem.name">{{ subItem.name }}</span>
                     <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
-                  </a-tooltip>
+                  </div>
                 </div>
               </div>
             </div>
@@ -156,17 +155,21 @@ export default {
       if (item.id === menu.superId) {
         this.menuChange(this.userInfo.menuList, item)
         if (item.children && item.children.length) {
-          item.children.forEach((row, itemIndex) => {
-            if (row.id === menu.id && row.display == 1) {
-              let data = {
-                superItem: item,
-                subItem: row,
-                index: itemIndex,
-                i: 0
+          item.children
+            .filter((child) => {
+              return child.display == 1
+            })
+            .forEach((row, itemIndex) => {
+              if (row.id === menu.id) {
+                let data = {
+                  superItem: item,
+                  subItem: row,
+                  index: itemIndex,
+                  i: 0
+                }
+                this.itemMenuValue = data
               }
-              this.itemMenuValue = data
-            }
-          })
+            })
         }
       }
     })
