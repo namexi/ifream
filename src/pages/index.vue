@@ -80,14 +80,19 @@
             <a-input class="search-input home-search-menu" v-model="search.name" @change="onKeywordChange" placeholder="请输入关键词">
               <a-icon slot="prefix" type="search" @click="onKeywordChange" />
             </a-input>
-            <a-icon type="close" @click.native="menuSidebar = false" class="close-side" />
+            <a-icon type="close" @click.native="collapsed = false" class="close-side" />
           </div>
           <div class="favorite-menu" v-if="menuSearchActive">
             <div class="favorite-menu-title">收藏菜单</div>
-            <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
-              <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
-                <span>{{ subItem.name }}</span>
-                <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+            <div class="menu-collect-box">
+              <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
+                <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
+                  <a-tooltip placement="top" class="tool-box">
+                    <template slot="title"> {{ subItem.name }} </template>
+                    <span class="menu-title">{{ subItem.name }}</span>
+                    <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+                  </a-tooltip>
+                </div>
               </div>
             </div>
           </div>
@@ -106,7 +111,7 @@
           </div>
           <menu-item v-model="menuItemList" :handleClick="handleClick" :handleFavorites="handleFavorites" :itemMenuValue="itemMenuValue"></menu-item>
         </div>
-        <div class="menu-sidebar-vacancy" v-if="menuSidebar" @click.stop="menuSidebar = false"></div>
+        <div class="menu-sidebar-vacancy" v-if="menuSidebar" @click.stop="collapsed = false"></div>
       </div>
 
       <div class="main-container">
@@ -139,7 +144,11 @@ export default {
       currentPath = currentPath.slice(6)
     }
     const menu = items.find((e) => e.path === currentPath)
-    if (!menu) return
+    if (!menu) {
+      this.menuSearchActive = true //默认选中菜单
+      this.menuSidebar = true
+      return
+    }
     this.openKeys = menu.superId
     this.defaultKeys = menu.id
     this.userInfo.menuList.forEach((item, index) => {
@@ -285,7 +294,6 @@ export default {
           menuSearch(params)
             .then((res) => {
               this.menuItemList = res || []
-              console.log(this.menuItemList)
               this.menuItemList = this.menuItemList.filter((item) => (item.children = item.children.filter((el) => el.display == 1)))
               resolve(res)
             })
@@ -336,7 +344,7 @@ export default {
           path: subItem.path
         })
       }
-      // this.menuSidebar = false
+      this.collapsed = false
       // debugger
     },
     // 收藏功能
@@ -366,7 +374,6 @@ export default {
       if (this.userInfo.collectionList && this.userInfo.collectionList.length) {
         // 处理收藏
         this.userInfo.collectionList.forEach((item, i) => {
-          console.log(item.superId)
           this.userInfo.menuList.forEach((list) => {
             if (list.id === item.superId) {
               this.collections[i] = {
@@ -571,6 +578,7 @@ export default {
   }
   // display: flex;
   .side-bar {
+    position: fixed;
     width: 200px;
     flex-shrink: 0;
     height: 100%;
@@ -661,12 +669,26 @@ export default {
           font-size: 16px;
           margin: 20px 0;
         }
+        .menu-collect-box {
+          display: flex;
+          flex-wrap: wrap;
+          .tool-box {
+            display: flex;
+            align-items: center;
+          }
+          .menu-title {
+            flex: 1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
         .favorite-menu-conect {
           // height: 20px;
           line-height: 34px;
-          min-width: 166px;
+          width: 29%;
           display: inline-block;
-          padding: 0 0 0 8px;
+          padding: 0 8px;
           // margin-bottom: 14px;
           cursor: pointer;
           &:hover {
