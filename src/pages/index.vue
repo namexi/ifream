@@ -84,7 +84,7 @@
           </div>
           <div class="favorite-menu" v-if="menuSearchActive">
             <div class="favorite-menu-title">收藏菜单</div>
-            <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
+            <div class="favorite-menu-conect" v-for="(superItem, index) in collections" :key="index">
               <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
                 <span>{{ subItem.name }}</span>
                 <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
@@ -286,6 +286,8 @@ export default {
           menuSearch(params)
             .then((res) => {
               this.menuItemList = res || []
+              console.log(res)
+
               resolve(res)
             })
             .catch((e) => {

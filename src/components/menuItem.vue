@@ -134,15 +134,16 @@ export default {
   margin-bottom: 14px;
   cursor: pointer;
   .span {
-    display: none;
+    display: inline-block;
   }
   &:hover {
     background: rgba(255, 255, 255, 0.1);
-    .span {
-      display: inline-block;
+    img {
+      visibility: visible;
     }
   }
   img {
+    visibility: hidden;
     width: 14px;
     height: 14px;
     margin-left: 20px;
