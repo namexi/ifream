@@ -68,7 +68,10 @@ export const subSysTemConfig = {
   },
   customer: {
     name: 'customer',
-    url: `${prefixUrl}/customer/index.html`
+    url: `${prefixUrl}/customer/index.html`,
+    pages: {
+      questionCategory: '/workOrder/questionCategory'
+    }
   },
   product: {
     name: 'product',

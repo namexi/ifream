@@ -84,7 +84,7 @@
           </div>
           <div class="favorite-menu" v-if="menuSearchActive">
             <div class="favorite-menu-title">收藏菜单</div>
-            <div class="favorite-menu-conect" v-for="(superItem, index) in collections" :key="superItem.id">
+            <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
               <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
                 <span>{{ subItem.name }}</span>
                 <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
@@ -399,6 +399,7 @@ export default {
     },
     // 面包屑
     breadcrumbClick(v) {
+      console.log(v)
       let pathCrumbs = v.path
       let { path } = this.$route
       if (path.indexOf(pathCrumbs) !== -1) return false

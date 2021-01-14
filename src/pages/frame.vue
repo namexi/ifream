@@ -143,7 +143,6 @@ export default {
         if (findchild.length === 0) {
           findchild = childArr.filter((item) => {
             let itemPath = item.path
-            console.log(pageSystem)
             if (itemPath.endsWith('/')) {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
@@ -151,8 +150,8 @@ export default {
               if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return true
             }
           })
+          console.log(findchild)
         }
-        console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
           let len = obj.breadCrumbs.length
