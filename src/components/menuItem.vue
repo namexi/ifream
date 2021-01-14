@@ -11,14 +11,13 @@
           v-if="subItem.display == 1"
           @click="exclusiveClick({ superItem, subItem, index: i, i: index }, $event)"
         >
-          <a-tooltip placement="top" class="tool-box">
-            <template slot="title"> {{ subItem.name }} </template>
-            <div class="menu-title">{{ subItem.name }}</div>
+          <div class="tool-box">
+            <div class="menu-title" :title="subItem.name">{{ subItem.name }}</div>
             <div class="span" @click.stop="handleFavorites(subItem)">
               <img v-if="subItem.collection" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
               <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
             </div>
-          </a-tooltip>
+          </div>
         </div>
       </div>
     </div>
