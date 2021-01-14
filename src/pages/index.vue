@@ -590,6 +590,7 @@ export default {
     background-color: @color-menu;
     color: #fff;
     transition: width 0.1s ease-out;
+    padding-bottom: 50px;
     .logo-container {
       cursor: pointer;
       height: @header-height;
