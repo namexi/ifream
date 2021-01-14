@@ -64,7 +64,7 @@
     <div class="container">
       <div class="side-bar" v-show="collapsed">
         <div class="menu-container no-scroll-bar">
-          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange([], null)">
+          <div :class="[menuSearchActive ? 'menu-selected' : '', 'menu-item-list']" @click="menuChange(userInfo.menuList, null)">
             <a-icon type="search" class="menu-icon" />
             <span class="menu-name">菜单搜索</span>
           </div>
@@ -270,7 +270,7 @@ export default {
       this.menuSidebar = true
     },
     onKeywordChange(v) {
-      if (!v)
+      if (v)
         return new Promise((resolve, reject) => {
           let params = {
             name: this.search.name,
