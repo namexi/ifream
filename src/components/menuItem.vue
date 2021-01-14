@@ -9,13 +9,16 @@
           :ref="menuItem(index, i)"
           class="search-menu-child-title"
           v-if="subItem.display == 1"
-          @click.self="exclusiveClick({ superItem, subItem, index: i, i: index }, $event)"
+          @click="exclusiveClick({ superItem, subItem, index: i, i: index }, $event)"
         >
-          {{ subItem.name }}
-          <div class="span" @click.stop="handleFavorites(subItem)">
-            <img v-if="subItem.collection" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
-            <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
-          </div>
+          <a-tooltip placement="top" class="tool-box">
+            <template slot="title"> {{ subItem.name }} </template>
+            <div class="menu-title">{{ subItem.name }}</div>
+            <div class="span" @click.stop="handleFavorites(subItem)">
+              <img v-if="subItem.collection" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+              <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
+            </div>
+          </a-tooltip>
         </div>
       </div>
     </div>
@@ -124,14 +127,28 @@ export default {
   color: #ffffff;
   margin: 20px 0 13px 0px;
 }
+.search-menu-child {
+  display: flex;
+  flex-wrap: wrap;
+  .tool-box {
+    display: flex;
+    align-items: center;
+  }
+  .menu-title {
+    flex: 1;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
 .search-menu-child-title {
   display: inline-block;
-  min-width: 166px;
   line-height: 34px;
   color: #ffffff;
   padding: 0 0px 0 8px;
   margin-right: 20px;
   margin-bottom: 14px;
+  width: 29%;
   cursor: pointer;
   .span {
     display: inline-block;

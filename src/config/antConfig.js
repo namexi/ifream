@@ -9,7 +9,8 @@ import {
   Spin,
   Modal,
   Popover,
-  Breadcrumb
+  Breadcrumb,
+  Tooltip
 } from 'ant-design-vue'
 import antDirective from 'ant-design-vue/lib/_util/antDirective'
 import Vue from 'vue'
@@ -32,3 +33,4 @@ Vue.component(Spin.name, Spin)
 Vue.component(Popover.name, Popover)
 Vue.component(Breadcrumb.name, Breadcrumb)
 Vue.component(Breadcrumb.Item.name, Breadcrumb.Item)
+Vue.component(Tooltip.name, Tooltip)
