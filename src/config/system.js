@@ -19,7 +19,11 @@ export const subSysTemConfig = {
     pages: {
       addContractDetail: '/supplier/addContract/detail',
       supplierDetail: '/supplier/detail',
-      addContract: '/supplier/addContract'
+      addContract: '/supplier/addContract',
+      addPriceDate: '/crm/addPriceDate',
+      // myClientdetails: '/myClientdetails',
+      // browseCustomers: '/browseCustomers',
+      editCustomers: '/editCustomers'
     }
   },
   warehouse: {
@@ -95,7 +99,8 @@ export const subSysTemConfig = {
     name: 'contract',
     url: `${prefixUrl}/contract/index.html`,
     pages: {
-      contractCurdAdmin: '/contract/curdAdmin'
+      contractCurdAdmin: '/contract/curdAdmin',
+      contractCurd: '/contract/curd'
     }
   },
   market: {
