@@ -145,7 +145,6 @@ export default {
     this.userInfo.menuList.forEach((item, index) => {
       // 菜单还原
       if (item.id === menu.superId) {
-        console.log(item)
         this.menuChange(this.userInfo.menuList, item)
         if (item.children && item.children.length) {
           item.children.forEach((row, itemIndex) => {

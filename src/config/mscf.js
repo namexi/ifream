@@ -60,13 +60,7 @@ mscf.on('redirect', (e) => {
     return console.error(`Invalid target page: "${page}"!`)
   }
   targetPage = getPath(targetPage, params)
-  store.dispatch('setBreadCrumbsSystem', {
-    target,
-    targetPage,
-    breadCrumbs
-  })
-  openSubSystem(target, targetPage, query)
-  // store.dispatch('childrenjumpChange', true)
+  openSubSystem(target, targetPage, params, query)
 })
 
 // 打开新窗口
@@ -90,7 +84,7 @@ mscf.on('openNewSystem', e => {
     target,
     targetPage
   })
-  openNewSystem(target, targetPage, query)
+  openNewSystem(target, targetPage, params, query)
   // store.dispatch('childrenjumpChange', true)
 })
 
