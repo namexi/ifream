@@ -27,7 +27,8 @@ export const subSysTemConfig = {
       browseCustomersSea: '/browseCustomersSea',
       myClientdetailsSale: '/myClientdetailsSale',
       temporaryEdit: '/temporaryEdit',
-      editCustomersSale: '/editCustomersSale'
+      editCustomersSale: '/editCustomersSale',
+      myClientdetails: '/myClientdetails'
     }
   },
   warehouse: {
