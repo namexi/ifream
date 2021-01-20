@@ -140,19 +140,27 @@ export default {
           if (itemPath.endsWith('/')) {
             itemPath = itemPath.slice(0, itemPath.length - 1)
           }
-          return obj.targetPage === `/frame${itemPath}`
+          return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
         })
-        if (findchild.length === 0) {
-          findchild = childArr.filter((item) => {
-            let itemPath = item.path
-            if (itemPath.endsWith('/')) {
-              itemPath = itemPath.slice(0, itemPath.length - 1)
-            }
-            for (let k in pageSystem) {
-              if (`${pageSystem[k]}/`.indexOf(`${itemPath}/`) !== -1 && obj.targetPage.indexOf(`${pageSystem[k]}/`) !== -1) return true
-            }
-          })
-        }
+        findchild = [
+          {
+            ...findchild[0],
+            path: obj.targetPage
+          }
+        ]
+        // if (findchild.length === 0) {
+        //   findchild = childArr.filter((item) => {
+        //     let itemPath = item.path
+        //     if (itemPath.endsWith('/')) {
+        //       itemPath = itemPath.slice(0, itemPath.length - 1)
+        //     }
+        //     return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
+        //   })
+        //   //  for (let k in pageSystem) {
+        //   //     console.log(itemPath, pageSystem[k])
+        //   //     if (pageSystem[k] === itemPath) return true
+        //   //   }
+        // }
         console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
