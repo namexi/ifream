@@ -53,7 +53,7 @@ mscf.on('redirect', (e) => {
     query
   } = e.data
   const system = getSystem(target)
-  if (system) return console.error(`Unregistered system: "${target}"!`)
+  if (!system) return console.error(`Unregistered system: "${target}"!`)
   store.dispatch('setLoading', false)
   let targetPage = system.pages[page]
   if (!targetPage) {
