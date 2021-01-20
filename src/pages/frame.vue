@@ -149,7 +149,7 @@ export default {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
             for (let k in pageSystem) {
-              if (pageSystem[k] === itemPath && obj.targetPage.indexOf(`${itemPath}/`) !== -1) return true
+              if (`${pageSystem[k]}/`.indexOf(`${itemPath}/`) !== -1 && obj.targetPage.indexOf(`${pageSystem[k]}/`) !== -1) return true
             }
           })
         }
