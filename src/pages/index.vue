@@ -316,7 +316,7 @@ export default {
       // debugger
       // 再次点击
       // console.dir(event)
-      if (subItem.display == 0) return
+      // if (subItem.display == 0) return
       this.$store.dispatch('setLoading', true)
       // this.$store.dispatch('setBreadCrumbs', {})
       this.$refs.iframe.loading = false
@@ -328,7 +328,7 @@ export default {
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
           // this.$store.dispatch('setBreadCrumbs', { alias, path })
-          openSubSystem(alias, subItem.path)
+          openSubSystem(alias, subItem.path, null, subItem.query)
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //
@@ -409,10 +409,29 @@ export default {
     },
     // 面包屑
     breadcrumbClick(v) {
-      console.log(v)
       let pathCrumbs = v.path
       let { path } = this.$route
+      let { children } = this.getBreadCrumbs
       if (path.indexOf(pathCrumbs) !== -1) return false
+      //保留点击之前导航层级数
+      let i = children.indexOf(v)
+      let len = children.length
+      console.log(i)
+      let priorToDifference = len - (i + 1)
+      if (priorToDifference >= 0 && i !== 0) {
+        let newchild = children.slice(0, priorToDifference)
+        let breadCrumbs = ''
+        for (let i = 0; i < newchild.length; i++) {
+          let el = newchild[i]
+          breadCrumbs += `,${el.path}`
+        }
+        v = {
+          ...v,
+          query: {
+            breadCrumbs
+          }
+        }
+      }
       this.handleClick({ superItem: this.getBreadCrumbs, subItem: v })
     }
   },

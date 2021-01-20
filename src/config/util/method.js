@@ -26,17 +26,17 @@ export function isNil(t) {
  */
 export function openSubSystem(name, url, params, query = {}) {
   const system = getSystem(name)
-
   if (!system) return
   const systemPage = system.pages
   console.log(systemPage)
   let path = '/frame' + url
-  let newparams = ''
+  // let newparams = ''
   if (params && typeof params == 'object') {
     for (let k in params) {
-      path += `/${params[k]}`,
-        newparams += params[k] + ','
+      path += `/${params[k]}`
+      // newparams += params[k] + ','
     }
+    console.log(query, path)
     // system.pages[]
   }
   router.push({

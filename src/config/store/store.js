@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import {
-  getUserInfo
+  getUserInfo,
+  menuAllList
 } from 'Service'
 import {
   data
@@ -11,6 +12,7 @@ Vue.use(Vuex)
 Vue.data = null
 export default new Vuex.Store({
   state: {
+    menuListAll: null,
     userInfo: null,
     loading: true,
     childrenjump: false,
@@ -74,6 +76,16 @@ export default new Vuex.Store({
         name: null,
         children: []
       }, )
+    },
+    async getMenuListAll({
+      commit
+    }) {
+      let data = await menuAllList()
+      if (data) {
+        commit('updatemenuListAll', data)
+        return data
+      }
+      return console.log('菜单接口出错了')
     }
   },
   mutations: {
@@ -91,6 +103,9 @@ export default new Vuex.Store({
     },
     updateBreadCrumbsSystem(state, v) {
       state.breadCrumbsSystem = v
+    },
+    updatemenuListAll(state, data) {
+      state.menuListAll = data
     }
   },
   getters: {

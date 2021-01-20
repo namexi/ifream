@@ -25,13 +25,15 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'frame',
   components: { Page404 },
-  created() {
+  async created() {
     this.loading = true
     this.parseRouter()
+    let data = await this.$store.dispatch('getMenuListAll')
+    console.log(data)
     console.log(this.$route)
     let { menuList } = this.$store.state.userInfo
     let { path, query } = this.$route
-    this.findBreadCrumbs(menuList, {
+    this.findBreadCrumbs(data, {
       target: query.sysName,
       targetPage: path,
       breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null
@@ -48,11 +50,11 @@ export default {
   watch: {
     $route(val, v) {
       console.log(val)
-      let { menuList } = this.$store.state.userInfo
+      let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       let { path, query } = val
-      this.findBreadCrumbs(menuList, {
+      this.findBreadCrumbs(menuListAll, {
         target: query.sysName,
         targetPage: path,
         breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null
@@ -150,7 +152,6 @@ export default {
               if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return true
             }
           })
-          console.log(findchild)
         }
         if (obj.breadCrumbs) {
           // 查找上一级
@@ -160,21 +161,26 @@ export default {
             for (let i = 0; i < len; i++) {
               //上一级
               let newarr = childArr.filter((item) => obj.breadCrumbs[i].indexOf(item.path) !== -1)[0]
-              if (newarr) findotherchild.push(newarr)
+              if (newarr)
+                findotherchild.push({
+                  ...newarr,
+                  path: obj.breadCrumbs[i]
+                })
               // 上一级不存在 就去大菜单里面找吧
               else {
-                let len = this.$store.state.userInfo.menuList.length
+                let len = arr.length
                 for (let j = 0; j < len; j++) {
-                  let item = this.$store.state.userInfo.menuList[j]
+                  let item = arr[j]
                   let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
                   if (newarr1) {
-                    findArr = [this.$store.state.userInfo.menuList[j]]
+                    findArr = [arr[j]]
                     findotherchild.push(newarr1)
                   }
                 }
               }
             }
           }
+
           this.$store.commit('uploadbreadCrumbs', {
             ...findArr[0],
             children: [...findotherchild, ...findchild]

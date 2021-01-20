@@ -21,9 +21,13 @@ export const subSysTemConfig = {
       supplierDetail: '/supplier/detail',
       addContract: '/supplier/addContract',
       addPriceDate: '/crm/addPriceDate',
-      // myClientdetails: '/myClientdetails',
-      // browseCustomers: '/browseCustomers',
-      editCustomers: '/editCustomers'
+      myClientdetails: '/myClientdetails',
+      browseCustomers: '/browseCustomers',
+      editCustomers: '/editCustomers',
+      browseCustomersSea: '/browseCustomersSea',
+      myClientdetailsSale: '/myClientdetailsSale',
+      temporaryEdit: '/temporaryEdit',
+      editCustomersSale: '/editCustomersSale'
     }
   },
   warehouse: {

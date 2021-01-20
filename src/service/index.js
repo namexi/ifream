@@ -1,14 +1,26 @@
-import { http } from '@/config/util'
+import {
+  http
+} from '@/config/util'
 
 // todo check this api
 export const getAuthAppId = (authType = 1) => http.get('/common/open/login/getAppId?platform=' + authType)
 
 // 账号密码登录
-export const accountLogin = (userName, password) => http.post('/common/open/login/loginByPassword', { phoneNumber: userName, password })
+export const accountLogin = (userName, password) => http.post('/common/open/login/loginByPassword', {
+  phoneNumber: userName,
+  password
+})
 
-export const loginWithCode = (code, platform) => http.post('/common/open/login/wechat/login', { code, platform })
+export const loginWithCode = (code, platform) => http.post('/common/open/login/wechat/login', {
+  code,
+  platform
+})
 
-export const wxBind = (userName, password, uid) => http.post('/common/open/login/wechat/loginByToken', { phoneNumber: userName, password, uid })
+export const wxBind = (userName, password, uid) => http.post('/common/open/login/wechat/loginByToken', {
+  phoneNumber: userName,
+  password,
+  uid
+})
 
 // 获取菜单和用户信息
 export const getUserInfo = () => http.get('/common/login/getUserInfo')
@@ -17,4 +29,9 @@ export const getUserInfo = () => http.get('/common/login/getUserInfo')
 export const menuCollect = (data) => http.post(`/common/menu/collection/add/cancel?menuId=${data.menuId}`, data)
 
 // 搜索菜单
-export const menuSearch = (data) => http.get('/common/menu/search',{ params: data })
+export const menuSearch = (data) => http.get('/common/menu/search', {
+  params: data
+})
+
+// 获取所有菜单
+export const menuAllList = () => http.get('/common/open/menu/all')
