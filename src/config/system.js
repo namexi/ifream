@@ -98,7 +98,7 @@ export const subSysTemConfig = {
       editDocking: '/editDocking',
       productDetail: '/product/detail',
       productId: '/product',
-      product: '/product'
+      product: '/productProduct'
     }
   },
   brand: {
