@@ -149,10 +149,11 @@ export default {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
             for (let k in pageSystem) {
-              if (pageSystem[k] === itemPath && obj.targetPage.indexOf(itemPath) !== -1) return true
+              if (pageSystem[k] === itemPath && obj.targetPage.indexOf(`${itemPath}/`) !== -1) return true
             }
           })
         }
+        console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
           let len = obj.breadCrumbs.length
