@@ -148,19 +148,6 @@ export default {
             path: obj.targetPage
           }
         ]
-        // if (findchild.length === 0) {
-        //   findchild = childArr.filter((item) => {
-        //     let itemPath = item.path
-        //     if (itemPath.endsWith('/')) {
-        //       itemPath = itemPath.slice(0, itemPath.length - 1)
-        //     }
-        //     return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
-        //   })
-        //   //  for (let k in pageSystem) {
-        //   //     console.log(itemPath, pageSystem[k])
-        //   //     if (pageSystem[k] === itemPath) return true
-        //   //   }
-        // }
         console.log(findchild)
         if (obj.breadCrumbs) {
           // 查找上一级
@@ -182,6 +169,11 @@ export default {
                   let item = arr[j]
                   let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
                   if (newarr1) {
+                    newarr1 = {
+                      ...newarr1,
+                      path: obj.breadCrumbs[i]
+                    }
+                    console.log(newarr1)
                     findArr = [arr[j]]
                     findotherchild.push(newarr1)
                   }
