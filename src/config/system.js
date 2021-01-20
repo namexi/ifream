@@ -95,7 +95,10 @@ export const subSysTemConfig = {
     name: 'docking',
     url: `${prefixUrl}/docking/index.html`,
     pages: {
-      editDocking: '/editDocking'
+      editDocking: '/editDocking',
+      productDetail: '/product/detail',
+      productId: '/product',
+      product: '/product'
     }
   },
   brand: {

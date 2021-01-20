@@ -414,7 +414,6 @@ export default {
       let { path } = this.$route
       let { children } = this.getBreadCrumbs
       if (path === pathCrumbs) return false
-      console.log(111)
       //保留点击之前导航层级数
       let i = children.indexOf(v)
       let len = children.length
