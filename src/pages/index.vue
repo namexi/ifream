@@ -708,7 +708,7 @@ export default {
         }
         .menu-collect-box {
           display: grid;
-          grid-template-columns: repeat(auto-fill, 31.5%);
+          grid-template-columns: repeat(auto-fill, 31.2%);
           grid-row-gap: 14px;
           grid-column-gap: 20px;
           .tool-box {
