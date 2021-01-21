@@ -554,7 +554,7 @@ export default {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.08);
     text-align: center;
     justify-content: space-between;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid rgba(238, 238, 238, 0.6);
     .title-left {
       height: 50px;
       width: 50px;
