@@ -61,7 +61,8 @@ export const subSysTemConfig = {
       contractDetail: '/business/contract/detail',
       detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
       merchantsEnter: '/contractDetails/merchantsEnter',
-      contractDescController: '/contract/desc/controller'
+      contractDescController: '/contract/desc/controller',
+      ldRule: "/leaveReceipt/ldRule"
     }
   },
   administration: {
