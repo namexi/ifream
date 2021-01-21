@@ -80,7 +80,8 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/customer/index.html`,
     pages: {
       questionCategory: '/workOrder/questionCategory',
-      poolDetail: '/customWorkforce/orderPool/poolDetail'
+      poolDetail: '/customWorkforce/orderPool/poolDetail',
+      reminder: '/customWorkforce/oneCustom/reminder'
     }
   },
   product: {
