@@ -99,7 +99,10 @@ export const subSysTemConfig = {
       editDocking: '/editDocking',
       productDetail: '/product/detail',
       productId: '/product',
-      product: '/productProduct'
+      product: '/productProduct',
+      writer: '/writer',
+      bindModelDetail: '/dockingTables/bindModel/bindModelDetail',
+      createModel: '/dockingTables/bindModel/createModel'
     }
   },
   brand: {
