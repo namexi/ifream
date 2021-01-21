@@ -127,8 +127,10 @@ export default {
   margin: 20px 0 13px 0px;
 }
 .search-menu-child {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 31.5%);
+  grid-row-gap: 14px;
+  grid-column-gap: 20px;
   .tool-box {
     display: flex;
     align-items: center;
@@ -145,9 +147,7 @@ export default {
   line-height: 34px;
   color: #ffffff;
   padding: 0 0px 0 8px;
-  margin-right: 20px;
-  margin-bottom: 14px;
-  width: 29%;
+
   cursor: pointer;
   .span {
     display: inline-block;
