@@ -36,7 +36,7 @@ export function openSubSystem(name, url, params, query = {}) {
       path += `/${params[k]}`
       // newparams += params[k] + ','
     }
-    console.log(query, path)
+    // console.log(query, path)
     // system.pages[]
   }
   router.push({

@@ -162,10 +162,10 @@ export default {
               if (newarr)
                 findotherchild.push({
                   ...newarr,
-                  path: obj.breadCrumbs[i],
-                  query: {
-                    ...obj.query
-                  }
+                  path: obj.breadCrumbs[i]
+                  // query: {
+                  //   ...obj.query
+                  // }
                 })
               // 上一级不存在 就去大菜单里面找吧
               else {
@@ -176,10 +176,10 @@ export default {
                   if (newarr1) {
                     newarr1 = {
                       ...newarr1,
-                      path: obj.breadCrumbs[i],
-                      query: {
-                        ...obj.query
-                      }
+                      path: obj.breadCrumbs[i]
+                      // query: {
+                      //   ...obj.query
+                      // }
                     }
                     console.log(newarr1)
                     findArr = [arr[j]]

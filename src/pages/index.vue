@@ -417,7 +417,6 @@ export default {
       //保留点击之前导航层级数
       let i = children.indexOf(v)
       let len = children.length
-      console.log(i)
       let priorToDifference = len - (i + 1)
       if (priorToDifference >= 0 && i !== 0) {
         let newchild = children.slice(0, priorToDifference)
@@ -433,6 +432,8 @@ export default {
             breadCrumbs
           }
         }
+        this.$router.go(-1)
+        return
       }
       this.handleClick({ superItem: this.getBreadCrumbs, subItem: v })
     }
