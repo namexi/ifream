@@ -79,7 +79,8 @@ export const subSysTemConfig = {
     name: 'customer',
     url: `${prefixUrl}/customer/index.html`,
     pages: {
-      questionCategory: '/workOrder/questionCategory'
+      questionCategory: '/workOrder/questionCategory',
+      poolDetail: '/customWorkforce/orderPool/poolDetail'
     }
   },
   product: {
