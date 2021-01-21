@@ -89,22 +89,22 @@
                 <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
                   <div class="tool-box">
                     <span class="menu-title" :title="subItem.name">{{ subItem.name }}</span>
-                    <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
+                    <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" @click.stop="cancelCollect(subItem)" />
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="favorite-menu">
-            <!-- <div class="favorite-menu-title">最近访问</div> -->
-            <!-- <div class="favorite-menu-conect">
+          <!--<div class="favorite-menu">
+             <div class="favorite-menu-title">最近访问</div>
+             <div class="favorite-menu-conect">
               <span> 请款报销列表 </span>
               <div class="span" @click.stop="handleFavorites">
                 <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
                 <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
               </div>
-            </div> -->
-          </div>
+            </div> 
+          </div>-->
           <div class="search-results" v-if="search.name">
             共找到<span>{{ menuItemList.length }}</span> 个与<span>{{ search.name }}</span> 相关的菜单
           </div>
@@ -374,6 +374,7 @@ export default {
       this.handleClick({ superItem, subItem }, $event)
     },
     collectionHandle() {
+      this.collections = []
       if (this.userInfo.collectionList && this.userInfo.collectionList.length) {
         // 处理收藏
         this.userInfo.collectionList.forEach((item, i) => {
@@ -406,6 +407,18 @@ export default {
     },
     mainClick() {
       console.log(1111)
+    },
+    cancelCollect(row) {
+      let _this = this
+      this.$confirm({
+        title: '温馨提示',
+        content: '确认要取消收藏？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk() {
+          _this.handleFavorites(row)
+        }
+      })
     },
     // 面包屑
     breadcrumbClick(v) {
@@ -502,7 +515,8 @@ export default {
   line-height: @header-height;
   .breadcrumb-item {
     // width: 116px;
-    // height: 50px;
+    height: 49px;
+    line-height: 49px;
     display: inline-block;
     // margin-left: 20px;
     -webkit-transform: skew(-40deg);
@@ -531,9 +545,8 @@ export default {
   position: relative;
   .title-bar {
     display: flex;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
+    position: relative;
+    z-index: 2;
     height: @header-height;
     width: 100%;
     background-color: #fff;
@@ -670,7 +683,6 @@ export default {
       height: 100%;
       width: 100%;
       box-sizing: border-box;
-      padding: 15px 15px 15px;
     }
   }
   .menu-sidebar-container {
@@ -681,7 +693,7 @@ export default {
     height: 100%;
     display: flex;
     .menu-sidebar {
-      width: 643px;
+      width: 800px;
       height: 100%;
       background: #6c9aff;
       padding: 25px 36px;
@@ -695,8 +707,10 @@ export default {
           margin: 20px 0;
         }
         .menu-collect-box {
-          display: flex;
-          flex-wrap: wrap;
+          display: grid;
+          grid-template-columns: repeat(auto-fill, 31.5%);
+          grid-row-gap: 14px;
+          grid-column-gap: 20px;
           .tool-box {
             display: flex;
             align-items: center;
@@ -711,7 +725,6 @@ export default {
         .favorite-menu-conect {
           // height: 20px;
           line-height: 34px;
-          width: 29%;
           display: inline-block;
           padding: 0 8px;
           // margin-bottom: 14px;
