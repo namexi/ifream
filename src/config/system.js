@@ -81,7 +81,8 @@ export const subSysTemConfig = {
     pages: {
       questionCategory: '/workOrder/questionCategory',
       poolDetail: '/customWorkforce/orderPool/poolDetail',
-      reminder: '/customWorkforce/oneCustom/reminder'
+      reminder: '/customWorkforce/oneCustom/reminder',
+      continueDetail: '/customWorkforce/twoCustom/continueDetail'
     }
   },
   product: {
@@ -141,11 +142,17 @@ export const subSysTemConfig = {
   },
   channelData: {
     name: 'channelData',
-    url: `${prefixUrl}/channelData/index.html`
+    url: `${prefixUrl}/channelData/index.html`,
+    pages: {
+      channelDetail: '/channel/detail'
+    }
   },
   dataCenter: {
     name: 'dataCenter',
-    url: `${prefixUrl}/dataCenter/index.html`
+    url: `${prefixUrl}/dataCenter/index.html`,
+    pages: {
+      blocManageSiteInfo: '/blocManage/SiteInfo'
+    }
   },
   knowledge: {
     name: 'knowledge',
