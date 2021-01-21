@@ -8,12 +8,12 @@
       <div class="title-mid">
         <a-breadcrumb separator="">
           <a-breadcrumb-item class="breadcrumb-home"> <img src="../assets/icon/icon_home@2x.png" alt="" @click="goHome" /> </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item">
+          <a-breadcrumb-item class="breadcrumb-item" v-if="getBreadCrumbs.name">
             <a
               ><span> {{ getBreadCrumbs.name }} </span></a
             >
           </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
+          <a-breadcrumb-item v-if="getBreadCrumbs.name" class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
             <a
               ><span @click.self="breadcrumbClick(item)"> {{ item.name }} </span></a
             >
@@ -429,6 +429,7 @@ export default {
         v = {
           ...v,
           query: {
+            ...v.query,
             breadCrumbs
           }
         }

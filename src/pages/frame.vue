@@ -36,7 +36,8 @@ export default {
     this.findBreadCrumbs(data, {
       target: query.sysName,
       targetPage: path,
-      breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null
+      breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null,
+      query
     })
   },
   data() {
@@ -57,7 +58,8 @@ export default {
       this.findBreadCrumbs(menuListAll, {
         target: query.sysName,
         targetPage: path,
-        breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null
+        breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null,
+        query
       })
       if (val.path !== v.path) {
         this.loading = false
@@ -160,7 +162,10 @@ export default {
               if (newarr)
                 findotherchild.push({
                   ...newarr,
-                  path: obj.breadCrumbs[i]
+                  path: obj.breadCrumbs[i],
+                  query: {
+                    ...obj.query
+                  }
                 })
               // 上一级不存在 就去大菜单里面找吧
               else {
@@ -171,7 +176,10 @@ export default {
                   if (newarr1) {
                     newarr1 = {
                       ...newarr1,
-                      path: obj.breadCrumbs[i]
+                      path: obj.breadCrumbs[i],
+                      query: {
+                        ...obj.query
+                      }
                     }
                     console.log(newarr1)
                     findArr = [arr[j]]
