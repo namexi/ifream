@@ -137,7 +137,15 @@ export const subSysTemConfig = {
     pages: {
       productManagerList: '/product/productManager/list',
       productMaster: '/product/productMaster/list',
-      branchManagerList: '/product/branchManager/list'
+      branchManagerList: '/product/branchManager/list',
+      viewFeedbackList: '/problemPlan/viewFeedbackList',
+      detail: '/problemPlan/detail',
+      explosiveProductsDetail: '/explosiveProducts/detail',
+      problemAddEdit: '/problemPlan/problemAddEdit',
+      problemPlanDetail: '/problemPlan/problemDetail',
+      maintainAddEdit: '/explosiveProducts/maintainAddEdit',
+      productUseDateList: '/product/productUseDate/list',
+      productUseDateallList: '/product/productUseDate/allList'
     }
   },
   docking: {
