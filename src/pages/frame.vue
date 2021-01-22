@@ -191,7 +191,6 @@ export default {
             for (let i = 0; i < len; i++) {
               //上一级
               let newarr = childArr.filter((item) => obj.breadCrumbs[i].indexOf(item.path) !== -1)[0]
-              console.log(newarr)
               if (newarr) {
                 findotherchild.push({
                   ...newarr,
