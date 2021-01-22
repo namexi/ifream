@@ -43,7 +43,24 @@ export const subSysTemConfig = {
     name: 'design',
     url: `${prefixUrl}/design/index.html`,
     pages: {
-      productInfoEdit: '/productInfo/edit'
+      productInfoEdit: '/productInfo/edit',
+      businessInfoAdd: '/businessInfo/add',
+      businessInfoAddOther: '/businessInfo/add/other',
+      businessInfoDetail: '/businessInfo/detail',
+      businessInfoDetailOther: '/businessInfo/detail/other',
+      productInfoCourseEdit: '/productInfo/courseEdit',
+      productInfoEdit: '/productInfo/edit',
+      productInfoEditview: '/productInfo/edit/view',
+      productInfoEditOther: '/productInfo/edit/other',
+      productUseDateSetAddDate: '/productUseDateSet/addDate',
+      advertiseManagementElectronicCommerceEdit: '/advertiseManagement/electronicCommerce/edit',
+      advertiseManagementVaultEdit: '/advertiseManagement/vault/edit',
+      advertiseManagementBusinessSchoolEdit: '/advertiseManagement/businessSchool/edit',
+      classifiedManagementEdit: '/classifiedManagement/edit',
+      nb_productInfoEdit: '/nb_productInfo/edit',
+      nb_productInfoEditOther: '/nb_productInfo/edit/other',
+      eb_productInfoEdit: '/eb_productInfo/edit',
+      eb_productInfoEditOther: '/eb_productInfo/edit/other'
     }
   },
   technology: {
@@ -130,7 +147,43 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/market/index.html`,
     pages: {
       addProductPush: '/order/product/addProductPush',
-      agentUserDayStatistical: '/agent/user/day/statistical'
+      agentUserDayStatistical: '/agent/user/day/statistical',
+      subordinateList: '/agent/agentList/subordinateList',
+      subordinateListAdmin: '/agent/agentList/subordinateListAdmin',
+      ordinateAgentManage: '/agent/manage/ordinate',
+      bdManageDetail: '/bdManage/bdManageDetail',
+      centerAdd: '/center/add',
+      messageDetail: '/center/messageDetail',
+      add: "/commander/add",
+      detail: '/commander/detail',
+      orderList: '/commander/orderList',
+      extraction: '/extraction',
+      cashOrderList: '/extraction/orderList',
+      cashOrderDetail: '/extraction/orderDetail',
+      operatorList: '/operator/list',
+      operatorEdit: '/operator/edit',
+      operatorDetail: '/operator/detail',
+      operatorCashOut: '/operator/cashOut',
+      operatorCashOutCause: '/operator/cashOut/cause',
+      operatorCashOutMaking: '/operator/cashOut/making',
+      operatorCashOutFinance: '/operator/cashOut/finance',
+      operatorCashOutFinanceAgain: '/operator/cashOut/financeAgain',
+      operatorCashOutAdd: '/operator/cashOut/add',
+      operatorCashOutEdit: '/operator/cashOut/edit',
+      operatorCashOutDetail: '/operator/cashOut/detail',
+      operatorCashOutCauseDetail: '/operator/cashOut/cause/detail',
+      operatorCashOutFinanceDetail: '/operator/cashOut/finance/detail',
+      operatorCashOutFinanceAgainDetail: '/operator/cashOut/financeAgain/detail',
+      operatorCashOutMakingDetail: '/operator/cashOut/making/detail',
+      operatorApplyList: '/operator/apply/list',
+      checkOrderList: '/order',
+      orderDetail: '/order/detail',
+      orderAdminDetail: '/order/adminDetail',
+      addChannel: '/order/channel/channelManage/addChannel',
+      channelProductList: '/order/channel/productList',
+      channelOrderList: '/order/channel/orderList',
+      getCodeOrderList: '/order/automaticGetCode/orderList',
+      addProductPush: '/order/product/addProductPush'
     }
   },
   order: {
@@ -145,7 +198,9 @@ export const subSysTemConfig = {
     name: 'channelData',
     url: `${prefixUrl}/channelData/index.html`,
     pages: {
-      channelDetail: '/channel/detail'
+      channelDetail: '/channel/detail',
+      channelManageEdit: '/channel/manage/edit',
+      channelManageEditOther: '/channel/manage/edit/other'
     }
   },
   dataCenter: {
