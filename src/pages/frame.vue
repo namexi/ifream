@@ -141,10 +141,6 @@ export default {
         // findArr = arr.filter((item) => item.alias === obj.target)
         arr.map((item) => {
           if (item.alias === obj.target) {
-            // findArr[0] = {
-            //   ...item,
-            //   children: [].push([...item.children])
-            // }
             findArr.push(item)
           }
         })
@@ -192,13 +188,15 @@ export default {
               //上一级
               let newarr = childArr.filter((item) => obj.breadCrumbs[i].indexOf(item.path) !== -1)[0]
               if (newarr) {
+                console.log(obj.targetPage)
                 findotherchild.push({
                   ...newarr,
-                  path: obj.breadCrumbs[i]
+                  path: sessionStorage.getItem('last-path')
                   // query: {
                   //   ...obj.query
                   // }
                 })
+                console.log(findotherchild)
                 // 上一级不存在 就去大菜单里面找吧
               } else {
                 let len = arr.length
