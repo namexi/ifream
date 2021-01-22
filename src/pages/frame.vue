@@ -63,16 +63,12 @@ export default {
         breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null,
         query
       })
-      console.log(goPath)
       if (goPath === 0) return
       if (val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
         this.parseRouter()
         // if (val.query.sysName !== v.query.sysName) this.parseRouter()
-      } else {
-        let newquery = v.query
-        // this.parseRouter(newquery)
       }
       if (val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading', false)
     }
@@ -165,7 +161,6 @@ export default {
           }
         }
         childArr = findArr[0].children || []
-        console.log(childArr)
         findchild = childArr.filter((item) => {
           let itemPath = item.path
           if (itemPath.endsWith('/')) {
@@ -173,7 +168,9 @@ export default {
           }
           return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
         })
-        console.log(findchild)
+        if (findchild.length > 1) {
+          findchild = findchild.filter((item) => `/frame${item.path}` === obj.targetPage)
+        }
         if (!findchild[0].name) {
           this.$message.error('请配置菜单')
           return 0
@@ -194,7 +191,8 @@ export default {
             for (let i = 0; i < len; i++) {
               //上一级
               let newarr = childArr.filter((item) => obj.breadCrumbs[i].indexOf(item.path) !== -1)[0]
-              if (newarr)
+              console.log(newarr)
+              if (newarr) {
                 findotherchild.push({
                   ...newarr,
                   path: obj.breadCrumbs[i]
@@ -202,8 +200,8 @@ export default {
                   //   ...obj.query
                   // }
                 })
-              // 上一级不存在 就去大菜单里面找吧
-              else {
+                // 上一级不存在 就去大菜单里面找吧
+              } else {
                 let len = arr.length
                 for (let j = 0; j < len; j++) {
                   let item = arr[j]
@@ -230,6 +228,7 @@ export default {
             ...findArr[0],
             children: [...findotherchild, ...findchild]
           })
+          return
         }
         this.$store.commit('uploadbreadCrumbs', {
           ...findArr[0],
