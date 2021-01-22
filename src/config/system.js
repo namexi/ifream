@@ -71,7 +71,7 @@ export const subSysTemConfig = {
     name: 'common',
     url: `${prefixUrl}/common/index.html`,
     pages: {
-      childMenuManage:'/authority/childMenuManage',
+      childMenuManage: '/authority/childMenuManage',
       portManage: '/authority/portManage'
     }
   },
@@ -86,7 +86,8 @@ export const subSysTemConfig = {
       ldRule: "/leaveReceipt/ldRule",
       examineDetail: '/service/batchRefund/examineDetail',
       refundDetail: '/service/batchRefund/detail',
-      grantDetail: '/administration/grantDetail'
+      grantDetail: '/administration/grantDetail',
+      reservationDetail: "/refund/reservationDetail"
     }
   },
   administration: {
