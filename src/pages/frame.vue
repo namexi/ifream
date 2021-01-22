@@ -50,6 +50,7 @@ export default {
   },
   watch: {
     $route(val, v) {
+      // if (val.path === v.path) return
       console.log(val, v)
       let goPath = 1
       let { menuListAll } = this.$store.state
@@ -64,9 +65,6 @@ export default {
       })
       console.log(goPath)
       if (goPath === 0) return
-      if (goPath === 2) {
-        this.$router.go(-1)
-      }
       if (val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
@@ -138,14 +136,36 @@ export default {
       return '?' + json2params(copyQuery)
     },
     findBreadCrumbs(arr = [], obj = null) {
-      let findArr
+      let findArr = []
       let findchild
       let childArr
       if (arr.length > 0 && obj) {
         let pageSystem = getSystem(obj.target).pages
         // 查找最后一级
-        findArr = arr.filter((item) => item.alias === obj.target)
+        // findArr = arr.filter((item) => item.alias === obj.target)
+        arr.map((item) => {
+          if (item.alias === obj.target) {
+            // findArr[0] = {
+            //   ...item,
+            //   children: [].push([...item.children])
+            // }
+            findArr.push(item)
+          }
+        })
+        if (findArr.length > 1) {
+          let reductionDimensionality = []
+          findArr.map((item) => {
+            item.children.map((el) => {
+              reductionDimensionality.push(el)
+            })
+          })
+          findArr[0] = {
+            ...findArr[0],
+            children: reductionDimensionality
+          }
+        }
         childArr = findArr[0].children || []
+        console.log(childArr)
         findchild = childArr.filter((item) => {
           let itemPath = item.path
           if (itemPath.endsWith('/')) {
@@ -153,6 +173,7 @@ export default {
           }
           return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
         })
+        console.log(findchild)
         if (!findchild[0].name) {
           this.$message.error('请配置菜单')
           return 0
