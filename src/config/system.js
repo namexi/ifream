@@ -94,6 +94,19 @@ export const subSysTemConfig = {
     name: 'administration',
     url: `${prefixUrl}/administration/index.html`,
     pages: {
+      roomManage: '/roomManage',
+      useDetails: '/useDetails',
+      departmentDetails: '/departmentDetails',
+      assetDetails: '/assetDetails',
+      useDetails: '/useDetails',
+      useDetails: '/useDetails',
+      allocationDetail: '/assetsManage/allocationDetail',
+      updatePurchase: '/updatePurchase',
+      warehouseInfo: '/warehouseInfo',
+      updateAsset: '/updateAsset',
+      warehouseAllot: '/warehouseAllot',
+      createNew: '/createNew',
+      approvalForm: '/approvalForm',
       approvalView: '/approvalView'
     }
   },
