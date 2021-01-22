@@ -170,20 +170,23 @@ export default {
               // 上一级不存在 就去大菜单里面找吧
               else {
                 let len = arr.length
+                console.log(arr)
                 for (let j = 0; j < len; j++) {
                   let item = arr[j]
-                  let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
-                  if (newarr1) {
-                    newarr1 = {
-                      ...newarr1,
-                      path: obj.breadCrumbs[i]
-                      // query: {
-                      //   ...obj.query
-                      // }
+                  if (item.children && item.children.length > 0) {
+                    let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
+                    if (newarr1) {
+                      newarr1 = {
+                        ...newarr1,
+                        path: obj.breadCrumbs[i]
+                        // query: {
+                        //   ...obj.query
+                        // }
+                      }
+                      console.log(newarr1)
+                      findArr = [arr[j]]
+                      findotherchild.push(newarr1)
                     }
-                    console.log(newarr1)
-                    findArr = [arr[j]]
-                    findotherchild.push(newarr1)
                   }
                 }
               }
