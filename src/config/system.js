@@ -269,7 +269,15 @@ export const subSysTemConfig = {
   },
   knowledge: {
     name: 'knowledge',
-    url: `${prefixUrl}/knowledge/index.html`
+    url: `${prefixUrl}/knowledge/index.html`,
+    pages: {
+      moreLore: '/loreStoreIndex/moreLore',
+      loreDetail: '/loreStoreDetail/loreDetail',
+      loreHistoryDetail: '/loreStoreDetail/loreHistoryDetail',
+      previewPage: '/lorePublish/previewPage',
+      handleDraft: '/loreStoreList/handleDraft',
+      recoverDetail: '/loreStoreList/recoverDetail'
+    }
   }
 }
 
