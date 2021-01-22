@@ -69,7 +69,11 @@ export const subSysTemConfig = {
   },
   common: {
     name: 'common',
-    url: `${prefixUrl}/common/index.html`
+    url: `${prefixUrl}/common/index.html`,
+    pages: {
+      childMenuManage:'/authority/childMenuManage',
+      portManage: '/authority/portManage'
+    }
   },
   finance: {
     name: 'finance',
@@ -79,7 +83,10 @@ export const subSysTemConfig = {
       detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
       merchantsEnter: '/contractDetails/merchantsEnter',
       contractDescController: '/contract/desc/controller',
-      ldRule: "/leaveReceipt/ldRule"
+      ldRule: "/leaveReceipt/ldRule",
+      examineDetail: '/service/batchRefund/examineDetail',
+      refundDetail: '/service/batchRefund/detail',
+      grantDetail: '/administration/grantDetail'
     }
   },
   administration: {
@@ -100,7 +107,27 @@ export const subSysTemConfig = {
       questionCategory: '/workOrder/questionCategory',
       poolDetail: '/customWorkforce/orderPool/poolDetail',
       reminder: '/customWorkforce/oneCustom/reminder',
-      continueDetail: '/customWorkforce/twoCustom/continueDetail'
+      continueDetail: '/customWorkforce/twoCustom/continueDetail',
+      bookingDetail: '/query/bookingDetail',
+      cashOrderList: '/extraction/orderList',
+      cashOrderDetail: '/extraction/orderDetail',
+      shopProductStockList: '/business/shopProductStockList',
+      batchModifyStock: '/business/batchModifyStock',
+      shopProductStockInfo: '/business/shopProductStockInfo',
+      reminder: '/customWorkforce/oneCustom/reminder',
+      continueDetail: '/customWorkforce/twoCustom/continueDetail',
+      detail: '/customize/detail',
+      searchResult: '/workOrder/searchResult',
+      questionCategory: '/workOrder/questionCategory',
+      viewSolution: '/workOrder/viewSolution',
+      solveOrViewWO: '/workOrder/solveOrViewWO',
+      submitWO: '/workOrder/submitWO',
+      submitScheme: '/workOrder/submitScheme',
+      feedbackList: '/workOrder/feedbackList',
+      viewWorkOrder: '/workOrder/viewWorkOrder',
+      workOrderModule: '/workOrder/workOrderModule',
+      viewSolution: '/workOrder/viewSolution',
+      questionCategory: '/workOrder/questionCategory'
     }
   },
   product: {
