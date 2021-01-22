@@ -227,7 +227,12 @@ export const subSysTemConfig = {
   },
   order: {
     name: 'order',
-    url: `${prefixUrl}/order/index.html`
+    url: `${prefixUrl}/order/index.html`,
+    pages: {
+      pmRank: '/journal/rank/pmRank',
+      ecommercePMRank: '/journal/ecommerce/pmRank',
+      commission: '/journal/commission'
+    }
   },
   weike: {
     name: 'weike',
