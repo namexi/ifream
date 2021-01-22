@@ -22,6 +22,7 @@ import { getSystem } from 'Config/system'
 import { json2params, addQueryString, deleteQueryString } from 'nearby-common'
 import Page404 from 'Pages/Page404'
 import { mapGetters } from 'vuex'
+import _ from 'lodash'
 export default {
   name: 'frame',
   components: { Page404 },
@@ -29,8 +30,7 @@ export default {
     this.loading = true
     this.parseRouter()
     let data = await this.$store.dispatch('getMenuListAll')
-    console.log(data)
-    console.log(this.$route)
+    console.log(this.$route, 'frame')
     let { menuList } = this.$store.state.userInfo
     let { path, query } = this.$route
     this.findBreadCrumbs(data, {
@@ -50,22 +50,31 @@ export default {
   },
   watch: {
     $route(val, v) {
-      console.log(val)
+      console.log(val, v)
+      let goPath = 1
       let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       let { path, query } = val
-      this.findBreadCrumbs(menuListAll, {
+      goPath = this.findBreadCrumbs(menuListAll, {
         target: query.sysName,
         targetPage: path,
         breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : null,
         query
       })
+      console.log(goPath)
+      if (goPath === 0) return
+      if (goPath === 2) {
+        this.$router.go(-1)
+      }
       if (val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
         this.parseRouter()
         // if (val.query.sysName !== v.query.sysName) this.parseRouter()
+      } else {
+        let newquery = v.query
+        // this.parseRouter(newquery)
       }
       if (val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading', false)
     }
@@ -77,7 +86,7 @@ export default {
   //   // })
   // },
   methods: {
-    parseRouter() {
+    parseRouter(query = null) {
       // debugger
       const { sysName } = this.$route.query
       if (!sysName) return console.error('没有找到系统')
@@ -85,10 +94,10 @@ export default {
       if (!system) return console.error('没有找到系统')
       this.system = system
       // this.loading = false
-      this.getPath()
+      this.getPath(query)
       // debugger
     },
-    getPath() {
+    getPath(query = null) {
       this.$nextTick(() => {
         if (!this.system) return
         let path = this.$route.path
@@ -99,7 +108,7 @@ export default {
         let url = this.system.url
         url = deleteQueryString(url, 'token')
         url = addQueryString(url, 'token', getToken())
-        const queryStr = this.stringifyQuery()
+        const queryStr = this.stringifyQuery(query)
         url = `${url}#${path}${queryStr}`
         this.url = url
         this.$nextTick(() => {
@@ -121,8 +130,8 @@ export default {
         })
       })
     },
-    stringifyQuery() {
-      const query = this.$route.query
+    stringifyQuery(query = null) {
+      if (!query) query = this.$route.query
       if (!query) return ''
       let copyQuery = JSON.parse(JSON.stringify(query))
       delete copyQuery.sysName
@@ -144,6 +153,10 @@ export default {
           }
           return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
         })
+        if (!findchild[0].name) {
+          this.$message.error('请配置菜单')
+          return 0
+        }
         findchild = [
           {
             ...findchild[0],
@@ -151,6 +164,7 @@ export default {
           }
         ]
         console.log(findchild)
+
         if (obj.breadCrumbs) {
           // 查找上一级
           let len = obj.breadCrumbs.length
@@ -191,12 +205,10 @@ export default {
               }
             }
           }
-
           this.$store.commit('uploadbreadCrumbs', {
             ...findArr[0],
             children: [...findotherchild, ...findchild]
           })
-          return
         }
         this.$store.commit('uploadbreadCrumbs', {
           ...findArr[0],
