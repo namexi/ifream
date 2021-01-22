@@ -289,7 +289,14 @@ export const subSysTemConfig = {
       loreHistoryDetail: '/loreStoreDetail/loreHistoryDetail',
       previewPage: '/lorePublish/previewPage',
       handleDraft: '/loreStoreList/handleDraft',
-      recoverDetail: '/loreStoreList/recoverDetail'
+      recoverDetail: '/loreStoreList/recoverDetail',
+      publishMag: ' /lorePublish/publishMag',
+      lorePublish: ' /lorePublish',
+      draftList: '/loreStoreList/draftList',
+      draftMagList: '/loreStoreList/draftMagList',
+      myLoreStoreList: '/loreStoreList/myLoreStoreList',
+      loreStoreList: '/loreStoreList',
+      myLoreStoreList: '/loreStoreList/myLoreStoreList'
     }
   }
 }
