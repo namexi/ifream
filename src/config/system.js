@@ -122,7 +122,10 @@ export const subSysTemConfig = {
       product: '/productProduct',
       writer: '/writer',
       bindModelDetail: '/dockingTables/bindModel/bindModelDetail',
-      createModel: '/dockingTables/bindModel/createModel'
+      createModel: '/dockingTables/bindModel/createModel',
+      writerEveryDayWork: '/writerEveryDayWork',
+      everydayWorkOwn: '/everydayWorkOwn',
+      writerAllEveryDayWork: '/writerAllEveryDayWork',
     }
   },
   brand: {

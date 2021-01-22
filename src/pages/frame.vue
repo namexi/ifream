@@ -170,7 +170,6 @@ export default {
               // 上一级不存在 就去大菜单里面找吧
               else {
                 let len = arr.length
-                console.log(arr)
                 for (let j = 0; j < len; j++) {
                   let item = arr[j]
                   if (item.children && item.children.length > 0) {
