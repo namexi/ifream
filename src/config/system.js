@@ -112,7 +112,20 @@ export const subSysTemConfig = {
   },
   human: {
     name: 'human',
-    url: `${prefixUrl}/human/index.html`
+    url: `${prefixUrl}/human/index.html`,
+    pages: {
+      checkListDetailGroup: '/checkWork/checkList/checkListDetailGroup',
+      checkListDetailSub: '/checkWork/checkList/checkListDetailSub',
+      editCheckList: '/checkWork/checkList/editCheckList',
+      employeesDetail: '/employees/employeesDetail',
+      dailySheet: '/offer/dailySheet',
+      dailySheetDetail: '/offer/dailySheetDetail',
+      templateManage: '/offer/templateManage',
+      detailInfo: '/offer/detailInfo',
+      wageDetail: '/wage/wageDetail',
+      commissionList: '/wage/commissionList',
+      wageList: '/wage/wageList'
+    }
   },
   customer: {
     name: 'customer',
