@@ -124,7 +124,8 @@ export const subSysTemConfig = {
       detailInfo: '/offer/detailInfo',
       wageDetail: '/wage/wageDetail',
       commissionList: '/wage/commissionList',
-      wageList: '/wage/wageList'
+      wageList: '/wage/wageList',
+      financeEmployEdit: '/employees/financeEmployEdit'
     }
   },
   customer: {
