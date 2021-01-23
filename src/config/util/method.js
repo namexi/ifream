@@ -28,6 +28,7 @@ export function openSubSystem(name, url, params, query = {}) {
   const system = getSystem(name)
   if (!system) return
   const systemPage = system.pages
+  url = url.replace(' ', '')
   let path = '/frame' + url
   // let newparams = ''
   if (params && typeof params == 'object') {
@@ -38,6 +39,7 @@ export function openSubSystem(name, url, params, query = {}) {
     // console.log(query, path)
     // system.pages[]
   }
+
   router.push({
     path,
     query: {

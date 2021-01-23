@@ -77,6 +77,7 @@ export default {
         // if (val.query.sysName !== v.query.sysName) this.parseRouter()
       }
       if (val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading', false)
+      // if (val.path === v.path) this.$store.dispatch('setLoading', true)
     }
   },
   // beforeRouteEnter(to, f, next) {
@@ -202,13 +203,6 @@ export default {
           childSuperiorArr = fuzzyLookup(childSuperiorArr, obj.breadCrumbs[i]) || []
           if (childSuperiorArr.length > 0) {
             if (childSuperiorArr.length > 1) childSuperiorArr = this.finditem(childSuperiorArr, obj.breadCrumbs[i])
-            console.log(childSuperiorArr)
-            // childSuperiorArr = [
-            //   {
-            //     ...childSuperiorArr[0],
-            //     path: obj.breadCrumbs[i]
-            //   }
-            // ]
             newchildSuperiorArr.push({
               ...childSuperiorArr[0],
               path: obj.breadCrumbs[i]
