@@ -28,7 +28,6 @@ export function openSubSystem(name, url, params, query = {}) {
   const system = getSystem(name)
   if (!system) return
   const systemPage = system.pages
-  console.log(systemPage)
   let path = '/frame' + url
   // let newparams = ''
   if (params && typeof params == 'object') {
