@@ -87,7 +87,8 @@ export const subSysTemConfig = {
       examineDetail: '/service/batchRefund/examineDetail',
       refundDetail: '/service/batchRefund/detail',
       grantDetail: '/administration/grantDetail',
-      reservationDetail: "/refund/reservationDetail"
+      reservationDetail: "/refund/reservationDetail",
+      dataStatistics: '/examine/dataStatistics'
     }
   },
   administration: {
@@ -282,7 +283,40 @@ export const subSysTemConfig = {
     name: 'dataCenter',
     url: `${prefixUrl}/dataCenter/index.html`,
     pages: {
-      blocManageSiteInfo: '/blocManage/SiteInfo'
+      blocManageSiteInfo: '/blocManage/SiteInfo',
+      productListDGM: '/DGM/productList',
+      DGMbusinessDetailsList: '/DGM/businessDetailsList',
+      DGMrefundDetailsList: '/DGM/refundDetailsList',
+      dataInfo: '/DGM/dataInfo',
+      SectionInfo: '/DGM/SectionInfo',
+      BranchInfo: '/DGM/BranchInfo',
+      kitingNewAdd: '/DGM/kitingNewAdd',
+      agentNewAdd: '/DGM/agentNewAdd',
+      onLineProductDGM: '/DGM/onLineProduct',
+      singUpInfoDGM: '/DGM/singUpInfo',
+      onLineProductListDGM: '/DGM/onLineProduct/detailsList',
+      singUpInfoListDGM: '/DGM/singUpInfo/detailsList',
+      blocManageSiteInfo: '/blocManage/SiteInfo',
+      blocManageBranchInfo: '/blocManage/BranchInfo',
+      blocManageStaffingInfo: '/blocManage/StaffingInfo',
+      onLineProductBlocManage: '/blocManage/onLineProduct',
+      singUpInfoBlocManage: '/blocManage/singUpInfo',
+      onLineProductListblocManage: '/blocManage/onLineProduct/detailsList',
+      singUpInfoListblocManage: '/blocManage/singUpInfo/detailsList',
+      rankingInfoBlocManage: '/blocManage/rankingInfo',
+      groupLeaderSiteInfo: '/groupLeaderInfo/SiteInfo',
+      groupLeaderStaffingInfo: '/groupLeaderInfo/StaffingInfo',
+      onLineProductGroup: '/groupLeaderInfo/onLineProduct',
+      singUpInfoGroup: '/groupLeaderInfo/singUpInfo',
+      onLineProductListGroup: '/groupLeaderInfo/onLineProduct/detailsList',
+      singUpInfoListGroup: '/groupLeaderInfo/singUpInfo/detailsList',
+      rankingInfoGroup: '/groupLeaderInfo/rankingInfo',
+      productDirectorteamInfo: '/productDirector/teamInfo',
+      productDirectorteamProduct: '/productDirector/teamProduct',
+      productList: '/productManager/productList',
+      businessDetailsList: '/productManager/businessDetailsList',
+      refundDetailsList: '/productManager/refundDetailsList',
+      
     }
   },
   knowledge: {
