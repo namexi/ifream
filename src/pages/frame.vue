@@ -165,9 +165,7 @@ export default {
       obj = obj ? JSON.parse(obj) : {}
       if (query.breadCrumbs) {
         let breadCrumbs = query.breadCrumbs.split(',') || query.breadCrumbs.split('')
-
         let len = breadCrumbs.length
-
         if (!obj[breadCrumbs[len - 1]]) {
           // 查找存在不存在
           if (v && upperPath != lastPath) {
@@ -175,7 +173,6 @@ export default {
             //   [breadCrumbs[len - 1]]: upperPath
             // }
             upperPath = lastPath
-
             if (upperPath) {
               obj[breadCrumbs[len - 1]] = upperPath
             } else {
@@ -232,10 +229,8 @@ export default {
         let breadCrumbsLen = obj.breadCrumbs.length
         let newchildSuperiorArr = []
         let breadCrumbsPath = sessionStorage.getItem('breadCrumbs-path') || null
-        console.log(obj.breadCrumbs)
         // 查找上一级
         for (let i = 0; i < breadCrumbsLen; i++) {
-          console.log(JSON.parse(breadCrumbsPath))
           if (obj.breadCrumbs[i] !== '') {
             if (findArr.length > 1) findArr = [findParent(findArr, obj.breadCrumbs[i])] // 上一级
             childSuperiorArr = findArr[0].children

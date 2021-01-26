@@ -441,20 +441,20 @@ export default {
       console.log(priorToDifference)
       if (priorToDifference >= 0 && i !== 0) {
         console.log(11)
-        let newchild = children.slice(0, priorToDifference)
-        let breadCrumbs = ''
-        for (let i = 0; i < newchild.length; i++) {
-          let el = newchild[i]
-          breadCrumbs += `,${el.path}`
-        }
-        v = {
-          ...v,
-          query: {
-            ...v.query,
-            breadCrumbs
-          }
-        }
-        this.$router.go(-1) || this.handleClick({ superItem: this.getBreadCrumbs, subItem: v }, null, false)
+        // let newchild = children.slice(0, priorToDifference)
+        // let breadCrumbs = ''
+        // for (let i = 0; i < newchild.length; i++) {
+        //   let el = newchild[i]
+        //   breadCrumbs += `,${el.path}`
+        // }
+        // v = {
+        //   ...v,
+        //   query: {
+        //     ...v.query,
+        //     breadCrumbs
+        //   }
+        // }
+        this.handleClick({ superItem: this.getBreadCrumbs, subItem: v }, null, false)
         return
       }
       this.handleClick({ superItem: this.getBreadCrumbs, subItem: v })
