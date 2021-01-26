@@ -33,6 +33,7 @@ export default {
     // console.log(this.$route, 'frame')
     let { menuList } = this.$store.state.userInfo
     let { path, query } = this.$route
+    this.traceList(this.$route, null)
     this.findBreadCrumbs(data, {
       target: query.sysName,
       targetPage: path,
@@ -60,6 +61,7 @@ export default {
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       let { path, query } = val
+      this.traceList(val, v)
       goPath = this.findBreadCrumbs(menuListAll, {
         target: query.sysName,
         targetPage: path,
@@ -69,7 +71,7 @@ export default {
           ...query
         }
       })
-      // if (goPath === 0) return
+      if (goPath === 0) return this.$router.go(-1)
       if (val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
@@ -152,6 +154,40 @@ export default {
       }
       return newArr
     },
+    // 痕迹管理
+    traceList(routes = { query: null, path: null }, v) {
+      // 设定默认值
+      let { query, path, fullPath } = routes
+      // 设定对比值
+      const lastPath = sessionStorage.getItem('last-path')
+      let upperPath = sessionStorage.getItem('upper-path') || null
+      let obj = sessionStorage.getItem('breadCrumbs-path') || null
+      obj = obj ? JSON.parse(obj) : {}
+      if (query.breadCrumbs) {
+        let breadCrumbs = query.breadCrumbs.split(',') || query.breadCrumbs.split('')
+
+        let len = breadCrumbs.length
+
+        if (!obj[breadCrumbs[len - 1]]) {
+          // 查找存在不存在
+          if (v && upperPath != lastPath) {
+            // arr[len - 1] = {
+            //   [breadCrumbs[len - 1]]: upperPath
+            // }
+            upperPath = lastPath
+
+            if (upperPath) {
+              obj[breadCrumbs[len - 1]] = upperPath
+            } else {
+              obj[breadCrumbs[len - 1]] = lastPath
+            }
+            sessionStorage.setItem('upper-path', upperPath)
+            sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
+          }
+        }
+      }
+    },
+
     findBreadCrumbs(arr = [], obj = null) {
       let findArr = []
       let findchild
@@ -160,14 +196,14 @@ export default {
       let childSuperiorArr
       let newfindArr = []
       let findParent = (arrParent, targetPage) => {
-        let reductionDimensionalityArr
-        arrParent.map((item) => {
-          reductionDimensionalityArr = {
-            children: fuzzyLookup(item.children, targetPage),
-            ...item
+        for (let index = 0; index < arrParent.length; index++) {
+          const item = arrParent[index]
+          let childrenArr = []
+          if (item.children && item.children.length > 0) {
+            childrenArr = fuzzyLookup(item.children, targetPage)
+            if (childrenArr.length > 0) return item
           }
-        })
-        return reductionDimensionalityArr
+        }
       }
       let fuzzyLookup = (arrItem, targetPage) => {
         let newArr
@@ -177,10 +213,11 @@ export default {
             if (itemPath.endsWith('/')) {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
-            return `${targetPage}/`.indexOf(`${itemPath}/`) !== -1
+            return `${targetPage}/`.indexOf(`${itemPath}/`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
           })
         }
-        return newArr || []
+        if (newArr.length > 0) return newArr
+        return false
       }
       // 查找父级
       arr.map((item) => {
@@ -194,50 +231,60 @@ export default {
         // 如果父级为多个系统
         let breadCrumbsLen = obj.breadCrumbs.length
         let newchildSuperiorArr = []
-
+        let breadCrumbsPath = sessionStorage.getItem('breadCrumbs-path') || null
+        console.log(obj.breadCrumbs)
         // 查找上一级
         for (let i = 0; i < breadCrumbsLen; i++) {
-          if (findArr.length > 1) findArr = [findParent(findArr, obj.breadCrumbs[i])]
-          // 上一级
-          childSuperiorArr = findArr[0].children
-          childSuperiorArr = fuzzyLookup(childSuperiorArr, obj.breadCrumbs[i]) || []
-          if (childSuperiorArr.length > 0) {
-            if (childSuperiorArr.length > 1) childSuperiorArr = this.finditem(childSuperiorArr, obj.breadCrumbs[i])
-            newchildSuperiorArr.push({
-              ...childSuperiorArr[0],
-              path: obj.breadCrumbs[i]
-            })
-            childSuperiorArr = newchildSuperiorArr
-          } else {
-            // 没有在当前菜单中找到，就去大菜单找
-            let len = arr.length
-            for (let j = 0; j < len; j++) {
-              let item = arr[j]
-
-              if (item.children && item.children.length > 0) {
-                let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
-                if (newarr1) {
-                  // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
-                  newarr1 = {
-                    ...newarr1,
-                    path: obj.breadCrumbs[i]
+          console.log(JSON.parse(breadCrumbsPath))
+          if (obj.breadCrumbs[i] !== '') {
+            if (findArr.length > 1) findArr = [findParent(findArr, obj.breadCrumbs[i])] // 上一级
+            childSuperiorArr = findArr[0].children
+            childSuperiorArr = fuzzyLookup(childSuperiorArr, obj.breadCrumbs[i])
+            // if (!childSuperiorArr) {
+            if (childSuperiorArr.length > 0) {
+              if (childSuperiorArr.length > 1) childSuperiorArr = this.finditem(childSuperiorArr, obj.breadCrumbs[i])
+              newchildSuperiorArr.push({
+                ...childSuperiorArr[0],
+                path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] : obj.breadCrumbs[i]
+                // query: {
+                //   ...obj.query
+                // }
+              })
+              childSuperiorArr = newchildSuperiorArr
+            } else {
+              // 没有在当前菜单中找到，就去大菜单找
+              let len = arr.length
+              for (let j = 0; j < len; j++) {
+                let item = arr[j]
+                if (item.children && item.children.length > 0) {
+                  let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
+                  if (newarr1) {
+                    // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
+                    if (newarr1.path === obj.breadCrumbs[i]) {
+                      newarr1 = {
+                        ...newarr1,
+                        path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] : obj.breadCrumbs[i]
+                      }
+                      newfindArr = [item]
+                      newchildSuperiorArr.push(newarr1)
+                    }
                   }
-                  newfindArr = [item]
-                  newchildSuperiorArr.push(newarr1)
+                  continue
                 }
-                continue
               }
+              childSuperiorArr = newchildSuperiorArr
+              // }
             }
-            childSuperiorArr = newchildSuperiorArr
           }
         }
       }
+
       // 查找最后一级
       //没有传递breadCrumbs （2级路由）
       //todo: 从菜单里面找 targetPage 当前path
       // 父级分为多个系统
       if (findArr.length > 1) {
-        findArr = [findParent(findArr, obj.targetPage)]
+        findArr = [findParent(findArr, obj.targetPage.replace('/frame', ''))]
       }
       // 最后一级
       childArr = findArr[0].children
@@ -245,9 +292,14 @@ export default {
       if (childArr.length > 0) {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
       } else {
-        // 当前
+        // 当前菜单无法找到
+        console.log(obj)
       }
       console.log(childSuperiorArr, childArr)
+      if (childArr.length == 0) {
+        this.$message.error('当前菜单没有配置')
+        return 0
+      }
       // 最终面包屑
       if (childSuperiorArr && childSuperiorArr.length > 0) {
         findArr = newfindArr.length > 0 ? newfindArr : findArr
@@ -255,7 +307,6 @@ export default {
       } else {
         findArr = [{ ...findArr[0], children: [...childArr] }]
       }
-      console.log(findArr)
       this.$store.commit('uploadbreadCrumbs', {
         ...findArr[0]
       })

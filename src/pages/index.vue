@@ -312,7 +312,7 @@ export default {
       this.collapsed = !this.collapsed
       this.openKeys = null // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
-    handleClick({ superItem, subItem }, event) {
+    handleClick({ superItem, subItem }, event, clear = true) {
       // debugger
       // 再次点击
       // console.dir(event)
@@ -348,6 +348,10 @@ export default {
         this.$router.push({
           path: subItem.path
         })
+      }
+      if (clear) {
+        sessionStorage.removeItem('breadCrumbs-path')
+        sessionStorage.removeItem('upper-path')
       }
       this.collapsed = false
       // debugger
@@ -450,7 +454,8 @@ export default {
             breadCrumbs
           }
         }
-        this.$router.go(-1)
+        this.$router.go(-1) || this.handleClick({ superItem: this.getBreadCrumbs, subItem: v }, null, false)
+        return
       }
       this.handleClick({ superItem: this.getBreadCrumbs, subItem: v })
     }
