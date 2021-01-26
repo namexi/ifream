@@ -194,7 +194,10 @@ export const subSysTemConfig = {
   },
   brand: {
     name: 'brand',
-    url: `${prefixUrl}/brand/index.html`
+    url: `${prefixUrl}/brand/index.html`,
+    pages: {
+      noticeDetail: '/notice/detail'
+    }
   },
   third: {
     name: 'third',
