@@ -60,6 +60,7 @@ export default {
       let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
+      console.log(val.path)
       let { path, query } = val
       this.traceList(val, v)
       goPath = this.findBreadCrumbs(menuListAll, {

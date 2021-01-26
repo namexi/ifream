@@ -90,7 +90,8 @@ export const subSysTemConfig = {
       reservationDetail: "/refund/reservationDetail",
       dataStatistics: '/examine/dataStatistics',
       deduct: '/administration/deduct',
-      commission: '/administration/commission'
+      commission: '/administration/commission',
+      examineDetailTest: '/service/batchRefund/examineDetailTest'
     }
   },
   administration: {
