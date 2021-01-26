@@ -88,7 +88,10 @@ export const subSysTemConfig = {
       refundDetail: '/service/batchRefund/detail',
       grantDetail: '/administration/grantDetail',
       reservationDetail: "/refund/reservationDetail",
-      dataStatistics: '/examine/dataStatistics'
+      dataStatistics: '/examine/dataStatistics',
+      deduct: '/administration/deduct',
+      commission: '/administration/commission',
+      examineDetail: '/service/batchRefund/examineDetail'
     }
   },
   administration: {
