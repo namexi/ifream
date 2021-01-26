@@ -155,7 +155,8 @@ export const subSysTemConfig = {
       viewWorkOrder: '/workOrder/viewWorkOrder',
       workOrderModule: '/workOrder/workOrderModule',
       viewSolution: '/workOrder/viewSolution',
-      questionCategory: '/workOrder/questionCategory'
+      questionCategory: '/workOrder/questionCategory',
+      schemePool: '/workOrder/schemePool'
     }
   },
   product: {
