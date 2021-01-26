@@ -299,7 +299,6 @@ export default {
         // 当前菜单无法找到
         console.log('-------',obj,findArr)
       }
-      console.log(childSuperiorArr, childArr)
       if (childArr.length == 0) {
         this.$message.error('当前菜单没有配置')
         return 0
