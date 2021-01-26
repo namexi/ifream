@@ -72,6 +72,7 @@ export default {
           ...query
         }
       })
+      console.log(goPath)
       if (goPath === 0) return this.$router.go(-1)
       if (val.path !== v.path) {
         this.loading = false
