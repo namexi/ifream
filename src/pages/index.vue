@@ -15,7 +15,7 @@
           </a-breadcrumb-item>
           <a-breadcrumb-item v-if="getBreadCrumbs.name" class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
             <a
-              ><span @click.self="breadcrumbClick(item)"> {{ item.name }} </span></a
+              ><span @click.self="breadcrumbClick(item, i)"> {{ item.name }} </span></a
             >
           </a-breadcrumb-item>
         </a-breadcrumb>
@@ -427,13 +427,13 @@ export default {
       })
     },
     // 面包屑
-    breadcrumbClick(v) {
-      console.log(v)
+    breadcrumbClick(v, index) {
+      console.log(v, index)
       let pathCrumbs = v.path
       let { path } = this.$route
       let { children } = this.getBreadCrumbs
-
-      if (path === pathCrumbs) return false
+      // console.log(path,pathCrumbs)
+      if (path === pathCrumbs || this.getBreadCrumbs.children.length - 1 == index) return false
       //保留点击之前导航层级数
       let i = children.indexOf(v)
       let len = children.length
