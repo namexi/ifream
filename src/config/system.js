@@ -91,7 +91,6 @@ export const subSysTemConfig = {
       dataStatistics: '/examine/dataStatistics',
       deduct: '/administration/deduct',
       commission: '/administration/commission',
-      examineDetail: '/service/batchRefund/examineDetail'
     }
   },
   administration: {
