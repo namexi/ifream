@@ -297,7 +297,7 @@ export default {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
       } else {
         // 当前菜单无法找到
-        console.log(obj)
+        console.log('-------',obj,findArr)
       }
       console.log(childSuperiorArr, childArr)
       if (childArr.length == 0) {
