@@ -88,7 +88,12 @@ export const subSysTemConfig = {
       refundDetail: '/service/batchRefund/detail',
       grantDetail: '/administration/grantDetail',
       reservationDetail: "/refund/reservationDetail",
-      dataStatistics: '/examine/dataStatistics'
+      dataStatistics: '/examine/dataStatistics',
+      deduct: '/administration/deduct',
+      commission: '/administration/commission',
+      examineDetailTest: '/service/batchRefund/examineDetailTest',
+      batchRefundExamineDetail: '/service/batchRefundExamineDetail',
+      batchRefundDetail: '/service/batchRefundDetail'
     }
   },
   administration: {
@@ -99,7 +104,6 @@ export const subSysTemConfig = {
       useDetails: '/useDetails',
       departmentDetails: '/departmentDetails',
       assetDetails: '/assetDetails',
-      useDetails: '/useDetails',
       useDetails: '/useDetails',
       allocationDetail: '/assetsManage/allocationDetail',
       updatePurchase: '/updatePurchase',

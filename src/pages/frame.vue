@@ -60,6 +60,7 @@ export default {
       let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
+      console.log(val.path)
       let { path, query } = val
       this.traceList(val, v)
       goPath = this.findBreadCrumbs(menuListAll, {
@@ -71,6 +72,7 @@ export default {
           ...query
         }
       })
+      console.log(goPath)
       if (goPath === 0) return this.$router.go(-1)
       if (val.path !== v.path) {
         this.loading = false
@@ -297,7 +299,6 @@ export default {
         // 当前菜单无法找到
         // console.log(obj)
       }
-      console.log(childSuperiorArr, childArr)
       if (childArr.length == 0) {
         this.$message.error('当前菜单没有配置')
         return 0
