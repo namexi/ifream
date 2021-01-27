@@ -10,12 +10,12 @@
           <a-breadcrumb-item class="breadcrumb-home"> <img src="../assets/icon/icon_home@2x.png" alt="" @click="goHome" /> </a-breadcrumb-item>
           <a-breadcrumb-item class="breadcrumb-item" v-if="getBreadCrumbs.name">
             <a
-              ><span> {{ getBreadCrumbs.name }} </span></a
+              ><span :title="getBreadCrumbs.name"> {{ getBreadCrumbs.name }} </span></a
             >
           </a-breadcrumb-item>
           <a-breadcrumb-item v-if="getBreadCrumbs.name" class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
             <a
-              ><span @click.self="breadcrumbClick(item, i)"> {{ item.name }} </span></a
+              ><span @click.self="breadcrumbClick(item, i)" :title="item.name"> {{ item.name }} </span></a
             >
           </a-breadcrumb-item>
         </a-breadcrumb>
@@ -523,8 +523,8 @@ export default {
 .ant-breadcrumb {
   height: @header-height;
   line-height: @header-height;
+  display: flex;
   .breadcrumb-item {
-    // width: 116px;
     height: 49px;
     line-height: 49px;
     display: inline-block;
@@ -534,6 +534,11 @@ export default {
     padding: 0 31px 0 29px;
     .ant-breadcrumb-link {
       span {
+        text-align: center;
+        width: 100px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         display: inline-block;
         transform: skew(40deg);
       }
