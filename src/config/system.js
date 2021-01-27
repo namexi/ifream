@@ -32,7 +32,8 @@ export const subSysTemConfig = {
       newCustomers: '/newCustomers',
       addContact: '/crm/addContact',
       addT: '/crm/branchManagerIndex/total',
-      productDirectorTotal: '/crm/productDirectorIndex/total'
+      productDirectorTotal: '/crm/productDirectorIndex/total',
+      temporaryAdd: '/temporaryAdd'
     }
   },
   warehouse: {
