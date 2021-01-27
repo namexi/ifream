@@ -60,7 +60,6 @@ export default {
       let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
-      console.log(val.path)
       let { path, query } = val
       this.traceList(val, v)
       goPath = this.findBreadCrumbs(menuListAll, {
@@ -72,7 +71,6 @@ export default {
           ...query
         }
       })
-      console.log(goPath)
       if (goPath === 0) return this.$router.go(-1)
       if (val.path !== v.path) {
         this.loading = false
@@ -151,8 +149,27 @@ export default {
           if (itemPath.endsWith('/')) {
             itemPath = itemPath.slice(0, itemPath.length - 1)
           }
+          // console.log(`${itemPath}/`.indexOf(`${path}/`) !== -1, itemPath, path)
           return itemPath === path
         })
+      }
+      if (newArr.length === 0) {
+        for (let i = 0; i < arr.length; i++) {
+          let item = arr[i]
+          let itemPath = item.path
+          if (itemPath.endsWith('/')) {
+            itemPath = itemPath.slice(0, itemPath.length - 1)
+          }
+          let pathArrr = path.replace('/', '').split('/')
+          let itemPathArr = itemPath.replace('/', '').split('/')
+          // let routePathArr = this.$route.path.replace('/frame', '').replace('/', '').split('/')
+          // for (let i = 0; i < itemPathArr.length; i++) {
+          //   let item = itemPathArr[i]
+          //   let pathItem = pathArrr[i]
+          // }
+          if (pathArrr.length - itemPathArr.length === 1) return (newArr = [item])
+          // if (routePathArr.length - itemPathArr.length === 1) return itemPath === this.$route.path.replace('/frame', '')
+        }
       }
       return newArr
     },
@@ -168,7 +185,6 @@ export default {
       if (query.breadCrumbs) {
         let breadCrumbs = query.breadCrumbs.split(',') || query.breadCrumbs.split('')
         let len = breadCrumbs.length
-        console.log(breadCrumbs)
         if (!obj[breadCrumbs[len - 1]]) {
           if (!v) {
             if (breadCrumbs.length > 1) {
@@ -192,7 +208,6 @@ export default {
           }
         }
       }
-      console.log(obj)
     },
 
     findBreadCrumbs(arr = [], obj = null) {
@@ -220,6 +235,7 @@ export default {
             if (itemPath.endsWith('/')) {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
+
             return `${targetPage}/`.indexOf(`${itemPath}/`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
           })
         }
@@ -264,7 +280,6 @@ export default {
                 if (item.children && item.children.length > 0) {
                   let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
                   if (newarr1) {
-                    console.log(newarr1, obj.query)
                     // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
                     // if (newarr1.path === obj.breadCrumbs[i] || newarr1.path === JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]]) {
                     newarr1 = {
@@ -297,9 +312,10 @@ export default {
       childArr = fuzzyLookup(childArr, obj.targetPage.replace('/frame', '')) || []
       if (childArr.length > 0) {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
+        console.log(childArr)
       } else {
         // 当前菜单无法找到
-        console.log('-------',obj,findArr)
+        // console.log(obj)
       }
       if (childArr.length == 0) {
         this.$message.error('当前菜单没有配置')
