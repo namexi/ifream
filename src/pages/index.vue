@@ -546,7 +546,7 @@ export default {
   }
   .breadcrumb-home {
     display: inline-block;
-    width: 68px;
+    padding: 0 24px;
     text-align: center;
     img {
       width: 20px;
@@ -585,6 +585,11 @@ export default {
       flex: 1;
       text-align: left;
       line-height: @header-height;
+      overflow-x: hidden;
+      overflow-y: hidden;
+    }
+    .title-mid:hover {
+      overflow-x: auto;
     }
     .title-right {
       // flex: 1;
