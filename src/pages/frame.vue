@@ -166,7 +166,6 @@ export default {
       if (query.breadCrumbs) {
         let breadCrumbs = query.breadCrumbs.split(',') || query.breadCrumbs.split('')
         let len = breadCrumbs.length
-        console.log(breadCrumbs)
         if (!obj[breadCrumbs[len - 1]]) {
           if (!v) {
             if (breadCrumbs.length > 1) {
@@ -190,7 +189,6 @@ export default {
           }
         }
       }
-      console.log(obj)
     },
 
     findBreadCrumbs(arr = [], obj = null) {
@@ -297,7 +295,7 @@ export default {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
       } else {
         // 当前菜单无法找到
-        console.log(obj)
+        // console.log(obj)
       }
       console.log(childSuperiorArr, childArr)
       if (childArr.length == 0) {
