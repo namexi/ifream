@@ -280,15 +280,17 @@ export default {
                 if (item.children && item.children.length > 0) {
                   let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
                   if (newarr1) {
+                    console.log(newarr1)
+
                     // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
-                    // if (newarr1.path === obj.breadCrumbs[i] || newarr1.path === JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]]) {
-                    newarr1 = {
-                      ...newarr1,
-                      path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
+                    if (newarr1.path === obj.breadCrumbs[i] || newarr1.path === JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]]) {
+                      newarr1 = {
+                        ...newarr1,
+                        path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
+                      }
+                      newfindArr = [item]
+                      newchildSuperiorArr.push(newarr1)
                     }
-                    newfindArr = [item]
-                    newchildSuperiorArr.push(newarr1)
-                    // }
                   }
                   continue
                 }
@@ -312,7 +314,6 @@ export default {
       childArr = fuzzyLookup(childArr, obj.targetPage.replace('/frame', '')) || []
       if (childArr.length > 0) {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
-        console.log(childArr)
       } else {
         // 当前菜单无法找到
         // console.log(obj)
@@ -321,6 +322,7 @@ export default {
         this.$message.error('当前菜单没有配置')
         return 0
       }
+      console.log(childSuperiorArr, childArr)
       // 最终面包屑
       if (childSuperiorArr && childSuperiorArr.length > 0) {
         findArr = newfindArr.length > 0 ? newfindArr : findArr
