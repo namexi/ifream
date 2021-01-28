@@ -187,9 +187,11 @@ export default {
         let len = breadCrumbs.length
         if (!obj[breadCrumbs[len - 1]]) {
           if (!v) {
-            console.log(breadCrumbs.length > 1)
             if (breadCrumbs.length > 1) {
               obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}?breadCrumbs=${breadCrumbs[len - 2]}`
+              sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
+            } else {
+              obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}`
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
             }
           }
@@ -281,11 +283,10 @@ export default {
                 if (item.children && item.children.length > 0) {
                   let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
                   if (newarr1) {
-                    console.log(newarr1)
-
                     // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
-                    console.log(JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]], newarr1.path)
-                    if (newarr1.path === obj.breadCrumbs[i] || (JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] && JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]].indexOf(newarr1.path) !== -1)) {
+                    // console.log(JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]], newarr1.path)
+                    // JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]].indexOf(newarr1.path) !== -1
+                    if (newarr1.path === obj.breadCrumbs[i]) {
                       newarr1 = {
                         ...newarr1,
                         path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
@@ -297,7 +298,11 @@ export default {
                   continue
                 }
               }
+              // if (newchildSuperiorArr.length > 1) {
+              //   console.log('-----------')
+              // }
               childSuperiorArr = newchildSuperiorArr
+              console.log(newfindArr)
               // }
             }
           }
