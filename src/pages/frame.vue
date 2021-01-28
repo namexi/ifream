@@ -187,6 +187,7 @@ export default {
         let len = breadCrumbs.length
         if (!obj[breadCrumbs[len - 1]]) {
           if (!v) {
+            console.log(breadCrumbs.length > 1)
             if (breadCrumbs.length > 1) {
               obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}?breadCrumbs=${breadCrumbs[len - 2]}`
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
@@ -283,7 +284,8 @@ export default {
                     console.log(newarr1)
 
                     // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
-                    if (newarr1.path === obj.breadCrumbs[i] || newarr1.path === JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]]) {
+                    console.log(JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]], newarr1.path)
+                    if (newarr1.path === obj.breadCrumbs[i] || (JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] && JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]].indexOf(newarr1.path) !== -1)) {
                       newarr1 = {
                         ...newarr1,
                         path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
