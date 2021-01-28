@@ -531,7 +531,7 @@ export default {
     // margin-left: 20px;
     -webkit-transform: skew(-40deg);
     background: linear-gradient(90deg, #f6f6f6 0%, #ffffff 100%);
-    padding: 0 31px 0 29px;
+    padding: 0 21px 0 19px;
     .ant-breadcrumb-link {
       span {
         text-align: center;
