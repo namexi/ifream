@@ -113,7 +113,8 @@ export const subSysTemConfig = {
       warehouseAllot: '/warehouseAllot',
       createNew: '/createNew',
       approvalForm: '/approvalForm',
-      approvalView: '/approvalView'
+      approvalView: '/approvalView',
+      approvalType: '/approvalType'
     }
   },
   human: {
