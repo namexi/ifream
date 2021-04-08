@@ -1,9 +1,5 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -84,11 +80,11 @@ export const subSysTemConfig = {
       detailFinanceAdmin: '/business/contract/detailFinanceAdmin',
       merchantsEnter: '/contractDetails/merchantsEnter',
       contractDescController: '/contract/desc/controller',
-      ldRule: "/leaveReceipt/ldRule",
+      ldRule: '/leaveReceipt/ldRule',
       examineDetail: '/service/batchRefund/examineDetail',
       refundDetail: '/service/batchRefund/detail',
       grantDetail: '/administration/grantDetail',
-      reservationDetail: "/refund/reservationDetail",
+      reservationDetail: '/refund/reservationDetail',
       dataStatistics: '/examine/dataStatistics',
       deduct: '/administration/deduct',
       commission: '/administration/commission',
@@ -163,7 +159,8 @@ export const subSysTemConfig = {
       workOrderModule: '/workOrder/workOrderModule',
       viewSolution: '/workOrder/viewSolution',
       questionCategory: '/workOrder/questionCategory',
-      schemePool: '/workOrder/schemePool'
+      schemePool: '/workOrder/schemePool',
+      myWorkOrder: '/workOrder/myWorkOrder'
     }
   },
   product: {
@@ -196,7 +193,7 @@ export const subSysTemConfig = {
       createModel: '/dockingTables/bindModel/createModel',
       writerEveryDayWork: '/writerEveryDayWork',
       everydayWorkOwn: '/everydayWorkOwn',
-      writerAllEveryDayWork: '/writerAllEveryDayWork',
+      writerAllEveryDayWork: '/writerAllEveryDayWork'
     }
   },
   brand: {
@@ -208,15 +205,15 @@ export const subSysTemConfig = {
   },
   third: {
     name: 'third',
-    url: `${prefixUrl}/third/index.html`,
-
+    url: `${prefixUrl}/third/index.html`
   },
   contract: {
     name: 'contract',
     url: `${prefixUrl}/contract/index.html`,
     pages: {
       contractCurdAdmin: '/contract/curdAdmin',
-      contractCurd: '/contract/curd'
+      contractCurd: '/contract/curd',
+      contractAddEcommerce: '/contract/addEcommerce'
     }
   },
   market: {
@@ -231,7 +228,7 @@ export const subSysTemConfig = {
       bdManageDetail: '/bdManage/bdManageDetail',
       centerAdd: '/center/add',
       messageDetail: '/center/messageDetail',
-      add: "/commander/add",
+      add: '/commander/add',
       detail: '/commander/detail',
       orderList: '/commander/orderList',
       extraction: '/extraction',
@@ -321,7 +318,7 @@ export const subSysTemConfig = {
       productDirectorteamProduct: '/productDirector/teamProduct',
       productList: '/productManager/productList',
       businessDetailsList: '/productManager/businessDetailsList',
-      refundDetailsList: '/productManager/refundDetailsList',
+      refundDetailsList: '/productManager/refundDetailsList'
     }
   },
   knowledge: {
