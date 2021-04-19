@@ -1,5 +1,9 @@
 /* eslint-disable */
-import { isDebug, isDev, isTest } from '@/config/util/env'
+import {
+  isDebug,
+  isDev,
+  isTest
+} from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -177,7 +181,21 @@ export const subSysTemConfig = {
       problemPlanDetail: '/problemPlan/problemDetail',
       maintainAddEdit: '/explosiveProducts/maintainAddEdit',
       productUseDateList: '/product/productUseDate/list',
-      productUseDateallList: '/product/productUseDate/allList'
+      productUseDateallList: '/product/productUseDate/allList',
+      setTripartiteSendCode: '/productSetting/setTripartiteSendCode',
+      productVisible: '/productSetting/productVisible',
+      changeContract: '/productSetting/changeContract',
+      changeSendCodeNum: '/productSetting/changeSendCodeNum',
+      changeMoneyRelevant: '/productSetting/changeMoneyRelevant',
+      changeStoreInfo: '/productSetting/changeStoreInfo',
+      appointmentMethod: '/productSetting/appointmentMethod',
+      dateSettings: '/productSetting/dateSettings',
+      purchaseSettings: '/productSetting/purchaseSettings',
+      setMealSort: '/productSetting/setMealSort',
+      setMealModify: 'productSetting/setMealModify',
+      changeContract: '/productSetting/changeContract',
+      productModify: 'productSetting/productModify',
+      restrictionsModify: 'productSetting/restrictionsModify'
     }
   },
   docking: {
