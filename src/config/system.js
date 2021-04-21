@@ -8,6 +8,8 @@ import {
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
 const devDeployUrl = 'http://192.168.10.113:9085'
+// const devDeployUrl = 'http://0.0.0.0:8087'
+
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
 if (isTest) prefixUrl = debugDeployUrl
@@ -164,7 +166,9 @@ export const subSysTemConfig = {
       viewSolution: '/workOrder/viewSolution',
       questionCategory: '/workOrder/questionCategory',
       schemePool: '/workOrder/schemePool',
-      myWorkOrder: '/workOrder/myWorkOrder'
+      myWorkOrder: '/workOrder/myWorkOrder',
+      addPoolOrder: '/customWorkforce/eleOrderPool/addPoolOrder',
+      elePoolDetail: '/customWorkforce/eleOrderPool/poolDetail'
     }
   },
   product: {
@@ -192,10 +196,10 @@ export const subSysTemConfig = {
       dateSettings: '/productSetting/dateSettings',
       purchaseSettings: '/productSetting/purchaseSettings',
       setMealSort: '/productSetting/setMealSort',
-      setMealModify: 'productSetting/setMealModify',
+      setMealModify: '/productSetting/setMealModify',
       changeContract: '/productSetting/changeContract',
-      productModify: 'productSetting/productModify',
-      restrictionsModify: 'productSetting/restrictionsModify'
+      productModify: '/productSetting/productModify',
+      restrictionsModify: '/productSetting/restrictionsModify'
     }
   },
   docking: {
