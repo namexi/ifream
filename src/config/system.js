@@ -1,14 +1,10 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'http://192.168.10.113:9085'
-// const devDeployUrl = 'http://0.0.0.0:8087'
+// const devDeployUrl = 'http://192.168.10.113:9085'
+const devDeployUrl = 'http://0.0.0.0:8087'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -199,7 +195,10 @@ export const subSysTemConfig = {
       setMealModify: '/productSetting/setMealModify',
       changeContract: '/productSetting/changeContract',
       productModify: '/productSetting/productModify',
-      restrictionsModify: '/productSetting/restrictionsModify'
+      restrictionsModify: '/productSetting/restrictionsModify',
+      administratorsList: '/productSetting/administratorsList',
+      subtotalListSetting: '/productSetting/subtotalList',
+      productManagerListSetting: '/productSetting/productManagerList'
     }
   },
   docking: {
