@@ -202,7 +202,8 @@ export const subSysTemConfig = {
       restrictionsModify: '/productSetting/restrictionsModify',
       administratorsList: '/productSetting/administratorsList',
       subtotalListSetting: '/productSetting/subtotalList',
-      productManagerListSetting: '/productSetting/productManagerList'
+      productManagerListSetting: '/productSetting/productManagerList',
+      bannerHistory: '/hotBanner/history'
     }
   },
   docking: {
