@@ -1,9 +1,5 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -63,7 +59,8 @@ export const subSysTemConfig = {
       nb_productInfoEdit: '/nb_productInfo/edit',
       nb_productInfoEditOther: '/nb_productInfo/edit/other',
       eb_productInfoEdit: '/eb_productInfo/edit',
-      eb_productInfoEditOther: '/eb_productInfo/edit/other'
+      eb_productInfoEditOther: '/eb_productInfo/edit/other',
+      notesToBuyAddOrEdit: '/notesToBuy/addOrEdit'
     }
   },
   technology: {
