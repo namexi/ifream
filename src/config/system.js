@@ -1,5 +1,9 @@
 /* eslint-disable */
-import { isDebug, isDev, isTest } from '@/config/util/env'
+import {
+  isDebug,
+  isDev,
+  isTest
+} from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -93,7 +97,8 @@ export const subSysTemConfig = {
       commission: '/administration/commission',
       examineDetailTest: '/service/batchRefund/examineDetailTest',
       batchRefundExamineDetail: '/service/batchRefundExamineDetail',
-      batchRefundDetail: '/service/batchRefundDetail'
+      batchRefundDetail: '/service/batchRefundDetail',
+      modificationNoticeDetails: '/kingdee/modificationNotice/details'
     }
   },
   administration: {
