@@ -373,7 +373,8 @@ export const subSysTemConfig = {
     name: 'marketing',
     url: `${prefixUrl}/marketing/index.html`,
     pages: {
-      anchorManagDesc: '/anchorManag/desc'
+      anchorManagDesc: '/anchorManag/desc',
+      childManage: '/anchorManag/childManage'
     }
   }
 }
