@@ -1,9 +1,5 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -286,7 +282,8 @@ export const subSysTemConfig = {
       channelProductList: '/order/channel/productList',
       channelOrderList: '/order/channel/orderList',
       getCodeOrderList: '/order/automaticGetCode/orderList',
-      addProductPush: '/order/product/addProductPush'
+      addProductPush: '/order/product/addProductPush',
+      dashBoard: '/xlManage/dashBoard'
     }
   },
   order: {
