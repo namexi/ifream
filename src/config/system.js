@@ -202,7 +202,11 @@ export const subSysTemConfig = {
       administratorsList: '/productSetting/administratorsList',
       subtotalListSetting: '/productSetting/subtotalList',
       productManagerListSetting: '/productSetting/productManagerList',
-      bannerHistory: '/hotBanner/history'
+      bannerHistory: '/hotBanner/history',
+      popCreate: '/hotPop/create',
+      shopHis: '/product/goodShop/his',
+      categoryHis: '/product/category/his',
+      categoryAdd: '/product/category/add'
     }
   },
   docking: {
