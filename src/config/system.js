@@ -95,7 +95,8 @@ export const subSysTemConfig = {
       batchRefundExamineDetail: '/service/batchRefundExamineDetail',
       batchRefundDetail: '/service/batchRefundDetail',
       modificationNoticeDetails: '/kingdee/modificationNotice/details',
-      modificationNotice: '/kingdee/modificationNotice'
+      modificationNotice: '/kingdee/modificationNotice',
+      overpaymentRecordList: '/overpayment/recordList'
     }
   },
   administration: {
@@ -167,7 +168,9 @@ export const subSysTemConfig = {
       schemePool: '/workOrder/schemePool',
       myWorkOrder: '/workOrder/myWorkOrder',
       addPoolOrder: '/customWorkforce/eleOrderPool/addPoolOrder',
-      elePoolDetail: '/customWorkforce/eleOrderPool/poolDetail'
+      elePoolDetail: '/customWorkforce/eleOrderPool/poolDetail',
+      skillGroupLog: '/skillsGroup/log',
+      account: '/bpoManager/account'
     }
   },
   product: {
@@ -206,7 +209,10 @@ export const subSysTemConfig = {
       popCreate: '/hotPop/create',
       shopHis: '/product/goodShop/his',
       categoryHis: '/product/category/his',
-      categoryAdd: '/product/category/add'
+      categoryAdd: '/product/category/add',
+      goodShopManagerList: '/product/goodShopManage/manager',
+      goodShopAreaList: '/product/goodShopManage/area',
+      goodShopAdminList: '/product/goodShopManage/admin'
     }
   },
   docking: {
@@ -375,7 +381,8 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/marketing/index.html`,
     pages: {
       anchorManagDesc: '/anchorManag/desc',
-      childManage: '/anchorManag/childManage'
+      childManage: '/anchorManag/childManage',
+      vedioList: '/vedioList'
     }
   }
 }
