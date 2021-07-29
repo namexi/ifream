@@ -382,7 +382,10 @@ export const subSysTemConfig = {
     pages: {
       anchorManagDesc: '/anchorManag/desc',
       childManage: '/anchorManag/childManage',
-      vedioList: '/vedioList'
+      vedioList: '/vedioList',
+      spuInfo:'/spuInfo',
+      spuManag:'/spuManag',
+      addSpu:'/addSpu'
     }
   }
 }
