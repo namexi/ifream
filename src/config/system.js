@@ -170,7 +170,8 @@ export const subSysTemConfig = {
       addPoolOrder: '/customWorkforce/eleOrderPool/addPoolOrder',
       elePoolDetail: '/customWorkforce/eleOrderPool/poolDetail',
       skillGroupLog: '/skillsGroup/log',
-      account: '/bpoManager/account'
+      account: '/bpoManager/account',
+      smsmanagement:'/smsManagement'
     }
   },
   product: {
