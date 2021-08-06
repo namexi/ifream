@@ -171,7 +171,8 @@ export const subSysTemConfig = {
       elePoolDetail: '/customWorkforce/eleOrderPool/poolDetail',
       skillGroupLog: '/skillsGroup/log',
       account: '/bpoManager/account',
-      smsmanagement:'/smsManagement'
+      smsmanagement: '/smsManagement',
+      oprateRequire: '/oprateRequire'
     }
   },
   product: {
@@ -213,7 +214,9 @@ export const subSysTemConfig = {
       categoryAdd: '/product/category/add',
       goodShopManagerList: '/product/goodShopManage/manager',
       goodShopAreaList: '/product/goodShopManage/area',
-      goodShopAdminList: '/product/goodShopManage/admin'
+      goodShopAdminList: '/product/goodShopManage/admin',
+      deferredApply: '/product/deferredSales/deferredApply',
+      saleProductDesc: '/product/deferredSales/saleProductDesc'
     }
   },
   docking: {
@@ -384,9 +387,9 @@ export const subSysTemConfig = {
       anchorManagDesc: '/anchorManag/desc',
       childManage: '/anchorManag/childManage',
       vedioList: '/vedioList',
-      spuInfo:'/spuInfo',
-      spuManag:'/spuManag',
-      addSpu:'/addSpu'
+      spuInfo: '/spuInfo',
+      spuManag: '/spuManag',
+      addSpu: '/addSpu'
     }
   }
 }
