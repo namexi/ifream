@@ -216,7 +216,8 @@ export const subSysTemConfig = {
       goodShopAreaList: '/product/goodShopManage/area',
       goodShopAdminList: '/product/goodShopManage/admin',
       deferredApply: '/product/deferredSales/deferredApply',
-      saleProductDesc: '/product/deferredSales/saleProductDesc'
+      saleProductDesc: '/product/deferredSales/saleProductDesc',
+      hotelBannerHistory: '/hotelBanner/history'
     }
   },
   docking: {
