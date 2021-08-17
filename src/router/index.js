@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-
+import {
+  openSubSystem,
+  getToken
+} from 'Config/util'
+import {
+  getQueryString
+} from 'nearby-common'
 Vue.use(Router)
 
 const originalPush = Router.prototype.push
@@ -16,7 +22,7 @@ const router = new Router({
   routes: [{
       path: '/',
       name: 'home',
-      redirect: 'welcome',
+      // redirect: 'welcome',
       component: (resolve) => require(['Pages/index'], resolve),
       children: [{
           path: '/welcome',
@@ -51,8 +57,12 @@ const router = new Router({
     }
   ]
 })
-router.beforeEach((to, from, next) => {
 
+
+router.beforeEach((to, from, next) => {
+  const urlToken = getQueryString('token')
+  const token = getToken()
+  if (to.path == '/' && token) openSubSystem('customer', '/oaIndex', null)
   next()
 })
 export default router

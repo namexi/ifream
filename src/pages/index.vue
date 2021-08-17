@@ -8,12 +8,12 @@
       <div class="title-mid">
         <a-breadcrumb separator="">
           <a-breadcrumb-item class="breadcrumb-home"> <img src="../assets/icon/icon_home@2x.png" alt="" @click="goHome" /> </a-breadcrumb-item>
-          <a-breadcrumb-item class="breadcrumb-item" v-if="getBreadCrumbs.name">
+          <a-breadcrumb-item class="breadcrumb-item" v-if="getBreadCrumbs.name && !oaIndex">
             <a
               ><span :title="getBreadCrumbs.name"> {{ getBreadCrumbs.name }} </span></a
             >
           </a-breadcrumb-item>
-          <a-breadcrumb-item v-if="getBreadCrumbs.name" class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
+          <a-breadcrumb-item v-if="getBreadCrumbs.name && !oaIndex" class="breadcrumb-item" v-for="(item, i) in getBreadCrumbs.children" :key="i">
             <a
               ><span @click.self="breadcrumbClick(item, i)" :title="item.name"> {{ item.name }} </span></a
             >
@@ -37,12 +37,12 @@
                 <p class="three-text" v-for="(items, i) in userInfo.deptPositionName" :key="i">{{ items }}</p>
               </div>
             </div>
-            <div class="assistant-list">
+            <!-- <div class="assistant-list">
               <div class="usercolor code-title">联系技术助理（微信扫一扫添加）</div>
               <img src="../assets/qrcode/ass1.png" class="assistant-code" alt="assistant" />
               <img src="../assets/qrcode/ass2.png" class="assistant-code" alt="assistant" />
               <img src="../assets/qrcode/ass3.png" class="assistant-code" alt="assistant" />
-            </div>
+            </div> -->
             <div class="download-browser" v-if="downloadChromeUrl">
               <p class="three-title">下载浏览器</p>
               <div @click="downloadChrome" v-if="downloadChromeUrl">
@@ -85,11 +85,14 @@
           <div class="favorite-menu" v-if="menuSearchActive">
             <div class="favorite-menu-title">收藏菜单</div>
             <div class="menu-collect-box">
-              <div class="favorite-menu-conect" v-for="superItem in collections" :key="superItem.id">
-                <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
-                  <div class="tool-box">
-                    <span class="menu-title" :title="subItem.name">{{ subItem.name }}</span>
-                    <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" @click.stop="cancelCollect(subItem)" />
+              <div class="favorite-menu-conect" v-for="(superItem, index) in collections" :key="index">
+                <div v-if="superItem && superItem.children">
+                  <div v-for="subItem in superItem.children" :key="subItem.id" :class="[subItem.isActive ? 'menu-selected' : '']" @click="handleFavoritesClick({ superItem, subItem }, $event)">
+                    <!-- {{ subItem }} -->
+                    <div class="tool-box">
+                      <span class="menu-title" :title="subItem.name">{{ subItem.name }}</span>
+                      <img src="../assets/icon/icon_menu_star_active@2x.png" alt="" @click.stop="cancelCollect(subItem)" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -142,6 +145,7 @@ export default {
     if (currentPath.startsWith('/frame/')) {
       currentPath = currentPath.slice(6)
     }
+    if (this.$route.path !== '/' || this.$route.path !== '/frame/oaIndex') this.oaIndex = false
     const menu = items.find((e) => e.path === currentPath)
     if (!menu) {
       this.menuSearchActive = true //默认选中菜单
@@ -190,7 +194,8 @@ export default {
       menuItemList: [],
       menuSidebar: false, // 子菜单显示隐藏
       menuSearchActive: false, // 菜单搜索是否选中
-      itemMenuValue: {} // 索引数据
+      itemMenuValue: {}, // 索引数据
+      oaIndex: true
     }
   },
   computed: {
@@ -288,6 +293,7 @@ export default {
       this.menuSidebar = true
     },
     onKeywordChange(v) {
+      this.oaIndex = false
       if (v)
         return new Promise((resolve, reject) => {
           let params = {
@@ -306,6 +312,7 @@ export default {
         })
     },
     goHome() {
+      this.oaIndex = true
       this.$router.push('/')
     },
     onToggleCollapse() {
@@ -317,7 +324,7 @@ export default {
       // 再次点击
       // console.dir(event)
       // if (subItem.display == 0) return
-
+      this.oaIndex = false
       this.$store.dispatch('setLoading', true)
       // this.$store.dispatch('setBreadCrumbs', {})
       this.$refs.iframe.loading = false

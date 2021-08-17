@@ -1,5 +1,9 @@
 /* eslint-disable */
-import { isDebug, isDev, isTest } from '@/config/util/env'
+import {
+  isDebug,
+  isDev,
+  isTest
+} from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -172,7 +176,8 @@ export const subSysTemConfig = {
       skillGroupLog: '/skillsGroup/log',
       account: '/bpoManager/account',
       smsmanagement: '/smsManagement',
-      oprateRequire: '/oprateRequire'
+      oprateRequire: '/oprateRequire',
+      skillOprateLog: '/skillOprateLog'
     }
   },
   product: {
@@ -217,7 +222,9 @@ export const subSysTemConfig = {
       goodShopAdminList: '/product/goodShopManage/admin',
       deferredApply: '/product/deferredSales/deferredApply',
       saleProductDesc: '/product/deferredSales/saleProductDesc',
-      hotelBannerHistory: '/hotelBanner/history'
+      hotelBannerHistory: '/hotelBanner/history',
+      deferredApply: '/product/deferredSales/deferredApply',
+      saleProductDesc: '/product/deferredSales/saleProductDesc'
     }
   },
   docking: {
