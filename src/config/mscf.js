@@ -53,6 +53,7 @@ mscf.on('redirect', (e) => {
     query
   } = e.data
   const system = getSystem(target)
+  console.log(system, 'redirect')
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   store.dispatch('setLoading', false)
   let targetPage = system.pages[page]
@@ -72,6 +73,7 @@ mscf.on('openNewSystem', e => {
     query
   } = e.data
   const system = getSystem(target)
+  console.log(system, 'openNewSystem')
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   store.dispatch('setLoading', false)
   let targetPage = system.pages[page]

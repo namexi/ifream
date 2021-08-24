@@ -132,6 +132,19 @@ import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
 import { getQueryString, deleteQueryString } from 'nearby-common'
 import store from 'Config/store/store'
 import { mapGetters } from 'vuex'
+const getQueryString1 = function (name, path = window.location.search) {
+  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
+  if (path.indexOf('=') > -1) {
+    let r = path.substr(1).match(reg)
+    if (r) {
+      return unescape(r[2])
+    } else {
+      r = path.match(new RegExp(name + '=([^&]*)(&|$)'))
+      if (r) return unescape(r[1])
+    }
+  }
+  return ''
+}
 export default {
   name: 'home',
   created() {
@@ -320,6 +333,7 @@ export default {
       this.openKeys = null // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
     handleClick({ superItem, subItem }, event, clear = true) {
+      console.log(subItem)
       // debugger
       // 再次点击
       // console.dir(event)
@@ -336,8 +350,14 @@ export default {
           // 当前页面路径
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
+          const newAlias = getQueryString1('sysName', path)
+          subItem.query = {
+            alias: newAlias
+          }
           // this.$store.dispatch('setBreadCrumbs', { alias, path })
-          openSubSystem(alias, subItem.path, null, subItem.query)
+          console.log(newAlias, path)
+          if (newAlias !== alias && newAlias) openSubSystem(alias, subItem.path, null, subItem.query)
+          else openSubSystem(alias, subItem.path, null, subItem.query)
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //

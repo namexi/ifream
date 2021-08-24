@@ -25,11 +25,13 @@ export function isNil(t) {
  * @param query 路由参数query
  */
 export function openSubSystem(name, url, params, query = {}) {
-  const system = getSystem(name)
+  let system = getSystem(name)
+  if (query.alias) system = getSystem(query.alias)
   if (!system) return
   const systemPage = system.pages
   url = url.replace(' ', '')
   let path = '/frame' + url
+  console.log(system)
   // let newparams = ''
   if (params && typeof params == 'object') {
     for (let k in params) {
