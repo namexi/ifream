@@ -1,9 +1,5 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -76,7 +72,9 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/common/index.html`,
     pages: {
       childMenuManage: '/authority/childMenuManage',
-      portManage: '/authority/portManage'
+      portManage: '/authority/portManage',
+      centerOprateLog: '/center/log',
+      positionOprateLog: '/position/log'
     }
   },
   finance: {
@@ -138,7 +136,9 @@ export const subSysTemConfig = {
       wageDetail: '/wage/wageDetail',
       commissionList: '/wage/commissionList',
       wageList: '/wage/wageList',
-      financeEmployEdit: '/employees/financeEmployEdit'
+      financeEmployEdit: '/employees/financeEmployEdit',
+      employeeOprateLog: '/employee/log',
+      branchOprateLog: '/company/log'
     }
   },
   customer: {
@@ -224,7 +224,8 @@ export const subSysTemConfig = {
       saleProductDesc: '/product/deferredSales/saleProductDesc',
       hotelBannerHistory: '/hotelBanner/history',
       deferredApply: '/product/deferredSales/deferredApply',
-      saleProductDesc: '/product/deferredSales/saleProductDesc'
+      saleProductDesc: '/product/deferredSales/saleProductDesc',
+      productInfoToyBox: '/product/productInfo/toyBox'
     }
   },
   docking: {
