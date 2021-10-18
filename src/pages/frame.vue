@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getToken } from 'Config/util'
+import { getToken,mscf } from 'Config/util'
 import { getSystem } from 'Config/system'
 import { json2params, addQueryString, deleteQueryString } from 'nearby-common'
 import Page404 from 'Pages/Page404'
@@ -61,7 +61,6 @@ export default {
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       let { path, query } = val
-      this.traceList(val, v)
       goPath = this.findBreadCrumbs(menuListAll, {
         target: query.sysName,
         targetPage: path,
@@ -71,7 +70,13 @@ export default {
           ...query
         }
       })
-      if (goPath === 0) return this.$router.go(-1)
+      if (goPath === 0) {
+        console.log(this.$route.path)
+        mscf.emit('routeChangeCall', '*', 'error');
+        // sessionStorage.setItem('routeChangeCall', '0');
+        return window.history.go(-1)
+      }
+      this.traceList(val, v)
       if (val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
@@ -96,13 +101,16 @@ export default {
       const system = getSystem(sysName) // 从query上解析出要跳转到哪个系统
       if (!system) return console.error('没有找到系统')
       this.system = system
+  
       // this.loading = false
       this.getPath(query)
       // debugger
     },
     getPath(query = null) {
+         
       this.$nextTick(() => {
         if (!this.system) return
+        
         let path = this.$route.path
         path = path.substr(6) // 解析出子应用路由 去掉/frame
         // let { fullPath } = this.$route
@@ -121,6 +129,7 @@ export default {
           // } else
           this.$refs.frame.contentWindow.location.replace(url)
           if (this.loading) this.$store.dispatch('setLoading', false)
+      
           // console.log('loading missing',this.getChildrenjump,this.loading)
           // if(!this.$refs.frame.contentWindow) {
           //   console.log('没有适口了')
@@ -361,125 +370,9 @@ export default {
       this.$store.commit('uploadbreadCrumbs', {
         ...findArr[0]
       })
+      // sessionStorage.setItem('routeChangeCall', '1');
+      return 1
     }
-    // findBreadCrumbs(arr = [], obj = null) {
-    //   let findArr = []
-    //   let findchild
-    //   let childArr
-    //   if (arr.length > 0 && obj) {
-    //     let pageSystem = getSystem(obj.target).pages
-    //     // 查找最后一级
-    //     // findArr = arr.filter((item) => item.alias === obj.target)
-    //     arr.map((item) => {
-    //       if (item.alias === obj.target) {
-    //         findArr.push(item)
-    //       }
-    //     })
-    //     // 父级分为多个系统
-    //     if (findArr.length > 1) {
-    //       let reductionDimensionality = []
-    //       findArr.map((item) => {
-    //         reductionDimensionality = {
-    //           children: item.children.filter((el) => {
-    //             let itemPath = el.path
-    //             if (itemPath.endsWith('/')) {
-    //               itemPath = itemPath.slice(0, itemPath.length - 1)
-    //             }
-    //             return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
-    //           }),
-    //           ...item
-    //         }
-    //       })
-    //       findArr = [
-    //         {
-    //           ...reductionDimensionality
-    //         }
-    //       ]
-    //     }
-    //     childArr = findArr[0].children || []
-    //     findchild = childArr.filter((item) => {
-    //       let itemPath = item.path
-    //       if (itemPath.endsWith('/')) {
-    //         itemPath = itemPath.slice(0, itemPath.length - 1)
-    //       }
-    //       console.log(itemPath, `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1)
-    //       return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
-    //     })
-    //     console.log(findchild)
-    //     if (findchild.length > 1) {
-    //       // 最后一级不止一个
-    //       findchild = findchild.filter((item) => `/frame${item.path}` === obj.targetPage)
-    //     }
-    //     if (!findchild[0].name) {
-    //       this.$message.error('请配置菜单')
-    //       return 0
-    //     }
-    //     findchild = [
-    //       {
-    //         ...findchild[0],
-    //         path: obj.targetPage
-    //       }
-    //     ]
-    //     if (obj.breadCrumbs) {
-    //       // 查找上一级
-    //       let len = obj.breadCrumbs.length
-    //       let findotherchild = []
-    //       if (len > 0) {
-    //         for (let i = 0; i < len; i++) {
-    //           //上一级
-    //           let newarr = childArr.filter((item) => {
-    //             // console.log(item.path)
-    //             return `${obj.breadCrumbs[i]}/`.indexOf(`${item.path}/`) !== -1
-    //           })
-    //           if (newarr.length > 0) {
-    //             console.log(obj.targetPage)
-    //             if (newarr.length > 1) {
-    //               newarr = newarr.filter((item) => obj.breadCrumbs[i] === item.path)
-    //             }
-    //             findotherchild.push({
-    //               ...newarr,
-    //               path: obj.breadCrumbs[i]
-    //               // query: {
-    //               //   ...obj.query
-    //               // }
-    //             })
-    //             console.log(findotherchild)
-    //             // 上一级不存在 就去大菜单里面找吧
-    //           } else {
-    //             let len = arr.length
-    //             for (let j = 0; j < len; j++) {
-    //               let item = arr[j]
-    //               if (item.children && item.children.length > 0) {
-    //                 let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
-    //                 if (newarr1) {
-    //                   newarr1 = {
-    //                     ...newarr1,
-    //                     path: obj.breadCrumbs[i]
-    //                     // query: {
-    //                     //   ...obj.query
-    //                     // }
-    //                   }
-    //                   console.log(newarr1)
-    //                   findArr = [arr[j]]
-    //                   findotherchild.push(newarr1)
-    //                 }
-    //               }
-    //             }
-    //           }
-    //         }
-    //       }
-    //       this.$store.commit('uploadbreadCrumbs', {
-    //         ...findArr[0],
-    //         children: [...findotherchild, ...findchild]
-    //       })
-    //       return
-    //     }
-    //     this.$store.commit('uploadbreadCrumbs', {
-    //       ...findArr[0],
-    //       children: [...findchild]
-    //     })
-    //   }
-    // }
   },
   computed: {
     ...mapGetters(['getLoading', 'getBreadCrumbsSystem', 'getBreadCrumbs'])

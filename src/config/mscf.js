@@ -1,22 +1,10 @@
 /* eslint-disable */
-import {
-  mscf,
-  openSubSystem,
-  openNewSystem
-} from './util'
-import {
-  message
-} from 'ant-design-vue'
-import {
-  getSystem
-} from '@/config/system'
-import {
-  compile
-} from 'path-to-regexp'
+import { mscf, openSubSystem, openNewSystem } from './util'
+import { message } from 'ant-design-vue'
+import { getSystem } from '@/config/system'
+import { compile } from 'path-to-regexp'
 import router from '@/router'
-import {
-  addQueryString
-} from 'nearby-common'
+import { addQueryString } from 'nearby-common'
 import store from '@/config/store/store.js'
 import _ from 'lodash'
 message.config({
@@ -45,13 +33,7 @@ mscf.on('toast.warning', (e) => {
 
 // 某个系统想跳转到其他子系统
 mscf.on('redirect', (e) => {
-  const {
-    target,
-    breadCrumbs,
-    page,
-    params,
-    query
-  } = e.data
+  const { target, breadCrumbs, page, params, query } = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   store.dispatch('setLoading', false)
@@ -64,13 +46,8 @@ mscf.on('redirect', (e) => {
 })
 
 // 打开新窗口
-mscf.on('openNewSystem', e => {
-  const {
-    target,
-    page,
-    params,
-    query
-  } = e.data
+mscf.on('openNewSystem', (e) => {
+  const { target, page, params, query } = e.data
   const system = getSystem(target)
   if (!system) return console.error(`Unregistered system: "${target}"!`)
   store.dispatch('setLoading', false)

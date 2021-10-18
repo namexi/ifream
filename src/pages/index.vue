@@ -328,7 +328,6 @@ export default {
       this.$store.dispatch('setLoading', true)
       // this.$store.dispatch('setBreadCrumbs', {})
       this.$refs.iframe.loading = false
-      console.log(this.$refs.iframe.loading)
       // 当前系统路径
       const { alias = '', path = '' } = superItem
       if (isUrl(path)) {

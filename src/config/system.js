@@ -1,14 +1,10 @@
 /* eslint-disable */
-import {
-  isDebug,
-  isDev,
-  isTest
-} from '@/config/util/env'
+import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
 const devDeployUrl = 'http://192.168.10.113:9085'
-// const devDeployUrl = 'http://0.0.0.0:8086'
+// const devDeployUrl = 'http://0.0.0.0:3000'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -143,7 +139,8 @@ export const subSysTemConfig = {
       financeEmployEdit: '/employees/financeEmployEdit',
       employeeOprateLog: '/employee/log',
       branchOprateLog: '/company/log',
-      eCommerceLog: '/employee/eCommerceLog'
+      eCommerceLog: '/employee/eCommerceLog',
+      jointEmployeeLog: '/employee/jointEmployeeLog'
     }
   },
   customer: {
@@ -230,7 +227,8 @@ export const subSysTemConfig = {
       hotelBannerHistory: '/hotelBanner/history',
       deferredApply: '/product/deferredSales/deferredApply',
       saleProductDesc: '/product/deferredSales/saleProductDesc',
-      productInfoToyBox: '/productInfo/toyBox'
+      productInfoToyBox: '/productInfo/toyBox',
+      newOrder: '/productInfo/newOrder'
     }
   },
   docking: {
@@ -266,7 +264,9 @@ export const subSysTemConfig = {
     pages: {
       contractCurdAdmin: '/contract/curdAdmin',
       contractCurd: '/contract/curd',
-      contractAddEcommerce: '/contract/addEcommerce'
+      contractAddEcommerce: '/contract/addEcommerce',
+      dyStoreMerge: '/dy/store/merge',
+      myContract: '/v3/my/contract'
     }
   },
   market: {
@@ -404,6 +404,30 @@ export const subSysTemConfig = {
       spuInfo: '/spuInfo',
       spuManag: '/spuManag',
       addSpu: '/addSpu'
+    }
+  },
+  merchant: {
+    name: 'merchant',
+    url: `${prefixUrl}/merchant`,
+    pages: {
+      // log: '/log'
+    }
+  },
+  dyfxweb: {
+    name: 'dyfxweb',
+    url: `${prefixUrl}/web-dyfx/`,
+    pages: {}
+  },
+  alipay: {
+    name: 'alipay',
+    url: `${prefixUrl}/alipay/`,
+    pages: {
+      recommend: '/recommend',
+      check: '/check',
+      product: '/product',
+      config: '/config',
+      order: '/order',
+      statistics: '/statistics'
     }
   }
 }

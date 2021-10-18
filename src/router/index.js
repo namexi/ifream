@@ -1,30 +1,27 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import {
-  openSubSystem,
-  getToken
-} from 'Config/util'
-import {
-  getQueryString
-} from 'nearby-common'
+import { openSubSystem, getToken } from 'Config/util'
+import { getQueryString } from 'nearby-common'
 Vue.use(Router)
 
 const originalPush = Router.prototype.push
 Router.prototype.push = function push(location) {
-  return originalPush.call(this, location).catch(err => err)
+  return originalPush.call(this, location).catch((err) => err)
 }
 
-const originalReplace = Router.prototype.replace;
+const originalReplace = Router.prototype.replace
 Router.prototype.replace = function replace(location) {
-  return originalReplace.call(this, location).catch(err => err);
+  return originalReplace.call(this, location).catch((err) => err)
 }
 const router = new Router({
-  routes: [{
+  routes: [
+    {
       path: '/',
       name: 'home',
       // redirect: 'welcome',
       component: (resolve) => require(['Pages/index'], resolve),
-      children: [{
+      children: [
+        {
           path: '/welcome',
           name: 'welcome',
           component: (resolve) => require(['Pages/welcome/welcome'], resolve)
@@ -33,6 +30,11 @@ const router = new Router({
           path: '/frame/*:path',
           name: 'subSystem',
           component: (resolve) => require(['Pages/frame'], resolve)
+        },
+        {
+          path: '/401',
+          name: '401',
+          component: (resolve) => require(['Pages/Page401'], resolve)
         }
       ]
     },
@@ -57,7 +59,6 @@ const router = new Router({
     }
   ]
 })
-
 
 router.beforeEach((to, from, next) => {
   const urlToken = getQueryString('token')

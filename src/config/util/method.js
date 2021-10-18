@@ -1,6 +1,4 @@
-import {
-  getSystem
-} from '../system'
+import { getSystem } from '../system'
 import router from '@/router'
 
 /**
@@ -39,13 +37,12 @@ export function openSubSystem(name, url, params, query = {}) {
     // console.log(query, path)
     // system.pages[]
   }
-
   router.push({
     path,
     query: {
       ...query,
-      sysName: name,
-    },
+      sysName: name
+    }
   })
 }
 
@@ -56,7 +53,6 @@ export function openNewSystem(name, url, query = {}) {
   let queryStr = ''
   for (let k in query) {
     queryStr = queryStr + `${k}=${query[k]}&`
-
   }
   window.open(`./index.html#/frame${url}?${queryStr}sysName=${name}`)
 }
