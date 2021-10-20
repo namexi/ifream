@@ -411,7 +411,7 @@ export const subSysTemConfig = {
     name: 'merchant',
     url: `${prefixUrl}/merchant/index.html`,
     pages: {
-      // log: '/log'
+      merchant: '/merchant'
     }
   },
   dyfxweb: {
