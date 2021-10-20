@@ -266,7 +266,8 @@ export const subSysTemConfig = {
       contractCurd: '/contract/curd',
       contractAddEcommerce: '/contract/addEcommerce',
       dyStoreMerge: '/dy/store/merge',
-      myContract: '/v3/my/contract'
+      myContract: '/v3/my/contract',
+      myContractYxs: '/v3/my/contract/yxs'
     }
   },
   market: {
@@ -408,7 +409,7 @@ export const subSysTemConfig = {
   },
   merchant: {
     name: 'merchant',
-    url: `${prefixUrl}/merchant`,
+    url: `${prefixUrl}/merchant/index.html`,
     pages: {
       // log: '/log'
     }
