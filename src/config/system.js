@@ -228,7 +228,8 @@ export const subSysTemConfig = {
       deferredApply: '/product/deferredSales/deferredApply',
       saleProductDesc: '/product/deferredSales/saleProductDesc',
       productInfoToyBox: '/productInfo/toyBox',
-      newOrder: '/productInfo/newOrder'
+      newOrder: '/productInfo/newOrder',
+      managementModel: '/productInfo/newOrder/managementModel'
     }
   },
   docking: {
