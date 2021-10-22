@@ -4,7 +4,7 @@ import { isDebug, isDev, isTest } from '@/config/util/env'
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
 const devDeployUrl = 'http://192.168.10.113:9085'
-// const devDeployUrl = 'http://0.0.0.0:3000'
+// const devDeployUrl = 'http://localhost:3000'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -267,8 +267,14 @@ export const subSysTemConfig = {
       contractCurd: '/contract/curd',
       contractAddEcommerce: '/contract/addEcommerce',
       dyStoreMerge: '/dy/store/merge',
-      myContract: '/v3/my/contract',
-      myContractYxs: '/v3/my/contract/yxs'
+      myContract: '/v3/contract/list/my',
+      myContractYxs: '/v3/my/contract/yxs',
+      serverContractDesc: '/v3/server/contract/desc',
+      addServiceContract: '/v3/addServiceContract',
+      addServiceContractAdd: '/v3/addServiceContract/add',
+      createAdditionalAgreement: '/v3/createAdditionalAgreement',
+      createContract: '/v3/create/contract',
+      contractDesc: '/v3/contract/desc'
     }
   },
   market: {
