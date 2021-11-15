@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { getToken,mscf } from 'Config/util'
+import { getToken, mscf } from 'Config/util'
 import { getSystem } from 'Config/system'
 import { json2params, addQueryString, deleteQueryString } from 'nearby-common'
 import Page404 from 'Pages/Page404'
@@ -33,11 +33,34 @@ export default {
     // console.log(this.$route, 'frame')
     let { menuList } = this.$store.state.userInfo
     let { path, query } = this.$route
+
     this.traceList(this.$route, null)
+    let breadCrumbs = query.breadCrumbs
+      ? Array.isArray(query.breadCrumbs)
+        ? [sessionStorage.getItem('upper-path')] || []
+        : query.breadCrumbs.split(',') || query.breadCrumbs.split('')
+      : this.$route.path.split(',') || this.$route.path.split('')
+    // let obj = sessionStorage.getItem('breadCrumbs-path') || null
+    // obj = obj ? JSON.parse(obj) : {}
+    // breadCrumbs = Object.values(obj)
+    // console.log(query)
+    // if (Array.isArray(query.breadCrumbs)) {
+    //   let obj = sessionStorage.getItem('breadCrumbs-path') || null
+    //   obj = obj ? JSON.parse(obj) : {}
+    //   let breadCrumbsArr = Object.values(obj)
+    //   console.log(breadCrumbsArr)
+    //   query.breadCrumbs.map((el, index) => {
+    //     breadCrumbsArr[index].indexOf(el) !== -1 ? (breadCrumbs = breadCrumbsArr) : ''
+    //   })
+    //   console.log(breadCrumbs)
+    // } else {
+    //   breadCrumbs = query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : this.$route.path.split(',') || this.$route.path.split('')
+    // }
+    console.log(breadCrumbs)
     this.findBreadCrumbs(data, {
       target: query.sysName,
       targetPage: path,
-      breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : this.$route.path.split(',') || this.$route.path.split(''),
+      breadCrumbs,
       query: {
         // breadCrumbs: this.$route.fullPath,
         ...query
@@ -54,13 +77,14 @@ export default {
   },
   watch: {
     $route(val, v) {
-      // if (val.path === v.path) return
+      if (val.path === v.path) return
       // console.log(val, v)
       let goPath = 1
       let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
       console.log('watch')
       let { path, query } = val
+      console.log(Array.isArray(query.breadCrumbs))
       goPath = this.findBreadCrumbs(menuListAll, {
         target: query.sysName,
         targetPage: path,
@@ -71,8 +95,7 @@ export default {
         }
       })
       if (goPath === 0) {
-        console.log(this.$route.path)
-        mscf.emit('routeChangeCall', '*', 'error');
+        mscf.emit('routeChangeCall', '*', 'error')
         // sessionStorage.setItem('routeChangeCall', '0');
         return window.history.go(-1)
       }
@@ -101,16 +124,15 @@ export default {
       const system = getSystem(sysName) // 从query上解析出要跳转到哪个系统
       if (!system) return console.error('没有找到系统')
       this.system = system
-  
+
       // this.loading = false
       this.getPath(query)
       // debugger
     },
     getPath(query = null) {
-         
       this.$nextTick(() => {
         if (!this.system) return
-        
+
         let path = this.$route.path
         path = path.substr(6) // 解析出子应用路由 去掉/frame
         // let { fullPath } = this.$route
@@ -129,7 +151,7 @@ export default {
           // } else
           this.$refs.frame.contentWindow.location.replace(url)
           if (this.loading) this.$store.dispatch('setLoading', false)
-      
+
           // console.log('loading missing',this.getChildrenjump,this.loading)
           // if(!this.$refs.frame.contentWindow) {
           //   console.log('没有适口了')
@@ -192,7 +214,7 @@ export default {
       let obj = sessionStorage.getItem('breadCrumbs-path') || null
       obj = obj ? JSON.parse(obj) : {}
       if (query.breadCrumbs) {
-        let breadCrumbs = query.breadCrumbs.split(',') || query.breadCrumbs.split('')
+        let breadCrumbs = Array.isArray(query.breadCrumbs) ? query.breadCrumbs : query.breadCrumbs.split(',') || query.breadCrumbs.split('')
         let len = breadCrumbs.length
         if (!obj[breadCrumbs[len - 1]]) {
           if (!v) {
@@ -210,7 +232,6 @@ export default {
             //   [breadCrumbs[len - 1]]: upperPath
             // }
             upperPath = lastPath
-            console.log(upperPath)
             if (upperPath) {
               obj[breadCrumbs[len - 1]] = upperPath
             } else {
@@ -261,17 +282,20 @@ export default {
         if (newArr.length > 0) return newArr
         return false
       }
+
       // 查找父级
       arr.map((item) => {
         if (item.alias === obj.target) {
           findArr.push(item)
         }
       })
+
       let pageSystem = getSystem(obj.target).pages
       if (obj.query.breadCrumbs) {
         // 2级以上路由
         // 如果父级为多个系统
         let breadCrumbsLen = obj.breadCrumbs.length
+        // console.log(obj.breadCrumbs, '------>>>>>>>>>>>>>', '面包学 没得参数')
         let newchildSuperiorArr = []
         let breadCrumbsPath = sessionStorage.getItem('breadCrumbs-path') || null
         // 查找上一级
@@ -332,7 +356,6 @@ export default {
               //   console.log('-----------')
               // }
               childSuperiorArr = newchildSuperiorArr
-              console.log(newfindArr)
               // }
             }
           }
@@ -367,9 +390,11 @@ export default {
       } else {
         findArr = [{ ...findArr[0], children: [...childArr] }]
       }
+      // console.log(findArr, '====>>>>>>最终有没得参数')
       this.$store.commit('uploadbreadCrumbs', {
         ...findArr[0]
       })
+      // console.log(findArr[0], '=------------------------->')
       // sessionStorage.setItem('routeChangeCall', '1');
       return 1
     }
@@ -389,12 +414,12 @@ export default {
 <style scoped lang="less">
 .frame-container[frame] {
   width: 100%;
-  // min-width: 1200px;
+  // min-width: 1470px;
   height: 100%;
   .frame {
     height: 100%;
     width: 100%;
-    // min-width: 1200px;
+    // min-width: 1470px;
   }
 }
 </style>

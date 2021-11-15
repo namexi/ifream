@@ -3,8 +3,8 @@ import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'http://192.168.10.113:9085'
-// const devDeployUrl = 'http://localhost:3000'
+// const devDeployUrl = 'http://192.168.10.113:9085'
+const devDeployUrl = 'http://0.0.0.0:8086'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -140,7 +140,14 @@ export const subSysTemConfig = {
       employeeOprateLog: '/employee/log',
       branchOprateLog: '/company/log',
       eCommerceLog: '/employee/eCommerceLog',
-      jointEmployeeLog: '/employee/jointEmployeeLog'
+      jointEmployeeLog: '/employee/jointEmployeeLog',
+      programmeDetail: '/kpi/programmeDetail',
+      createManage: '/kpi/createManage',
+      processDetail: '/kpi/processDetail',
+      processDetailManager: '/kpi/processDetailManager',
+      sureKpiList: '/kpi/sureKpi',
+      resultTemplate: '/kpi/resultTemplate',
+      resultTemplateCreate: '/kpi/resultTemplateCreate'
     }
   },
   customer: {
@@ -229,7 +236,7 @@ export const subSysTemConfig = {
       saleProductDesc: '/product/deferredSales/saleProductDesc',
       productInfoToyBox: '/productInfo/toyBox',
       newOrder: '/productInfo/newOrder',
-      managementModel: '/productInfo/newOrder/managementModel'
+      managementModel: '/productInfo/managementModel'
     }
   },
   docking: {
@@ -274,7 +281,10 @@ export const subSysTemConfig = {
       addServiceContractAdd: '/v3/addServiceContract/add',
       createAdditionalAgreement: '/v3/createAdditionalAgreement',
       createContract: '/v3/create/contract',
-      contractDesc: '/v3/contract/desc'
+      contractDesc: '/v3/contract/desc',
+      createContractYxs: '/v3/create/contract/yxs',
+      annexAgreement: '/v3/contract/desc/annex/agreement',
+      contractListYxs: '/v3/contract/list/yxs'
     }
   },
   market: {
@@ -405,6 +415,7 @@ export const subSysTemConfig = {
   marketing: {
     name: 'marketing',
     url: `${prefixUrl}/marketing/index.html`,
+
     pages: {
       anchorManagDesc: '/anchorManag/desc',
       childManage: '/anchorManag/childManage',
@@ -418,7 +429,10 @@ export const subSysTemConfig = {
     name: 'merchant',
     url: `${prefixUrl}/merchant/index.html`,
     pages: {
-      merchant: '/merchant'
+      merchant: '/merchant',
+      myMerchantList: '/myMerchant/list',
+      freshPrebioticList: '/freshPrebiotic/list',
+      wineSceneMerchantList: '/wineSceneMerchant/list'
     }
   },
   dyfxweb: {

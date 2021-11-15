@@ -434,19 +434,17 @@ export default {
     },
     // 面包屑
     breadcrumbClick(v, index) {
-      console.log(v, index)
       let pathCrumbs = v.path
       let { path } = this.$route
       let { children } = this.getBreadCrumbs
-      // console.log(path,pathCrumbs)
+
       if (path === pathCrumbs || this.getBreadCrumbs.children.length - 1 == index) return false
       //保留点击之前导航层级数
       let i = children.indexOf(v)
       let len = children.length
       let priorToDifference = len - (i + 1)
-      console.log(priorToDifference)
+
       if (priorToDifference >= 0 && i !== 0) {
-        console.log(11)
         // let newchild = children.slice(0, priorToDifference)
         // let breadCrumbs = ''
         // for (let i = 0; i < newchild.length; i++) {
