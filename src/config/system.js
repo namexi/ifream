@@ -146,7 +146,9 @@ export const subSysTemConfig = {
       processDetailManager: '/kpi/processDetailManager',
       sureKpiList: '/kpi/sureKpi',
       resultTemplate: '/kpi/resultTemplate',
-      resultTemplateCreate: '/kpi/resultTemplateCreate'
+      resultTemplateCreate: '/kpi/resultTemplateCreate',
+      programmeManage: '/kpi/programmeManage',
+      employeeManage: '/kpi/employeeManage'
     }
   },
   customer: {
