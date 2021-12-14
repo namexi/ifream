@@ -237,7 +237,8 @@ export const subSysTemConfig = {
       saleProductDesc: '/product/deferredSales/saleProductDesc',
       productInfoToyBox: '/productInfo/toyBox',
       newOrder: '/productInfo/newOrder',
-      managementModel: '/productInfo/managementModel'
+      managementModel: '/productInfo/managementModel',
+      todayRecommended:'/operate/todayRecommended'
     }
   },
   docking: {
@@ -285,7 +286,8 @@ export const subSysTemConfig = {
       contractDesc: '/v3/contract/desc',
       createContractYxs: '/v3/create/contract/yxs',
       annexAgreement: '/v3/contract/desc/annex/agreement',
-      contractListYxs: '/v3/contract/list/yxs'
+      contractListYxs: '/v3/contract/list/yxs',
+      merchantsReportOne: '/merchants/reportData'
     }
   },
   market: {
