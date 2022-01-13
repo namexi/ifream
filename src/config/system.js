@@ -8,7 +8,7 @@ const devDeployUrl = 'http://192.168.10.113:9085'
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
 if (isTest) prefixUrl = debugDeployUrl
-console.log(prefixUrl)
+
 export const subSysTemConfig = {
   crm: {
     name: 'crm',
@@ -148,7 +148,14 @@ export const subSysTemConfig = {
       resultTemplate: '/kpi/resultTemplate',
       resultTemplateCreate: '/kpi/resultTemplateCreate',
       programmeManage: '/kpi/programmeManage',
-      employeeManage: '/kpi/employeeManage'
+      employeeManage: '/kpi/employeeManage',
+      merchantList: '/merchant/merchantList',
+      productList: '/merchant/productList',
+      commissionRules: '/commission/rules',
+      commissionPackageDetail: '/commission/package/detail',
+      commissionPersonnelPackage: '/commission/personnel/package',
+      commissionPersonnelDetail: '/commission/personnel/detail',
+      commissionBDetail: '/commission/bd/detail'
     }
   },
   customer: {
@@ -238,7 +245,9 @@ export const subSysTemConfig = {
       productInfoToyBox: '/productInfo/toyBox',
       newOrder: '/productInfo/newOrder',
       managementModel: '/productInfo/managementModel',
-      todayRecommended:'/operate/todayRecommended'
+      todayRecommended: '/operate/todayRecommended',
+      windowSuspension: '/operate/windowSuspension',
+      optimizationBannerHistory: '/productInfo/optimizationBanner/history'
     }
   },
   docking: {
@@ -425,7 +434,11 @@ export const subSysTemConfig = {
       vedioList: '/vedioList',
       spuInfo: '/spuInfo',
       spuManag: '/spuManag',
-      addSpu: '/addSpu'
+      addSpu: '/addSpu',
+      merchantList: '/merchant/merchantList',
+      productList: '/merchant/productList',
+      bdlist: '/newOrderProduct/bdlist',
+      onlineConfirmationList: '/newOrderProduct/onlineConfirmationList'
     }
   },
   merchant: {
