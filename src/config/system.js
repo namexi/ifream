@@ -97,7 +97,8 @@ export const subSysTemConfig = {
       batchRefundDetail: '/service/batchRefundDetail',
       modificationNoticeDetails: '/kingdee/modificationNotice/details',
       modificationNotice: '/kingdee/modificationNotice',
-      overpaymentRecordList: '/overpayment/recordList'
+      overpaymentRecordList: '/overpayment/recordList',
+      merchantInvoicesManageDesc: '/merchant/invoices/manage/desc'
     }
   },
   administration: {
@@ -117,7 +118,9 @@ export const subSysTemConfig = {
       createNew: '/createNew',
       approvalForm: '/approvalForm',
       approvalView: '/approvalView',
-      approvalType: '/approvalType'
+      approvalType: '/approvalType',
+      myApproval: '/myApproval',
+      approvalLog: '/approvalLog'
     }
   },
   human: {
@@ -438,7 +441,9 @@ export const subSysTemConfig = {
       merchantList: '/merchant/merchantList',
       productList: '/merchant/productList',
       bdlist: '/newOrderProduct/bdlist',
-      onlineConfirmationList: '/newOrderProduct/onlineConfirmationList'
+      onlineConfirmationList: '/newOrderProduct/onlineConfirmationList',
+      copywritingList: '/newOrderProduct/copywritingList',
+      managementShelfList: '/newOrderProduct/managementShelfList'
     }
   },
   merchant: {
@@ -448,7 +453,11 @@ export const subSysTemConfig = {
       merchant: '/merchant',
       myMerchantList: '/myMerchant/list',
       freshPrebioticList: '/freshPrebiotic/list',
-      wineSceneMerchantList: '/wineSceneMerchant/list'
+      wineSceneMerchantList: '/wineSceneMerchant/list',
+      userAuthentication: '/user/authentication',
+      agentAssetsInfo: '/agent/property/info',
+      merchantHead: '/merchantDetails',
+      agentAdd:"/agent/add"
     }
   },
   dyfxweb: {
