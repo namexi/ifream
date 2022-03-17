@@ -299,7 +299,8 @@ export const subSysTemConfig = {
       createContractYxs: '/v3/create/contract/yxs',
       annexAgreement: '/v3/contract/desc/annex/agreement',
       contractListYxs: '/v3/contract/list/yxs',
-      merchantsReportOne: '/merchants/reportData'
+      merchantsReportOne: '/merchants/reportData',
+      actionLogDesc: '/action/log/list'
     }
   },
   market: {
@@ -457,7 +458,8 @@ export const subSysTemConfig = {
       userAuthentication: '/user/authentication',
       agentAssetsInfo: '/agent/property/info',
       merchantHead: '/merchantDetails',
-      agentAdd:"/agent/add"
+      agentAdd: '/agent/add',
+      agenDetails: '/agent/details'
     }
   },
   dyfxweb: {
@@ -476,6 +478,18 @@ export const subSysTemConfig = {
       order: '/order',
       statistics: '/statistics'
     }
+  },
+  coupon: {
+    name: 'coupon',
+    url: `${prefixUrl}/coupon/index.html`,
+    pages: {
+      coupon: '/coupon',
+      managementCoupon: '/list/managementCoupon'
+    }
+  },
+  promote: {
+    name: 'promote',
+    url: `${prefixUrl}/promote/index.html`
   }
 }
 
