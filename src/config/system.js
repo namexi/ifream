@@ -459,7 +459,8 @@ export const subSysTemConfig = {
       agentAssetsInfo: '/agent/property/info',
       merchantHead: '/merchantDetails',
       agentAdd: '/agent/add',
-      agenDetails: '/agent/details'
+      agenDetails: '/agent/details',
+      managementCoupon: '/list/managementCoupon'
     }
   },
   dyfxweb: {
@@ -483,13 +484,16 @@ export const subSysTemConfig = {
     name: 'coupon',
     url: `${prefixUrl}/coupon/index.html`,
     pages: {
-      coupon: '/coupon',
-      managementCoupon: '/list/managementCoupon'
+      coupon: '/coupon'
     }
   },
   promote: {
     name: 'promote',
     url: `${prefixUrl}/promote/index.html`
+  },
+  msg: {
+    name: 'msg',
+    url: `${prefixUrl}/msg/index.html`
   }
 }
 

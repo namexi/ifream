@@ -564,7 +564,7 @@ export default {
   position: relative;
   .title-bar {
     display: flex;
-    position: relative;
+    position: fixed;
     z-index: 2;
     height: @header-height;
     width: 100%;
@@ -635,7 +635,9 @@ export default {
   .container {
     position: relative;
     display: flex;
-    height: calc(100% - @header-height);
+    // height: calc(100% - @header-height);
+    height: 100%;
+    padding-top: @header-height;
   }
   // display: flex;
   .side-bar {
