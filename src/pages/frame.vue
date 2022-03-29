@@ -100,6 +100,7 @@ export default {
         return window.history.go(-1)
       }
       this.traceList(val, v)
+      console.log('____')
       if (val.path !== v.path) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
@@ -149,6 +150,7 @@ export default {
           // if( url.indexOf(path) !== -1 )  {
           // this.$refs.frame.contentWindow.location.reload()
           // } else
+          console.log('1______')
           this.$refs.frame.contentWindow.location.replace(url)
           if (this.loading) this.$store.dispatch('setLoading', false)
 

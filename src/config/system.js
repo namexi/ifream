@@ -3,7 +3,7 @@ import { isDebug, isDev, isTest } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'http://192.168.10.113:9085'
+const devDeployUrl = 'http://localhost:3001'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -493,7 +493,12 @@ export const subSysTemConfig = {
   },
   msg: {
     name: 'msg',
-    url: `${prefixUrl}/msg/index.html`
+    url: `${prefixUrl}/msg/`,
+    pages: {
+      messageTemplate: '/message/messageTemplate',
+      messageTemplateAdd: '/message/messageTemplateAdd',
+      messageSend: '/message/messageSend'
+    }
   }
 }
 
