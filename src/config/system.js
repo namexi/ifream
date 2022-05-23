@@ -1,9 +1,9 @@
 /* eslint-disable */
-import { isDebug, isDev, isTest } from '@/config/util/env'
+import { isDebug, isDev, isTest, isProd } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'http://localhost:3001'
+const devDeployUrl = 'http://localhost:3000'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -98,7 +98,9 @@ export const subSysTemConfig = {
       modificationNoticeDetails: '/kingdee/modificationNotice/details',
       modificationNotice: '/kingdee/modificationNotice',
       overpaymentRecordList: '/overpayment/recordList',
-      merchantInvoicesManageDesc: '/merchant/invoices/manage/desc'
+      merchantInvoicesManageDesc: '/merchant/invoices/manage/desc',
+      reconciliationDetailed: '/reconciliation/detailed',
+      preMoneyDetail: '/quotaManager/preMoneyDetail'
     }
   },
   administration: {
@@ -367,7 +369,8 @@ export const subSysTemConfig = {
     pages: {
       channelDetail: '/channel/detail',
       channelManageEdit: '/channel/manage/edit',
-      channelManageEditOther: '/channel/manage/edit/other'
+      channelManageEditOther: '/channel/manage/edit/other',
+      channelWorkorderList: '/channel/workorder/list'
     }
   },
   dataCenter: {
@@ -444,7 +447,9 @@ export const subSysTemConfig = {
       bdlist: '/newOrderProduct/bdlist',
       onlineConfirmationList: '/newOrderProduct/onlineConfirmationList',
       copywritingList: '/newOrderProduct/copywritingList',
-      managementShelfList: '/newOrderProduct/managementShelfList'
+      managementShelfList: '/newOrderProduct/managementShelfList',
+      spuInfoForPoi: '/kwaiManage/spuInfoForPoi',
+      poiManagForSpu: '/kwaiManage/poiManagForSpu'
     }
   },
   merchant: {
@@ -499,9 +504,39 @@ export const subSysTemConfig = {
       messageTemplateAdd: '/message/messageTemplateAdd',
       messageSend: '/message/messageSend'
     }
+  },
+  budgetManage: {
+    name: 'budgetManage',
+    url: `${prefixUrl}/budgetManage/`,
+    pages: {
+      subjectDetailsList: '/subject/details/list',
+      budgetListDq: '/subject/details/list',
+      budgetListZldq: '/budget/list/zldq',
+      budgetListDq: '/budget/list/dq',
+      budgetListDetails: '/budget/list/details'
+    }
+  },
+  community: {
+    name: 'community',
+    url: `${prefixUrl}/activity/index.html`,
+    pages: {
+      createActivity: '/activity/createActivity',
+      activityDetails: '/activity/details'
+    }
+  },
+  template: {
+    name: 'template',
+    url: `${prefixUrl}/template/index.html`,
+    pages: {
+      configureList: '/list/configure'
+    }
   }
 }
 
-export function getSystem(name = '') {
-  return subSysTemConfig[name]
+export function getSystem(name = '', sysCross = false) {
+  if (!sysCross) return subSysTemConfig[name]
+  return {
+    ...subSysTemConfig[name],
+    url: subSysTemConfig[sysCross].url
+  }
 }

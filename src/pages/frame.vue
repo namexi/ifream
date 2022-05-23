@@ -27,12 +27,12 @@ export default {
   name: 'frame',
   components: { Page404 },
   async created() {
+    let { path, query } = this.$route
     this.loading = true
-    this.parseRouter()
+    this.parseRouter(query)
     let data = await this.$store.dispatch('getMenuListAll')
     // console.log(this.$route, 'frame')
     let { menuList } = this.$store.state.userInfo
-    let { path, query } = this.$route
 
     this.traceList(this.$route, null)
     let breadCrumbs = query.breadCrumbs
@@ -40,25 +40,17 @@ export default {
         ? [sessionStorage.getItem('upper-path')] || []
         : query.breadCrumbs.split(',') || query.breadCrumbs.split('')
       : this.$route.path.split(',') || this.$route.path.split('')
-    // let obj = sessionStorage.getItem('breadCrumbs-path') || null
-    // obj = obj ? JSON.parse(obj) : {}
-    // breadCrumbs = Object.values(obj)
-    // console.log(query)
-    // if (Array.isArray(query.breadCrumbs)) {
-    //   let obj = sessionStorage.getItem('breadCrumbs-path') || null
-    //   obj = obj ? JSON.parse(obj) : {}
-    //   let breadCrumbsArr = Object.values(obj)
-    //   console.log(breadCrumbsArr)
-    //   query.breadCrumbs.map((el, index) => {
-    //     breadCrumbsArr[index].indexOf(el) !== -1 ? (breadCrumbs = breadCrumbsArr) : ''
-    //   })
-    //   console.log(breadCrumbs)
-    // } else {
-    //   breadCrumbs = query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : this.$route.path.split(',') || this.$route.path.split('')
-    // }
+
     console.log(breadCrumbs)
+
+    breadCrumbs = breadCrumbs.map((item) => {
+      const regex = /\$/g
+      const tofullPath = item.replace(regex, '&')
+      return tofullPath
+    })
+    // console.log(breadCrumbs, 'str')
     this.findBreadCrumbs(data, {
-      target: query.sysName,
+      target: query.crossName ? query.crossName : query.sysName, // 3.刷新时 辨别是否跨系统
       targetPage: path,
       breadCrumbs,
       query: {
@@ -77,16 +69,18 @@ export default {
   },
   watch: {
     $route(val, v) {
-      if (val.path === v.path) return
+      // console.log(val, v, 'fream')
+      let { breadCrumbs } = v.query
+      if (val.path === v.path && val.breadCrumbs === breadCrumbs) return
       // console.log(val, v)
       let goPath = 1
       let { menuListAll } = this.$store.state
       //通知父跳转时 替换由，此时此处也执行了
-      console.log('watch')
+
       let { path, query } = val
-      console.log(Array.isArray(query.breadCrumbs))
+      console.log(query, 'watch')
       goPath = this.findBreadCrumbs(menuListAll, {
-        target: query.sysName,
+        target: query.crossName ? query.crossName : query.sysName, // 3.后退时 辨别是否跨系统
         targetPage: path,
         breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : val.path.split(',') || val.path.split(''),
         query: {
@@ -94,17 +88,18 @@ export default {
           ...query
         }
       })
+
       if (goPath === 0) {
         mscf.emit('routeChangeCall', '*', 'error')
         // sessionStorage.setItem('routeChangeCall', '0');
         return window.history.go(-1)
       }
       this.traceList(val, v)
-      console.log('____')
-      if (val.path !== v.path) {
+
+      if (val.path !== v.path || val.breadCrumbs !== breadCrumbs) {
         this.loading = false
         this.$store.dispatch('setLoading', true)
-        this.parseRouter()
+        this.parseRouter(query)
         // if (val.query.sysName !== v.query.sysName) this.parseRouter()
       }
       if (val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading', false)
@@ -120,9 +115,10 @@ export default {
   methods: {
     parseRouter(query = null) {
       // debugger
-      const { sysName } = this.$route.query
+      const { sysName, sysCross } = this.$route.query
       if (!sysName) return console.error('没有找到系统')
-      const system = getSystem(sysName) // 从query上解析出要跳转到哪个系统
+      // 1. 正向点击跳转时，正确拉取资源
+      const system = sysCross ? getSystem(sysName, sysCross) : getSystem(sysName) // 从query上解析出要跳转到哪个系统
       if (!system) return console.error('没有找到系统')
       this.system = system
 
@@ -139,18 +135,21 @@ export default {
         // let { fullPath } = this.$route
         // fullPath = fullPath.substr(6)
         // console.log(fullPath,123)
+
         let url = this.system.url
         url = deleteQueryString(url, 'token')
         url = addQueryString(url, 'token', getToken())
         const queryStr = this.stringifyQuery(query)
+
         url = `${url}#${path}${queryStr}`
         this.url = url
+
         this.$nextTick(() => {
           // 再次点击 子系统没有发消息 区别是再次点击还是首次点击
           // if( url.indexOf(path) !== -1 )  {
           // this.$refs.frame.contentWindow.location.reload()
           // } else
-          console.log('1______')
+
           this.$refs.frame.contentWindow.location.replace(url)
           if (this.loading) this.$store.dispatch('setLoading', false)
 
@@ -170,6 +169,12 @@ export default {
       if (!query) query = this.$route.query
       if (!query) return ''
       let copyQuery = JSON.parse(JSON.stringify(query))
+
+      if (copyQuery.sysCross) {
+        // 2. 点击跳转成功后 替换跨系统标识值（面包屑需要使用）
+        copyQuery.crossName = copyQuery.sysName
+        delete copyQuery.sysCross
+      }
       delete copyQuery.sysName
       return '?' + json2params(copyQuery)
     },
@@ -182,6 +187,8 @@ export default {
           if (itemPath.endsWith('/')) {
             itemPath = itemPath.slice(0, itemPath.length - 1)
           }
+          path = path.replace(/\?.*/, '')
+
           // console.log(`${itemPath}/`.indexOf(`${path}/`) !== -1, itemPath, path)
           return itemPath === path
         })
@@ -218,6 +225,7 @@ export default {
       if (query.breadCrumbs) {
         let breadCrumbs = Array.isArray(query.breadCrumbs) ? query.breadCrumbs : query.breadCrumbs.split(',') || query.breadCrumbs.split('')
         let len = breadCrumbs.length
+
         if (!obj[breadCrumbs[len - 1]]) {
           if (!v) {
             if (breadCrumbs.length > 1) {
@@ -228,6 +236,7 @@ export default {
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
             }
           }
+
           // 查找存在不存在
           if (v && upperPath != lastPath) {
             // arr[len - 1] = {
@@ -253,7 +262,9 @@ export default {
       let reductionDimensionality
       let childSuperiorArr
       let newfindArr = []
+      // let sysCross = obj.sysCross || obj.query.sysCross
       let findParent = (arrParent, targetPage) => {
+        console.log(arrParent, targetPage)
         for (let index = 0; index < arrParent.length; index++) {
           const item = arrParent[index]
           let childrenArr = []
@@ -268,30 +279,35 @@ export default {
         if (arrItem && arrItem.length > 0) {
           newArr = arrItem.filter((el) => {
             let itemPath = el.path
+            let { sysCross } = el
             if (itemPath.endsWith('/')) {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
+
             // v1.0
             // return `${targetPage}/`.indexOf(`${itemPath}/`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
             // v1.0.1
-            let newarrPath = itemPath.replace(/\//g, '')
+            let newarrPath = itemPath.replace(/\//g, '') // 系统输入的路径
+            newarrPath = newarrPath.replace(/\?.*/, '') // 将系统输入的参数去掉
             let breadCrumbsPathStr = targetPage.replace(/\//g, '')
+
             let reg = new RegExp('^' + newarrPath)
-            // console.log(reg.test(breadCrumbsPathStr), itemPath, targetPage)
+
             return reg.test(breadCrumbsPathStr) || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
           })
         }
         if (newArr.length > 0) return newArr
         return false
       }
-
       // 查找父级
       arr.map((item) => {
         if (item.alias === obj.target) {
           findArr.push(item)
         }
+        // if (sysCross && item.alias === sysCross) {
+        //   findArr.push(item)
+        // }
       })
-
       let pageSystem = getSystem(obj.target).pages
       if (obj.query.breadCrumbs) {
         // 2级以上路由
@@ -305,7 +321,9 @@ export default {
           if (obj.breadCrumbs[i] !== '') {
             if (findArr.length > 1) findArr = [findParent(findArr, obj.breadCrumbs[i])] // 上一级
             childSuperiorArr = findArr[0].children
+
             childSuperiorArr = fuzzyLookup(childSuperiorArr, obj.breadCrumbs[i])
+
             // if (!childSuperiorArr) {
             if (childSuperiorArr.length > 0) {
               if (childSuperiorArr.length > 1) childSuperiorArr = this.finditem(childSuperiorArr, obj.breadCrumbs[i])
@@ -371,8 +389,9 @@ export default {
       if (findArr.length > 1) {
         findArr = [findParent(findArr, obj.targetPage.replace('/frame', ''))]
       }
+      console.log(findArr)
       // 最后一级
-      childArr = findArr[0].children
+      childArr = findArr[0].children || []
       childArr = fuzzyLookup(childArr, obj.targetPage.replace('/frame', '')) || []
       if (childArr.length > 0) {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
@@ -380,6 +399,7 @@ export default {
         // 当前菜单无法找到
         // console.log(obj)
       }
+      console.log(childArr)
       if (childArr.length == 0) {
         this.$message.error('当前菜单没有配置')
         return 0

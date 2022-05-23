@@ -4,7 +4,7 @@ import { message } from 'ant-design-vue'
 import { getSystem } from '@/config/system'
 import { compile } from 'path-to-regexp'
 import router from '@/router'
-import { addQueryString } from 'nearby-common'
+import { addQueryString, getQueryString } from 'nearby-common'
 import store from '@/config/store/store.js'
 import _ from 'lodash'
 message.config({
@@ -67,14 +67,16 @@ mscf.on('openNewSystem', (e) => {
 
 const handler = _.debounce((e) => {
   let path = e.data
+  let crossName = getQueryString('crossName')
+  console.log(crossName)
   const lastPath = sessionStorage.getItem('last-path')
   if (lastPath && lastPath === path) return
   console.log('父系统收到的消息，需要跳转：')
-  console.log(path)
   store.dispatch('setLoading', false)
   sessionStorage.setItem('last-path', path)
-  path = addQueryString(path, 'sysName', e.origin)
+  path = crossName ? addQueryString(path, 'sysName', crossName) : addQueryString(path, 'sysName', e.origin)
   path = '/frame' + path
+  console.log(path)
   router.replace(path)
 }, 200)
 // 子系统切换了域名

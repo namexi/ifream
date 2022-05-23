@@ -26,20 +26,21 @@
 </template>
 
 <script>
-import { getAuthAppId, loginWithCode as wxLoginWithCode, wxBind } from 'Service';
-import { isInWechat, isNil, wxCallBackUrl, isProd, isTest, wxAuthLogin, wxAuthCallBackUrl, setToken, http } from 'Config/util';
-import { getQueryString, addQueryString } from 'nearby-common';
-import { AccountLogin } from 'Components';
+import { getAuthAppId, loginWithCode as wxLoginWithCode, wxBind } from 'Service'
+import { isInWechat, isNil, wxCallBackUrl, isProd, isTest, wxAuthLogin, wxAuthCallBackUrl, crmCallbackUrl, setToken, http } from 'Config/util'
+import { getQueryString, addQueryString } from 'nearby-common'
+import { AccountLogin } from 'Components'
 export default {
   name: 'login',
   components: { AccountLogin },
   created() {
-    setToken('');
-    this.checkRoute();
+    // console.log(addQueryString(wxAuthCallBackUrl, 'versionCode', '233'))
+    setToken('')
+    this.checkRoute()
   },
   watch: {
     $route() {
-      this.checkRoute();
+      this.checkRoute()
     }
   },
   data() {
@@ -48,14 +49,14 @@ export default {
       platform: 1,
       scene: 'account', // web网页扫码登录 wx自动登录 account账号密码登录
       uid: ''
-    };
+    }
   },
   beforeRouteEnter(to, from, next) {
-    const { query } = to;
+    const { query } = to
     for (let k in query) {
       if (query.hasOwnProperty(k)) {
-        next();
-        return;
+        next()
+        return
         // break
       }
     }
@@ -65,119 +66,137 @@ export default {
       query: {
         rand: 1
       }
-    });
+    })
   },
   methods: {
     jumpAccountLogin() {
       if (!isProd) {
-        this.$router.push('/user/login');
+        this.$router.push('/user/login')
       }
     },
     checkRoute() {
-      console.log('route change!');
-      const wxCode = getQueryString('code');
+      console.log('route change!')
+      const crmCode = getQueryString('x')
+      // 通过从路由上来还是跳转url上来 来区分wx
+      const wxCode = getQueryString('code')
+
       if (!isNil(wxCode)) {
-        console.log('wxCode: ', wxCode);
+        console.log('wxCode: ', wxCode)
         // 网址query上的code是微信自动登录来的
-        this.platform = 2;
-        return this.loginWithCode(wxCode);
+        this.platform = 2
+        return this.loginWithCode(wxCode)
       }
-      const { code } = this.$route.query;
+      const { code } = this.$route.query
       if (!isNil(code)) {
-        console.log('code: ', code);
+        console.log('code: ', code)
         // 路由query上的code是通过扫码跳转的
-        this.platform = 1;
-        return this.loginWithCode(code);
+        this.platform = 1
+        // 标识处理
+        return this.loginWithCode(code)
       }
-      console.log('no code!');
+      console.log('no code!')
       if (isInWechat) {
         // 在微信环境直接登录
-        this.platform = 2;
-        this.scene = 'wx';
-        this.autoLogin();
+        this.platform = 2
+        this.scene = 'wx'
+        if (crmCode) this.autoLogin('crm')
+        else this.autoLogin()
       } else {
         // 扫码登录
-        this.platform = 1;
-        this.scene = 'web';
-        this.requestQrCode();
+        this.platform = 1
+        this.scene = 'web'
+        if (crmCode) this.requestQrCode('crm')
+        else this.requestQrCode()
       }
     },
     onBind({ userName, password }) {
-      this.loading = true;
+      this.loading = true
       wxBind(userName, password, this.uid)
         .then((res) => {
-          this.loginSuccess(res.token);
-          this.loading = false;
+          this.loginSuccess(res.token)
+          this.loading = false
         })
         .catch((e) => {
-          this.loading = false;
-        });
+          this.loading = false
+        })
     },
     loginSuccess(token = '') {
-      setToken(token);
-      http.defaults.headers['Authorization'] = token;
-      console.log('登录');
-      this.$router.replace('./');
+      let { state } = this.$route.query //pc端跳转回来的
+      state = state ? state : getQueryString('state') // 微信跳转的
+      setToken(token)
+      http.defaults.headers['Authorization'] = token
+      console.log('登录')
+      if (state === 'crm') {
+        setToken('')
+        http.defaults.headers['Authorization'] = ''
+        const crmUrl = crmCallbackUrl(token)
+
+        if (crmUrl) window.open(crmUrl, '_self')
+        else alert('银河crm敬请期待！')
+      } else this.$router.replace('./')
     },
     loginWithCode(code) {
       wxLoginWithCode(code, this.platform).then((res) => {
-        const errCode = parseInt(res.code);
+        const errCode = parseInt(res.code)
+
         switch (errCode) {
           case 1:
             // 1是微信登录出错，需要重新扫码
-            console.log('error code 1');
-            const { origin, pathname } = location;
-            const path = origin + pathname;
-            location.replace(path);
-            break;
+            console.log('error code 1')
+            const { origin, pathname } = location
+            const path = origin + pathname
+            location.replace(path)
+            break
           case 2:
             // 未绑定账号，需要授权绑定
-            this.$message.error(res.message);
-            this.uid = res.data;
-            this.scene = 'account';
-            break;
+            this.$message.error(res.message)
+            this.uid = res.data
+            this.scene = 'account'
+            break
           default:
             // 登录成功
-            this.loginSuccess(res.data.token);
-            break;
+            this.loginSuccess(res.data.token)
+            break
         }
-      });
+      })
     },
-    requestQrCode() {
+    requestQrCode(state = '123456') {
       // 扫码在微信生态属于网站应用登录，需要从服务器获取appId去请求二维码
       getAuthAppId(this.platform).then((res) => {
-        if (!res.appId) return;
-        const appId = res.appId || '';
-        if (!appId) return;
-        const href = `${isProd || isTest ? `${location.href}` : wxCallBackUrl}`;
-        console.log(href);
+        if (!res.appId) return
+        const appId = res.appId || ''
+        if (!appId) return
+        const href = `${isProd || isTest ? `${location.href}` : wxCallBackUrl}`
+        console.log(href)
         // eslint-disable-next-line
         new WxLogin({
           self_redirect: false,
           id: 'wx-container',
           appid: appId,
           scope: 'snsapi_login',
+          //redirect_uri: encodeURIComponent('http://nb-oa-web.lianlianlvyou.com/#/login'),
           redirect_uri: encodeURIComponent(href),
-          state: '123456',
+          state,
           style: '',
           href: 'https://cdn.lianlianlvyou.com/lib/css/qr_code.css'
-        });
-      });
+        })
+      })
     },
-    autoLogin() {
+    autoLogin(state = '123456') {
       getAuthAppId(this.platform).then((res) => {
-        const appId = res.appId || '';
-        if (!appId) return;
-        const versionCode = getQueryString('v') || '233';
-        const url = addQueryString(wxAuthCallBackUrl, 'versionCode', versionCode);
-        console.log(url);
-        const callback = encodeURIComponent(url);
-        console.log(callback);
-        wxAuthLogin(appId, callback, 0, '123456');
-      });
+        const appId = res.appId || ''
+        if (!appId) return
+        const versionCode = getQueryString('v') || '233'
+        let url = addQueryString(wxAuthCallBackUrl, 'versionCode', versionCode)
+        console.log(url)
+        if (state === 'crm') url = addQueryString(url, 'state', state)
+        const callback = encodeURIComponent(url)
+        console.log(callback)
+        wxAuthLogin(appId, callback, 0, '123456')
+      })
     }
   }
-};
+}
 </script>
 
 <style lang="less">
