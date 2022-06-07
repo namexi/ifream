@@ -3,7 +3,7 @@ import { isDebug, isDev, isTest, isProd } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'http://localhost:3000'
+const devDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -100,7 +100,9 @@ export const subSysTemConfig = {
       overpaymentRecordList: '/overpayment/recordList',
       merchantInvoicesManageDesc: '/merchant/invoices/manage/desc',
       reconciliationDetailed: '/reconciliation/detailed',
-      preMoneyDetail: '/quotaManager/preMoneyDetail'
+      preMoneyDetail: '/quotaManager/preMoneyDetail',
+      tiktokImportFile: '/reconciliation/tiktokImportFile',
+      reconciliationFile: '/list/ReconciliationFile'
     }
   },
   administration: {
@@ -449,7 +451,11 @@ export const subSysTemConfig = {
       copywritingList: '/newOrderProduct/copywritingList',
       managementShelfList: '/newOrderProduct/managementShelfList',
       spuInfoForPoi: '/kwaiManage/spuInfoForPoi',
-      poiManagForSpu: '/kwaiManage/poiManagForSpu'
+      poiManagForSpu: '/kwaiManage/poiManagForSpu',
+      boardHost: '/douJiaManage/boardHost',
+      boardProductHost: '/douJiaManage/boardProductHost',
+      boardShops: '/douJiaManage/boardShops',
+      boardProduct: '/douJiaManage/boardProduct'
     }
   },
   merchant: {
@@ -528,7 +534,8 @@ export const subSysTemConfig = {
     name: 'template',
     url: `${prefixUrl}/template/index.html`,
     pages: {
-      configureList: '/list/configure'
+      configureList: '/list/configure',
+      reconciliationDetails: '/list/ResultsFreezeDetails'
     }
   }
 }

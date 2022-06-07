@@ -702,8 +702,9 @@ export default {
     }
   }
   .main-container {
-    height: 100%;
+    // height: 100%;
     width: 100%;
+    height: calc(100% - 6px);
 
     .main-router {
       height: 100%;
