@@ -102,7 +102,8 @@ export default {
         this.parseRouter(query)
         // if (val.query.sysName !== v.query.sysName) this.parseRouter()
       }
-      if (val.query.sysName === v.query.sysName) this.$store.dispatch('setLoading', false)
+      // 跨域的也直接关闭loading  this.loading为刷新时 点击不走this.loading
+      if (val.query.sysName === v.query.sysName || val.query.crossName) this.$store.dispatch('setLoading', false)
       // if (val.path === v.path) this.$store.dispatch('setLoading', true)
     }
   },
@@ -151,6 +152,7 @@ export default {
           // } else
 
           this.$refs.frame.contentWindow.location.replace(url)
+          console.log(this.loading)
           if (this.loading) this.$store.dispatch('setLoading', false)
 
           // console.log('loading missing',this.getChildrenjump,this.loading)

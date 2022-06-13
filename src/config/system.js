@@ -102,7 +102,8 @@ export const subSysTemConfig = {
       reconciliationDetailed: '/reconciliation/detailed',
       preMoneyDetail: '/quotaManager/preMoneyDetail',
       tiktokImportFile: '/reconciliation/tiktokImportFile',
-      reconciliationFile: '/list/ReconciliationFile'
+      reconciliationFile: '/list/ReconciliationFile',
+      reconciliationDetails: '/list/ResultsFreezeDetails'
     }
   },
   administration: {
@@ -534,8 +535,7 @@ export const subSysTemConfig = {
     name: 'template',
     url: `${prefixUrl}/template/index.html`,
     pages: {
-      configureList: '/list/configure',
-      reconciliationDetails: '/list/ResultsFreezeDetails'
+      configureList: '/list/configure'
     }
   }
 }
