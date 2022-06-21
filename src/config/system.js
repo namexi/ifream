@@ -103,7 +103,8 @@ export const subSysTemConfig = {
       preMoneyDetail: '/quotaManager/preMoneyDetail',
       tiktokImportFile: '/reconciliation/tiktokImportFile',
       reconciliationFile: '/list/ReconciliationFile',
-      reconciliationDetails: '/list/ResultsFreezeDetails'
+      reconciliationDetails: '/list/ResultsFreezeDetails',
+      resultsFenzhangDetails: '/list/resultsFenzhangDetails'
     }
   },
   administration: {
@@ -456,7 +457,8 @@ export const subSysTemConfig = {
       boardHost: '/douJiaManage/boardHost',
       boardProductHost: '/douJiaManage/boardProductHost',
       boardShops: '/douJiaManage/boardShops',
-      boardProduct: '/douJiaManage/boardProduct'
+      boardProduct: '/douJiaManage/boardProduct',
+      dataBoardAdmin: '/douJiaManage/dataBoardAdmin'
     }
   },
   merchant: {
@@ -496,7 +498,11 @@ export const subSysTemConfig = {
     name: 'coupon',
     url: `${prefixUrl}/coupon/index.html`,
     pages: {
-      coupon: '/coupon'
+      coupon: '/coupon',
+      ResourceManage: '/Resources/ResourceManage',
+      EditorResources: '/Resources/EditorResources',
+      ResourceManageAdm: '/ResourcesAdm/ResourceManageAdm',
+      EditorResourcesAdm: '/ResourcesAdm/EditorResourcesAdm'
     }
   },
   promote: {
