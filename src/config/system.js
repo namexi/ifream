@@ -164,7 +164,12 @@ export const subSysTemConfig = {
       commissionPackageDetail: '/commission/package/detail',
       commissionPersonnelPackage: '/commission/personnel/package',
       commissionPersonnelDetail: '/commission/personnel/detail',
-      commissionBDetail: '/commission/bd/detail'
+      commissionBDetail: '/commission/bd/detail',
+      newCommissionPackageDetail: '/newCommission/package/detail',
+      newCommissionBDetail: '/newCommission/bd/detail',
+      newCommissionPersonnelPackage: '/newCommission/personnel/package',
+      newCommissionPersonnelDetail: '/newCommission/personnel/detail',
+      RuleConfiguration: '/performanceScheme/RuleConfiguration'
     }
   },
   customer: {
@@ -256,7 +261,9 @@ export const subSysTemConfig = {
       managementModel: '/productInfo/managementModel',
       todayRecommended: '/operate/todayRecommended',
       windowSuspension: '/operate/windowSuspension',
-      optimizationBannerHistory: '/productInfo/optimizationBanner/history'
+      optimizationBannerHistory: '/productInfo/optimizationBanner/history',
+      editSetMealType: '/productInfo/editSetMealType',
+      showProductContent: '/productInfo/showProductContent'
     }
   },
   docking: {
@@ -413,7 +420,9 @@ export const subSysTemConfig = {
       productDirectorteamProduct: '/productDirector/teamProduct',
       productList: '/productManager/productList',
       businessDetailsList: '/productManager/businessDetailsList',
-      refundDetailsList: '/productManager/refundDetailsList'
+      refundDetailsList: '/productManager/refundDetailsList',
+      RegionalSummaryManageRuleSetting: '/RegionalSummaryManage/RuleSetting',
+      SiteSummaryManageRuleSetting: '/SiteSummaryManage/RuleSetting'
     }
   },
   knowledge: {
@@ -526,7 +535,8 @@ export const subSysTemConfig = {
       budgetListDq: '/subject/details/list',
       budgetListZldq: '/budget/list/zldq',
       budgetListDq: '/budget/list/dq',
-      budgetListDetails: '/budget/list/details'
+      budgetListDetails: '/budget/list/details',
+      overpayListFgs: '/overpay/list/fgs'
     }
   },
   community: {
@@ -543,6 +553,10 @@ export const subSysTemConfig = {
     pages: {
       configureList: '/list/configure'
     }
+  },
+  file: {
+    name: 'file',
+    url: `${prefixUrl}/file/index.html`
   }
 }
 
