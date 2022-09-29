@@ -524,7 +524,8 @@ export const subSysTemConfig = {
     pages: {
       messageTemplate: '/message/messageTemplate',
       messageTemplateAdd: '/message/messageTemplateAdd',
-      messageSend: '/message/messageSend'
+      messageSend: '/message/messageSend',
+      messageStation: '/message/messageStation'
     }
   },
   budgetManage: {
