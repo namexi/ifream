@@ -330,7 +330,7 @@ export default {
       this.$refs.iframe.loading = false
       // 当前系统路径
       const { alias = '', path = '' } = superItem
-      if (isUrl(path)) {
+      if (isUrl(path) && !isUrl(subItem.path)) {
         this.$nextTick(() => {
           // 当前页面路径
           const { path } = subItem
