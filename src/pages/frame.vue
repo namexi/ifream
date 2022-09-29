@@ -63,7 +63,7 @@ export default {
       let { path, query } = val
       this.traceList(val, v)
       goPath = this.findBreadCrumbs(menuListAll, {
-        target: query.alias ? query.alias : query.sysName,
+        target: query.sysName,
         targetPage: path,
         breadCrumbs: query.breadCrumbs ? query.breadCrumbs.split(',') || query.breadCrumbs.split('') : val.path.split(',') || val.path.split(''),
         query: {
@@ -71,7 +71,6 @@ export default {
           ...query
         }
       })
-      console.log(goPath, '出错需要修改')
       if (goPath === 0) return this.$router.go(-1)
       if (val.path !== v.path) {
         this.loading = false
@@ -92,7 +91,6 @@ export default {
   methods: {
     parseRouter(query = null) {
       // debugger
-      console.log(query)
       const { sysName } = this.$route.query
       if (!sysName) return console.error('没有找到系统')
       const system = getSystem(sysName) // 从query上解析出要跳转到哪个系统
@@ -103,7 +101,6 @@ export default {
       // debugger
     },
     getPath(query = null) {
-      console.log(query, 'getPath')
       this.$nextTick(() => {
         if (!this.system) return
         let path = this.$route.path
@@ -122,7 +119,6 @@ export default {
           // if( url.indexOf(path) !== -1 )  {
           // this.$refs.frame.contentWindow.location.reload()
           // } else
-          console.log(url)
           this.$refs.frame.contentWindow.location.replace(url)
           if (this.loading) this.$store.dispatch('setLoading', false)
           // console.log('loading missing',this.getChildrenjump,this.loading)
@@ -194,7 +190,7 @@ export default {
             if (breadCrumbs.length > 1) {
               obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}?breadCrumbs=${breadCrumbs[len - 2]}`
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
-            } else if (breadCrumbs.length == 1) {
+            } else {
               obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}`
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
             }
@@ -205,7 +201,6 @@ export default {
             //   [breadCrumbs[len - 1]]: upperPath
             // }
             upperPath = lastPath
-            console.log(upperPath)
             if (upperPath) {
               obj[breadCrumbs[len - 1]] = upperPath
             } else {
@@ -243,14 +238,7 @@ export default {
             if (itemPath.endsWith('/')) {
               itemPath = itemPath.slice(0, itemPath.length - 1)
             }
-            // v1.0
-            // return `${targetPage}/`.indexOf(`${itemPath}/`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
-            // v1.0.1
-            let newarrPath = itemPath.replace(/\//g, '')
-            let breadCrumbsPathStr = targetPage.replace(/\//g, '')
-            let reg = new RegExp('^' + newarrPath)
-            // console.log(reg.test(breadCrumbsPathStr), itemPath, targetPage)
-            return reg.test(breadCrumbsPathStr) || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
+            return  `${itemPath}`.indexOf(`${targetPage}`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}/`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
           })
         }
         if (newArr.length > 0) return newArr
@@ -263,7 +251,6 @@ export default {
         }
       })
       let pageSystem = getSystem(obj.target).pages
-      console.log(obj.target)
       if (obj.query.breadCrumbs) {
         // 2级以上路由
         // 如果父级为多个系统
@@ -293,33 +280,19 @@ export default {
               for (let j = 0; j < len; j++) {
                 let item = arr[j]
                 if (item.children && item.children.length > 0) {
-                  //v1.0
-                  // let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
-                  // v1.0.1
-                  let newarr1 = item.children.filter((el) => {
-                    let newarrPath = el.path.replace(/\//g, '')
-                    let breadCrumbsPathStr = obj.breadCrumbs[i].replace(/\//g, '')
-                    let reg = new RegExp('^' + newarrPath)
-                    // console.log(reg.test(breadCrumbsPathStr), el.path, obj.breadCrumbs[i])
-                    return reg.test(breadCrumbsPathStr)
-                  })[0]
+                  let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
                   if (newarr1) {
-                    // 删掉所有/
-                    // let newarrPath = newarr1.path.replace(/\//g, '')
-                    // let breadCrumbsPathStr = obj.breadCrumbs[i].replace(/\//g, '')
-                    // let reg = new RegExp('^' + newarrPath)
-                    // console.log(reg.test(breadCrumbsPathStr), newarr1.path, obj.breadCrumbs[i])
-                    // if (newarr1.path === obj.breadCrumbs[i] || reg.test(breadCrumbsPathStr)) {
-                    newarr1 = {
-                      ...newarr1,
-                      path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
+                    // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
+                    // console.log(JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]], newarr1.path)
+                    // JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]].indexOf(newarr1.path) !== -1
+                    if (newarr1.path === obj.breadCrumbs[i]) {
+                      newarr1 = {
+                        ...newarr1,
+                        path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
+                      }
+                      newfindArr = [item]
+                      newchildSuperiorArr.push(newarr1)
                     }
-                    newfindArr = [item]
-                    newchildSuperiorArr.push(newarr1)
-                    // } else {
-                    // 可能有动态路由 也有可能是命名差不多的
-                    // todo:模糊查找需重写
-                    // }
                   }
                   continue
                 }
@@ -352,8 +325,8 @@ export default {
         // console.log(obj)
       }
       if (childArr.length == 0) {
-        this.$message.error('当前菜单没有配置')
-        return 0
+        // this.$message.error('当前菜单没有配置')
+        // return 0
       }
       console.log(childSuperiorArr, childArr)
       // 最终面包屑
@@ -367,6 +340,124 @@ export default {
         ...findArr[0]
       })
     }
+    // findBreadCrumbs(arr = [], obj = null) {
+    //   let findArr = []
+    //   let findchild
+    //   let childArr
+    //   if (arr.length > 0 && obj) {
+    //     let pageSystem = getSystem(obj.target).pages
+    //     // 查找最后一级
+    //     // findArr = arr.filter((item) => item.alias === obj.target)
+    //     arr.map((item) => {
+    //       if (item.alias === obj.target) {
+    //         findArr.push(item)
+    //       }
+    //     })
+    //     // 父级分为多个系统
+    //     if (findArr.length > 1) {
+    //       let reductionDimensionality = []
+    //       findArr.map((item) => {
+    //         reductionDimensionality = {
+    //           children: item.children.filter((el) => {
+    //             let itemPath = el.path
+    //             if (itemPath.endsWith('/')) {
+    //               itemPath = itemPath.slice(0, itemPath.length - 1)
+    //             }
+    //             return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
+    //           }),
+    //           ...item
+    //         }
+    //       })
+    //       findArr = [
+    //         {
+    //           ...reductionDimensionality
+    //         }
+    //       ]
+    //     }
+    //     childArr = findArr[0].children || []
+    //     findchild = childArr.filter((item) => {
+    //       let itemPath = item.path
+    //       if (itemPath.endsWith('/')) {
+    //         itemPath = itemPath.slice(0, itemPath.length - 1)
+    //       }
+    //       console.log(itemPath, `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1)
+    //       return `${obj.targetPage}/`.indexOf(`${itemPath}/`) !== -1
+    //     })
+    //     console.log(findchild)
+    //     if (findchild.length > 1) {
+    //       // 最后一级不止一个
+    //       findchild = findchild.filter((item) => `/frame${item.path}` === obj.targetPage)
+    //     }
+    //     if (!findchild[0].name) {
+    //       this.$message.error('请配置菜单')
+    //       return 0
+    //     }
+    //     findchild = [
+    //       {
+    //         ...findchild[0],
+    //         path: obj.targetPage
+    //       }
+    //     ]
+    //     if (obj.breadCrumbs) {
+    //       // 查找上一级
+    //       let len = obj.breadCrumbs.length
+    //       let findotherchild = []
+    //       if (len > 0) {
+    //         for (let i = 0; i < len; i++) {
+    //           //上一级
+    //           let newarr = childArr.filter((item) => {
+    //             // console.log(item.path)
+    //             return `${obj.breadCrumbs[i]}/`.indexOf(`${item.path}/`) !== -1
+    //           })
+    //           if (newarr.length > 0) {
+    //             console.log(obj.targetPage)
+    //             if (newarr.length > 1) {
+    //               newarr = newarr.filter((item) => obj.breadCrumbs[i] === item.path)
+    //             }
+    //             findotherchild.push({
+    //               ...newarr,
+    //               path: obj.breadCrumbs[i]
+    //               // query: {
+    //               //   ...obj.query
+    //               // }
+    //             })
+    //             console.log(findotherchild)
+    //             // 上一级不存在 就去大菜单里面找吧
+    //           } else {
+    //             let len = arr.length
+    //             for (let j = 0; j < len; j++) {
+    //               let item = arr[j]
+    //               if (item.children && item.children.length > 0) {
+    //                 let newarr1 = item.children.filter((el) => obj.breadCrumbs[i].indexOf(el.path) !== -1)[0]
+    //                 if (newarr1) {
+    //                   newarr1 = {
+    //                     ...newarr1,
+    //                     path: obj.breadCrumbs[i]
+    //                     // query: {
+    //                     //   ...obj.query
+    //                     // }
+    //                   }
+    //                   console.log(newarr1)
+    //                   findArr = [arr[j]]
+    //                   findotherchild.push(newarr1)
+    //                 }
+    //               }
+    //             }
+    //           }
+    //         }
+    //       }
+    //       this.$store.commit('uploadbreadCrumbs', {
+    //         ...findArr[0],
+    //         children: [...findotherchild, ...findchild]
+    //       })
+    //       return
+    //     }
+    //     this.$store.commit('uploadbreadCrumbs', {
+    //       ...findArr[0],
+    //       children: [...findchild]
+    //     })
+    //   }
+    // }
   },
   computed: {
     ...mapGetters(['getLoading', 'getBreadCrumbsSystem', 'getBreadCrumbs'])

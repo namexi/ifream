@@ -4,6 +4,7 @@ import { isDebug, isDev, isTest } from '@/config/util/env'
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
 const devDeployUrl = 'http://192.168.10.113:9085'
+// const devDeployUrl = 'http://0.0.0.0:8086'
 
 console.log(process.env.NODE_ENV === 'debug')
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
@@ -71,7 +72,9 @@ export const subSysTemConfig = {
     url: `${prefixUrl}/common/index.html`,
     pages: {
       childMenuManage: '/authority/childMenuManage',
-      portManage: '/authority/portManage'
+      portManage: '/authority/portManage',
+      centerOprateLog: '/center/log',
+      positionOprateLog: '/position/log'
     }
   },
   finance: {
@@ -95,7 +98,14 @@ export const subSysTemConfig = {
       batchRefundDetail: '/service/batchRefundDetail',
       modificationNoticeDetails: '/kingdee/modificationNotice/details',
       modificationNotice: '/kingdee/modificationNotice',
-      overpaymentRecordList: '/overpayment/recordList'
+      overpaymentRecordList: '/overpayment/recordList',
+      merchantInvoicesManageDesc: '/merchant/invoices/manage/desc',
+      reconciliationDetailed: '/reconciliation/detailed',
+      preMoneyDetail: '/quotaManager/preMoneyDetail',
+      tiktokImportFile: '/reconciliation/tiktokImportFile',
+      reconciliationFile: '/list/ReconciliationFile',
+      reconciliationDetails: '/list/ResultsFreezeDetails',
+      resultsFenzhangDetails: '/list/resultsFenzhangDetails'
     }
   },
   administration: {
@@ -115,7 +125,9 @@ export const subSysTemConfig = {
       createNew: '/createNew',
       approvalForm: '/approvalForm',
       approvalView: '/approvalView',
-      approvalType: '/approvalType'
+      approvalType: '/approvalType',
+      myApproval: '/myApproval',
+      approvalLog: '/approvalLog'
     }
   },
   human: {
@@ -133,7 +145,37 @@ export const subSysTemConfig = {
       wageDetail: '/wage/wageDetail',
       commissionList: '/wage/commissionList',
       wageList: '/wage/wageList',
-      financeEmployEdit: '/employees/financeEmployEdit'
+      financeEmployEdit: '/employees/financeEmployEdit',
+      employeeOprateLog: '/employee/log',
+      branchOprateLog: '/company/log',
+      eCommerceLog: '/employee/eCommerceLog',
+      jointEmployeeLog: '/employee/jointEmployeeLog',
+      programmeDetail: '/kpi/programmeDetail',
+      createManage: '/kpi/createManage',
+      processDetail: '/kpi/processDetail',
+      processDetailManager: '/kpi/processDetailManager',
+      sureKpiList: '/kpi/sureKpi',
+      resultTemplate: '/kpi/resultTemplate',
+      resultTemplateCreate: '/kpi/resultTemplateCreate',
+      programmeManage: '/kpi/programmeManage',
+      employeeManage: '/kpi/employeeManage',
+      merchantList: '/merchant/merchantList',
+      productList: '/merchant/productList',
+      commissionRules: '/commission/rules',
+      commissionPackageDetail: '/commission/package/detail',
+      commissionPersonnelPackage: '/commission/personnel/package',
+      commissionPersonnelDetail: '/commission/personnel/detail',
+      commissionBDetail: '/commission/bd/detail',
+      newCommissionPackageDetail: '/newCommission/package/detail',
+      newCommissionBDetail: '/newCommission/bd/detail',
+      newCommissionPersonnelPackage: '/newCommission/personnel/package',
+      newCommissionPersonnelDetail: '/newCommission/personnel/detail',
+      RuleConfiguration: '/performanceScheme/RuleConfiguration',
+      evaluationDetails: '/evaluationDetails',
+      selfAssessment: '/selfAssessment',
+      auditProcessing: '/auditProcessing',
+      evaluation: '/evaluation',
+      valuesManagement: '/valuesManagement'
     }
   },
   customer: {
@@ -219,7 +261,15 @@ export const subSysTemConfig = {
       saleProductDesc: '/product/deferredSales/saleProductDesc',
       hotelBannerHistory: '/hotelBanner/history',
       deferredApply: '/product/deferredSales/deferredApply',
-      saleProductDesc: '/product/deferredSales/saleProductDesc'
+      saleProductDesc: '/product/deferredSales/saleProductDesc',
+      productInfoToyBox: '/productInfo/toyBox',
+      newOrder: '/productInfo/newOrder',
+      managementModel: '/productInfo/managementModel',
+      todayRecommended: '/operate/todayRecommended',
+      windowSuspension: '/operate/windowSuspension',
+      optimizationBannerHistory: '/productInfo/optimizationBanner/history',
+      editSetMealType: '/productInfo/editSetMealType',
+      showProductContent: '/productInfo/showProductContent'
     }
   },
   docking: {
@@ -255,7 +305,21 @@ export const subSysTemConfig = {
     pages: {
       contractCurdAdmin: '/contract/curdAdmin',
       contractCurd: '/contract/curd',
-      contractAddEcommerce: '/contract/addEcommerce'
+      contractAddEcommerce: '/contract/addEcommerce',
+      dyStoreMerge: '/dy/store/merge',
+      myContract: '/v3/contract/list/my',
+      myContractYxs: '/v3/my/contract/yxs',
+      serverContractDesc: '/v3/server/contract/desc',
+      addServiceContract: '/v3/addServiceContract',
+      addServiceContractAdd: '/v3/addServiceContract/add',
+      createAdditionalAgreement: '/v3/createAdditionalAgreement',
+      createContract: '/v3/create/contract',
+      contractDesc: '/v3/contract/desc',
+      createContractYxs: '/v3/create/contract/yxs',
+      annexAgreement: '/v3/contract/desc/annex/agreement',
+      contractListYxs: '/v3/contract/list/yxs',
+      merchantsReportOne: '/merchants/reportData',
+      actionLogDesc: '/action/log/list'
     }
   },
   market: {
@@ -322,7 +386,8 @@ export const subSysTemConfig = {
     pages: {
       channelDetail: '/channel/detail',
       channelManageEdit: '/channel/manage/edit',
-      channelManageEditOther: '/channel/manage/edit/other'
+      channelManageEditOther: '/channel/manage/edit/other',
+      channelWorkorderList: '/channel/workorder/list'
     }
   },
   dataCenter: {
@@ -361,7 +426,9 @@ export const subSysTemConfig = {
       productDirectorteamProduct: '/productDirector/teamProduct',
       productList: '/productManager/productList',
       businessDetailsList: '/productManager/businessDetailsList',
-      refundDetailsList: '/productManager/refundDetailsList'
+      refundDetailsList: '/productManager/refundDetailsList',
+      RegionalSummaryManageRuleSetting: '/RegionalSummaryManage/RuleSetting',
+      SiteSummaryManageRuleSetting: '/SiteSummaryManage/RuleSetting'
     }
   },
   knowledge: {
@@ -392,7 +459,116 @@ export const subSysTemConfig = {
       vedioList: '/vedioList',
       spuInfo: '/spuInfo',
       spuManag: '/spuManag',
-      addSpu: '/addSpu'
+      addSpu: '/addSpu',
+      merchantList: '/merchant/merchantList',
+      productList: '/merchant/productList',
+      bdlist: '/newOrderProduct/bdlist',
+      onlineConfirmationList: '/newOrderProduct/onlineConfirmationList',
+      copywritingList: '/newOrderProduct/copywritingList',
+      managementShelfList: '/newOrderProduct/managementShelfList',
+      spuInfoForPoi: '/kwaiManage/spuInfoForPoi',
+      poiManagForSpu: '/kwaiManage/poiManagForSpu',
+      boardHost: '/douJiaManage/boardHost',
+      boardProductHost: '/douJiaManage/boardProductHost',
+      boardShops: '/douJiaManage/boardShops',
+      boardProduct: '/douJiaManage/boardProduct',
+      dataBoardAdmin: '/douJiaManage/dataBoardAdmin'
+    }
+  },
+  merchant: {
+    name: 'merchant',
+    url: `${prefixUrl}/merchant/index.html`,
+    pages: {
+      merchant: '/merchant',
+      myMerchantList: '/myMerchant/list',
+      freshPrebioticList: '/freshPrebiotic/list',
+      wineSceneMerchantList: '/wineSceneMerchant/list',
+      userAuthentication: '/user/authentication',
+      agentAssetsInfo: '/agent/property/info',
+      merchantHead: '/merchantDetails',
+      agentAdd: '/agent/add',
+      agenDetails: '/agent/details',
+      managementCoupon: '/list/managementCoupon'
+    }
+  },
+  dyfxweb: {
+    name: 'dyfxweb',
+    url: `${prefixUrl}/web-dyfx/`,
+    pages: {}
+  },
+  alipay: {
+    name: 'alipay',
+    url: `${prefixUrl}/alipay/`,
+    pages: {
+      recommend: '/recommend',
+      check: '/check',
+      product: '/product',
+      config: '/config',
+      order: '/order',
+      statistics: '/statistics'
+    }
+  },
+  coupon: {
+    name: 'coupon',
+    url: `${prefixUrl}/coupon/index.html`,
+    pages: {
+      coupon: '/coupon',
+      ResourceManage: '/Resources/ResourceManage',
+      EditorResources: '/Resources/EditorResources',
+      ResourceManageAdm: '/ResourcesAdm/ResourceManageAdm',
+      EditorResourcesAdm: '/ResourcesAdm/EditorResourcesAdm'
+    }
+  },
+  promote: {
+    name: 'promote',
+    url: `${prefixUrl}/promote/index.html`
+  },
+  msg: {
+    name: 'msg',
+    url: `${prefixUrl}/msg/`,
+    pages: {
+      messageTemplate: '/message/messageTemplate',
+      messageTemplateAdd: '/message/messageTemplateAdd',
+      messageSend: '/message/messageSend',
+      messageStation: '/message/messageStation'
+    }
+  },
+  budgetManage: {
+    name: 'budgetManage',
+    url: `${prefixUrl}/budgetManage/`,
+    pages: {
+      subjectDetailsList: '/subject/details/list',
+      budgetListDq: '/subject/details/list',
+      budgetListZldq: '/budget/list/zldq',
+      budgetListDq: '/budget/list/dq',
+      budgetListDetails: '/budget/list/details',
+      overpayListFgs: '/overpay/list/fgs'
+    }
+  },
+  community: {
+    name: 'community',
+    url: `${prefixUrl}/activity/index.html`,
+    pages: {
+      createActivity: '/activity/createActivity',
+      activityDetails: '/activity/details'
+    }
+  },
+  template: {
+    name: 'template',
+    url: `${prefixUrl}/template/index.html`,
+    pages: {
+      configureList: '/list/configure'
+    }
+  },
+  file: {
+    name: 'file',
+    url: `${prefixUrl}/file/index.html`
+  },
+  leecode: {
+    name: 'lowcode',
+    url: `${prefixUrl}/lowcode/index.html`,
+    pages: {
+      lowcodeEditor: '/lowcode/editor'
     }
   }
 }

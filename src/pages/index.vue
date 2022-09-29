@@ -106,7 +106,7 @@
                 <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
                 <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
               </div>
-            </div> 
+            </div>
           </div>-->
           <div class="search-results" v-if="search.name">
             共找到<span>{{ menuItemList.length }}</span> 个与<span>{{ search.name }}</span> 相关的菜单
@@ -132,19 +132,6 @@ import { getToken, openSubSystem, setToken, http, isUrl } from 'Config/util'
 import { getQueryString, deleteQueryString } from 'nearby-common'
 import store from 'Config/store/store'
 import { mapGetters } from 'vuex'
-const getQueryString1 = function (name, path = window.location.search) {
-  let reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')
-  if (path.indexOf('=') > -1) {
-    let r = path.substr(1).match(reg)
-    if (r) {
-      return unescape(r[2])
-    } else {
-      r = path.match(new RegExp(name + '=([^&]*)(&|$)'))
-      if (r) return unescape(r[1])
-    }
-  }
-  return ''
-}
 export default {
   name: 'home',
   created() {
@@ -232,7 +219,6 @@ export default {
   },
   watch: {
     $route(val, v) {
-      // console.log(val,v)
       this.prePath = val.path
       this.sysName = val.query.sysName
     }
@@ -332,8 +318,16 @@ export default {
       this.collapsed = !this.collapsed
       this.openKeys = null // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
+    getPathQuery(variable, path){
+      // 获取path参数值
+      var vars = path.split("?");
+      for (var i=0;i<vars.length;i++) {
+        var pair = vars[i].split("=");
+        if(pair[0] == variable){return pair[1];}
+      }
+      return(false);
+    },
     handleClick({ superItem, subItem }, event, clear = true) {
-      console.log(subItem)
       // debugger
       // 再次点击
       // console.dir(event)
@@ -342,22 +336,22 @@ export default {
       this.$store.dispatch('setLoading', true)
       // this.$store.dispatch('setBreadCrumbs', {})
       this.$refs.iframe.loading = false
-      console.log(this.$refs.iframe.loading)
       // 当前系统路径
       const { alias = '', path = '' } = superItem
+      console.log('path参数：',this.getPathQuery('sysName', subItem.path));
       if (isUrl(path)) {
         this.$nextTick(() => {
           // 当前页面路径
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
-          const newAlias = getQueryString1('sysName', path)
-          subItem.query = {
-            alias: newAlias
-          }
           // this.$store.dispatch('setBreadCrumbs', { alias, path })
-          console.log(newAlias, path)
-          if (newAlias !== alias && newAlias) openSubSystem(alias, subItem.path, null, subItem.query)
-          else openSubSystem(alias, subItem.path, null, subItem.query)
+
+          const getAlias = this.getPathQuery('sysName', subItem.path) !== false ? this.getPathQuery('sysName', subItem.path) : alias;
+          if(this.getPathQuery('sysName', subItem.path) !== false){
+            this.prePath = subItem.path;
+          }
+          openSubSystem(getAlias, subItem.path, null, subItem.query);
+          this.$refs.iframe.loading = true;
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //
