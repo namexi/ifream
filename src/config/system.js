@@ -565,7 +565,7 @@ export const subSysTemConfig = {
   },
   leecode: {
     name: 'leecode',
-    url: `${prefixUrl}/lowcode/index.html`,
+    url: `${prefixUrl}/leecode/index.html`,
     pages: {
       lowcodeEditor: '/lowcode/editor'
     }
