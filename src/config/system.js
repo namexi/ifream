@@ -169,7 +169,12 @@ export const subSysTemConfig = {
       newCommissionBDetail: '/newCommission/bd/detail',
       newCommissionPersonnelPackage: '/newCommission/personnel/package',
       newCommissionPersonnelDetail: '/newCommission/personnel/detail',
-      RuleConfiguration: '/performanceScheme/RuleConfiguration'
+      RuleConfiguration: '/performanceScheme/RuleConfiguration',
+      evaluationDetails: '/evaluationDetails',
+      selfAssessment: '/selfAssessment',
+      auditProcessing: '/auditProcessing',
+      evaluation: '/evaluation',
+      valuesManagement: '/valuesManagement'
     }
   },
   customer: {
@@ -447,7 +452,6 @@ export const subSysTemConfig = {
   marketing: {
     name: 'marketing',
     url: `${prefixUrl}/marketing/index.html`,
-
     pages: {
       anchorManagDesc: '/anchorManag/desc',
       childManage: '/anchorManag/childManage',
@@ -558,6 +562,13 @@ export const subSysTemConfig = {
   file: {
     name: 'file',
     url: `${prefixUrl}/file/index.html`
+  },
+  leecode: {
+    name: 'lowcode',
+    url: `${prefixUrl}/lowcode/index.html`,
+    pages: {
+      lowcodeEditor: '/lowcode/editor'
+    }
   }
 }
 
