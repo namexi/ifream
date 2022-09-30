@@ -569,6 +569,10 @@ export const subSysTemConfig = {
     pages: {
       lowcodeEditor: '/lowcode/editor'
     }
+  },
+  costControl:{
+    name:'costControl',
+    url: `${prefixUrl}/costControl/index.html`,
   }
 }
 
