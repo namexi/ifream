@@ -290,6 +290,7 @@ export default {
             // return `${targetPage}/`.indexOf(`${itemPath}/`) !== -1 || `${targetPage}/`.indexOf(`${itemPath}?`) !== -1
             // v1.0.1
             let newarrPath = itemPath.replace(/\//g, '') // 系统输入的路径
+
             newarrPath = newarrPath.replace(/\?.*/, '') // 将系统输入的参数去掉
             let breadCrumbsPathStr = targetPage.replace(/\//g, '')
 
@@ -310,6 +311,13 @@ export default {
         //   findArr.push(item)
         // }
       })
+
+      // 父级分为多个系统
+      if (findArr.length > 1) {
+        findArr = [findParent(findArr, obj.targetPage.replace('/frame', ''))]
+      }
+      console.log(findArr)
+
       let pageSystem = getSystem(obj.target).pages
       if (obj.query.breadCrumbs) {
         // 2级以上路由
@@ -387,14 +395,11 @@ export default {
       // 查找最后一级
       //没有传递breadCrumbs （2级路由）
       //todo: 从菜单里面找 targetPage 当前path
-      // 父级分为多个系统
-      if (findArr.length > 1) {
-        findArr = [findParent(findArr, obj.targetPage.replace('/frame', ''))]
-      }
-      console.log(findArr)
       // 最后一级
       childArr = findArr[0].children || []
+
       childArr = fuzzyLookup(childArr, obj.targetPage.replace('/frame', '')) || []
+      console.log('=====>', childArr)
       if (childArr.length > 0) {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
       } else {
