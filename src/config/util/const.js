@@ -8,7 +8,10 @@ export const wxLoginUrl = `https://cd-nt.lianlianlvyou.com/?isOaWeb=1&versionCod
 export const wxCallBackUrl = 'https://nb-oa-web.lianlianlvyou.com/#/login' // 扫码登录回调地址
 export const wxAuthCallBackUrl = 'https://cd-nt.lianlianlvyou.com/?isOaWeb=2#/redirectUrl' // 微信授权登录回调地址
 export const currentHost = `${location.protocol}//${location.host}`
-export const crmCallbackUrl = (token = '') => (isProd ? `https://yhcrm.lianlianlvyou.com/?token=${token}` : `https://debug.lianlianlvyou.com/yhcrm/?token=${token}`)
+export const crmCallbackUrl = (token = '', parmse) => ({
+  d: isProd ? ` https://sea.lianlianlvyou.com/channel-manager/?token=${token}` : `https://ll-oss-pre.lianlianlvyou.com/channel-manager/?token=${token}`,
+  x: isProd ? `https://yhcrm.lianlianlvyou.com/?token=${token}` : `https://debug.lianlianlvyou.com/yhcrm/?token=${token}`
+})
 
 let baseUrl = 'https://oas.lianlianlvyou.com'
 

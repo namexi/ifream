@@ -76,7 +76,7 @@ export default {
     },
     checkRoute() {
       console.log('route change!')
-      const crmCode = getQueryString('x')
+      let crmCode = getQueryString('x')
       // 通过从路由上来还是跳转url上来 来区分wx
       const wxCode = getQueryString('code')
 
@@ -99,13 +99,16 @@ export default {
         // 在微信环境直接登录
         this.platform = 2
         this.scene = 'wx'
-        if (crmCode) this.autoLogin('crm')
+        if (crmCode && crmCode.indexOf('d') !== -1) this.autoLogin('dchannel')
+        else if (crmCode && crmCode / 10) this.autoLogin('xcrm')
         else this.autoLogin()
       } else {
         // 扫码登录
         this.platform = 1
         this.scene = 'web'
-        if (crmCode) this.requestQrCode('crm')
+        console.log(crmCode.indexOf('d'))
+        if (crmCode.indexOf('d') !== -1) this.requestQrCode('dchannel')
+        else if (crmCode && crmCode / 10) this.requestQrCode('xcrm')
         else this.requestQrCode()
       }
     },
@@ -123,16 +126,17 @@ export default {
     loginSuccess(token = '') {
       let { state } = this.$route.query //pc端跳转回来的
       state = state ? state : getQueryString('state') // 微信跳转的
+      state = state !== '123456' ? state[0] : null
+      console.log(state)
       setToken(token)
       http.defaults.headers['Authorization'] = token
       console.log('登录')
-      if (state === 'crm') {
+      if (state) {
         setToken('')
         http.defaults.headers['Authorization'] = ''
-        const crmUrl = crmCallbackUrl(token)
-
+        const crmUrl = crmCallbackUrl(token)[state]
         if (crmUrl) window.open(crmUrl, '_self')
-        else alert('银河crm敬请期待！')
+        else alert('敬请期待！')
       } else this.$router.replace('./')
     },
     loginWithCode(code) {
@@ -188,8 +192,8 @@ export default {
         if (!appId) return
         const versionCode = getQueryString('v') || '233'
         let url = addQueryString(wxAuthCallBackUrl, 'versionCode', versionCode)
-        console.log(url)
-        if (state === 'crm') url = addQueryString(url, 'state', state)
+        console.log('autoLogin', url)
+        if (state) url = addQueryString(url, 'state', state)
         const callback = encodeURIComponent(url)
         console.log(callback)
         wxAuthLogin(appId, callback, 0, '123456')
