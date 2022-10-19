@@ -319,7 +319,11 @@ export const subSysTemConfig = {
       annexAgreement: '/v3/contract/desc/annex/agreement',
       contractListYxs: '/v3/contract/list/yxs',
       merchantsReportOne: '/merchants/reportData',
-      actionLogDesc: '/action/log/list'
+      actionLogDesc: '/action/log/list',
+      merchantContractDesc: '/v3/merchant/contract/desc',
+      contractGroupDesc: '/v3/contract/group/desc',
+      contractInfo: '/v3/contract/desc/contract/info',
+      goodsInfo: '/v3/contract/desc/goods/info'
     }
   },
   market: {
@@ -571,9 +575,9 @@ export const subSysTemConfig = {
       lowcodeEditor: '/lowcode/editor'
     }
   },
-  costControl:{
-    name:'costControl',
-    url: `${prefixUrl}/costControl/index.html`,
+  costControl: {
+    name: 'costControl',
+    url: `${prefixUrl}/costControl/index.html`
   }
 }
 
