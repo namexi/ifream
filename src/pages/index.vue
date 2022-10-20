@@ -350,7 +350,10 @@ export default {
         if (this.sysName && alias === this.sysName) this.$refs.iframe.parseRouter()
       } else {
         const { alias, path } = subItem
-        if (alias === 'oa') return (window.location.href = `${path}?token=${getToken()}`)
+        if (alias === 'oa') {
+          if (path.indexOf('windw')) return window.open(`${path}?token=${getToken()}`)
+          return (window.location.href = `${path}?token=${getToken()}`)
+        }
         this.$router.push({
           path: subItem.path
         })
