@@ -476,7 +476,10 @@ export const subSysTemConfig = {
       boardProductHost: '/douJiaManage/boardProductHost',
       boardShops: '/douJiaManage/boardShops',
       boardProduct: '/douJiaManage/boardProduct',
-      dataBoardAdmin: '/douJiaManage/dataBoardAdmin'
+      dataBoardAdmin: '/douJiaManage/dataBoardAdmin',
+      spuPlusInfo: '/spuPlusInfo',
+      spuPlusManag: '/spuPlusManag',
+      addSpuPlus: '/addSpuPlus'
     }
   },
   merchant: {
