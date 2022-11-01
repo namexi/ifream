@@ -495,7 +495,8 @@ export const subSysTemConfig = {
       merchantHead: '/merchantDetails',
       agentAdd: '/agent/add',
       agenDetails: '/agent/details',
-      managementCoupon: '/list/managementCoupon'
+      managementCoupon: '/list/managementCoupon',
+      wineSceneList: '/wineScene/list'
     }
   },
   dyfxweb: {
