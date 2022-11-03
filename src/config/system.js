@@ -64,7 +64,16 @@ export const subSysTemConfig = {
   },
   technology: {
     name: 'technology',
-    url: `${prefixUrl}/technology/index.html`
+    url: `${prefixUrl}/technology/index.html`,
+    pages: {
+      addUser: '/addUser',
+      editUser: '/editUser',
+      userInfor: '/userInfor',
+      addRole: '/addRole',
+      editRole: '/editRole',
+      roleInfor: '/roleInfor',
+      roleClone: '/roleClone'
+    }
   },
   common: {
     name: 'common',
