@@ -3,9 +3,10 @@ import { isDebug, isDev, isTest, isProd } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
-const devDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
+const devDeployUrl = 'https://ll-oss-dev.llzby.top/oa'
 
 console.log(process.env.NODE_ENV === 'debug')
+
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
 if (isTest) prefixUrl = debugDeployUrl
 

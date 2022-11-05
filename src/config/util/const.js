@@ -16,11 +16,8 @@ export const crmCallbackUrl = (token = '', parmse) => ({
 let baseUrl = 'https://oas.lianlianlvyou.com'
 
 if (isDev) {
-  baseUrl = 'https://oasd.lianlianlvyou.com'
-  // baseUrl = 'http://192.168.10.124:32011'
+  baseUrl = 'https://gateway-dev.llzby.top'
 } else if (isTest) {
-  baseUrl = 'http://192.167.246.37:31001'
-  // baseUrl = 'http://192.101.50.134:8080'
   baseUrl = 'https://oasd.lianlianlvyou.com'
 }
 
