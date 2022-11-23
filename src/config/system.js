@@ -592,6 +592,10 @@ export const subSysTemConfig = {
   costControl: {
     name: 'costControl',
     url: `${prefixUrl}/costControl/index.html`
+  },
+  zycrm: {
+    name: 'zycrm',
+    url: `${prefixUrl}/zycrm/index.html`
   }
 }
 
