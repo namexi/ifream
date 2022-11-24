@@ -595,7 +595,15 @@ export const subSysTemConfig = {
   },
   zycrm: {
     name: 'zycrm',
-    url: `${prefixUrl}/zycrm/index.html`
+    url: `${prefixUrl}/zycrm/index.html`,
+    pages: {
+      businessDeta: '/crm/business/details/info',
+      businessInfo: '/crm/business/details/info',
+      kpInfo: '/crm/business/details/kpInfo',
+      followInfo: '/crm/business/details/followInfo',
+      storeInfo: '/crm/business/details/storeInfo',
+      contractInfo: '/crm/business/details/contractInfo'
+    }
   }
 }
 
