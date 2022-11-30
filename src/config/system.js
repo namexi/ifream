@@ -605,9 +605,12 @@ export const subSysTemConfig = {
       contractInfo: '/crm/business/details/contractInfo'
     }
   },
-  blogger:{
+  blogger: {
     name: 'blogger',
     url: `${prefixUrl}/blogger/index.html`,
+    pages: {
+      taskSettings: '/taskSettings'
+    }
   }
 }
 
