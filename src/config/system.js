@@ -506,7 +506,6 @@ export const subSysTemConfig = {
       agenDetails: '/agent/details',
       managementCoupon: '/list/managementCoupon',
       wineSceneList: '/wineScene/list',
-      myMerchantList: '/myMerchant/list',
       merchantsBrandList: '/wineScene/brandlist'
     }
   },
