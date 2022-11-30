@@ -604,6 +604,10 @@ export const subSysTemConfig = {
       storeInfo: '/crm/business/details/storeInfo',
       contractInfo: '/crm/business/details/contractInfo'
     }
+  },
+  blogger:{
+    name: 'blogger',
+    url: `${prefixUrl}/blogger/index.html`,
   }
 }
 
