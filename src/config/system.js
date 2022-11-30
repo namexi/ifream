@@ -607,7 +607,10 @@ export const subSysTemConfig = {
   },
   blogger: {
     name: 'blogger',
-    url: `${prefixUrl}/blogger/index.html`
+    url: `${prefixUrl}/blogger/index.html`,
+    pages: {
+      taskSettings: '/taskSettings'
+    }
   }
 }
 
