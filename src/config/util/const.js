@@ -10,7 +10,8 @@ export const wxAuthCallBackUrl = 'https://cd-nt.lianlianlvyou.com/?isOaWeb=2#/re
 export const currentHost = `${location.protocol}//${location.host}`
 export const crmCallbackUrl = (token = '', parmse) => ({
   d: isProd ? `https://sea.lianlianlvyou.com/web-channel-manager/index.html?token=${token}` : `https://ll-oss-pre.lianlianlvyou.com/channel-manager/index.html?token=${token}`,
-  x: isProd ? `https://yhcrm.lianlianlvyou.com/?token=${token}` : `https://debug.lianlianlvyou.com/yhcrm/?token=${token}`
+  x: isProd ? `https://yhcrm.lianlianlvyou.com/?token=${token}` : `https://debug.lianlianlvyou.com/yhcrm/?token=${token}`,
+  m: isProd ? `` : `https://ll-oss-test.llzby.top/finance-web/frame/index.html?token=${token}`
 })
 
 let baseUrl = 'https://oas.lianlianlvyou.com'

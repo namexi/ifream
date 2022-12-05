@@ -100,6 +100,7 @@ export default {
         this.platform = 2
         this.scene = 'wx'
         if (crmCode && crmCode.indexOf('d') !== -1) this.autoLogin('dchannel')
+        else if (crmCode && crmCode.indexOf('m') !== -1) this.autoLogin('mfinance')
         else if (crmCode && crmCode / 10) this.autoLogin('xcrm')
         else this.autoLogin()
       } else {
@@ -108,6 +109,7 @@ export default {
         this.scene = 'web'
         console.log(crmCode.indexOf('d'))
         if (crmCode.indexOf('d') !== -1) this.requestQrCode('dchannel')
+        else if (crmCode && crmCode.indexOf('m') !== -1) this.requestQrCode('mfinance')
         else if (crmCode && crmCode / 10) this.requestQrCode('xcrm')
         else this.requestQrCode()
       }

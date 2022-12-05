@@ -399,19 +399,19 @@ export default {
       childArr = findArr[0].children || []
 
       childArr = fuzzyLookup(childArr, obj.targetPage.replace('/frame', '')) || []
-      console.log('=====>', childArr)
+
       if (childArr.length > 0) {
         if (childArr.length > 1) childArr = this.finditem(childArr, obj.targetPage.replace('/frame', ''))
       } else {
         // 当前菜单无法找到
         // console.log(obj)
       }
-      console.log(childArr)
+
       if (childArr.length == 0) {
         this.$message.error('当前菜单没有配置')
         return 0
       }
-      console.log(childSuperiorArr, childArr)
+
       // 最终面包屑
       if (childSuperiorArr && childSuperiorArr.length > 0) {
         findArr = newfindArr.length > 0 ? newfindArr : findArr
