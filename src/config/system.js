@@ -488,7 +488,9 @@ export const subSysTemConfig = {
       dataBoardAdmin: '/douJiaManage/dataBoardAdmin',
       spuPlusInfo: '/spuPlusInfo',
       spuPlusManag: '/spuPlusManag',
-      addSpuPlus: '/addSpuPlus'
+      addSpuPlus: '/addSpuPlus',
+      KSproductAuditManageDetail: '/KSproductAuditManageDetail',
+      KSstoreMatchingManage: '/KSstoreMatchingManage'
     }
   },
   merchant: {
