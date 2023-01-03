@@ -490,7 +490,7 @@ export const subSysTemConfig = {
       spuPlusManag: '/spuPlusManag',
       addSpuPlus: '/addSpuPlus',
       KSproductAuditManageDetail: '/KSproductAuditManageDetail',
-      KSstoreMatchingManage: '/KSstoreMatchingManage'
+      KSstoreMatchingManageDetail: '/KSstoreMatchingManageDetail'
     }
   },
   merchant: {
