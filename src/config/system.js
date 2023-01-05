@@ -596,8 +596,8 @@ export const subSysTemConfig = {
     name: 'costControl',
     url: `${prefixUrl}/costControl/index.html`
   },
-  zycrm: {
-    name: 'zycrm',
+  webzycrm: {
+    name: 'webzycrm',
     url: `${prefixUrl}/zycrm/index.html`,
     pages: {
       businessDeta: '/crm/business/details/info',
