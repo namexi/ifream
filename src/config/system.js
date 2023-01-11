@@ -589,7 +589,19 @@ export const subSysTemConfig = {
     name: 'leecode',
     url: `${prefixUrl}/leecode/index.html`,
     pages: {
-      lowcodeEditor: '/lowcode/editor'
+      lowcodeEditor: '/lowcode/editor',
+      SaleOrderDetail: '/sale-order/detail',
+      SaleOrderRefundDetail: '/sale-order-refund/detail',
+      WriteOffOrderDetail: '/write-off-order/detail',
+      CompensationOrderDetail: '/compensation-order/detail',
+      BookMarkupOrderDetail: '/book-markup-order/detail',
+      BookMarkupOrderRefundDetail: '/book-markup-order-refund/detail',
+      SaleDistributionMoneyDetail: '/sale-distribution-money/detail',
+      RefundOrderRefundMoneyDetail: '/refund-order-refund-money/detail',
+      AgentCashOutDetail: '/agent-cash-out/detail',
+      MerchantSettlementDetail: '/merchant-settlement/detail',
+      MerchantSettlementRefundDetail: '/merchant-settlement-refund/detail',
+      MerchantCashOutDetail: '/merchant-cash-out/detail'
     }
   },
   costControl: {
