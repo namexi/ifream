@@ -223,7 +223,8 @@ export const subSysTemConfig = {
       account: '/bpoManager/account',
       smsmanagement: '/smsManagement',
       oprateRequire: '/oprateRequire',
-      skillOprateLog: '/skillOprateLog'
+      skillOprateLog: '/skillOprateLog',
+      commonTracking: '/order/commonTrackingSlef'
     }
   },
   product: {
