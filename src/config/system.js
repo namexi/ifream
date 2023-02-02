@@ -1,5 +1,5 @@
 /* eslint-disable */
-import { isDebug, isDev, isTest } from '@/config/util/env'
+import { isDebug, isDev, isTest, isProd } from '@/config/util/env'
 
 const prodDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/new'
 const debugDeployUrl = 'https://nb-oa-web.lianlianlvyou.com/debug'
@@ -9,7 +9,7 @@ console.log(process.env.NODE_ENV === 'debug')
 
 let prefixUrl = isDebug ? devDeployUrl : prodDeployUrl
 if (isTest) prefixUrl = debugDeployUrl
-console.log(prefixUrl)
+
 export const subSysTemConfig = {
   crm: {
     name: 'crm',
@@ -223,7 +223,8 @@ export const subSysTemConfig = {
       account: '/bpoManager/account',
       smsmanagement: '/smsManagement',
       oprateRequire: '/oprateRequire',
-      skillOprateLog: '/skillOprateLog'
+      skillOprateLog: '/skillOprateLog',
+      commonTracking: '/order/commonTrackingSlef'
     }
   },
   product: {
@@ -490,7 +491,7 @@ export const subSysTemConfig = {
       spuPlusManag: '/spuPlusManag',
       addSpuPlus: '/addSpuPlus',
       KSproductAuditManageDetail: '/KSproductAuditManageDetail',
-      KSstoreMatchingManage: '/KSstoreMatchingManage'
+      KSstoreMatchingManageDetail: '/KSstoreMatchingManageDetail'
     }
   },
   merchant: {
@@ -589,16 +590,28 @@ export const subSysTemConfig = {
     name: 'leecode',
     url: `${prefixUrl}/leecode/index.html`,
     pages: {
-      lowcodeEditor: '/lowcode/editor'
+      lowcodeEditor: '/lowcode/editor',
+      SaleOrderDetail: '/sale-order/detail',
+      SaleOrderRefundDetail: '/sale-order-refund/detail',
+      WriteOffOrderDetail: '/write-off-order/detail',
+      CompensationOrderDetail: '/compensation-order/detail',
+      BookMarkupOrderDetail: '/book-markup-order/detail',
+      BookMarkupOrderRefundDetail: '/book-markup-order-refund/detail',
+      SaleDistributionMoneyDetail: '/sale-distribution-money/detail',
+      RefundOrderRefundMoneyDetail: '/refund-order-refund-money/detail',
+      AgentCashOutDetail: '/agent-cash-out/detail',
+      MerchantSettlementDetail: '/merchant-settlement/detail',
+      MerchantSettlementRefundDetail: '/merchant-settlement-refund/detail',
+      MerchantCashOutDetail: '/merchant-cash-out/detail'
     }
   },
   costControl: {
     name: 'costControl',
     url: `${prefixUrl}/costControl/index.html`
   },
-  zycrm: {
-    name: 'zycrm',
-    url: `${prefixUrl}/zycrm/index.html`,
+  webzycrm: {
+    name: 'webzycrm',
+    url: `${prefixUrl}/webzycrm/index.html`,
     pages: {
       businessDeta: '/crm/business/details/info',
       businessInfo: '/crm/business/details/info',
@@ -617,6 +630,10 @@ export const subSysTemConfig = {
   }
 }
 
-export function getSystem(name = '') {
-  return subSysTemConfig[name]
+export function getSystem(name = '', sysCross = false) {
+  if (!sysCross) return subSysTemConfig[name]
+  return {
+    ...subSysTemConfig[name],
+    url: subSysTemConfig[sysCross].url
+  }
 }

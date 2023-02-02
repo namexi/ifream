@@ -318,14 +318,16 @@ export default {
       this.collapsed = !this.collapsed
       this.openKeys = null // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
-    getPathQuery(variable, path){
+    getPathQuery(variable, path) {
       // 获取path参数值
-      var vars = path.split("?");
-      for (var i=0;i<vars.length;i++) {
-        var pair = vars[i].split("=");
-        if(pair[0] == variable){return pair[1];}
+      var vars = path.split('?')
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=')
+        if (pair[0] == variable) {
+          return pair[1]
+        }
       }
-      return(false);
+      return false
     },
     handleClick({ superItem, subItem }, event, clear = true) {
       // debugger
@@ -338,20 +340,19 @@ export default {
       this.$refs.iframe.loading = false
       // 当前系统路径
       const { alias = '', path = '' } = superItem
-      console.log('path参数：',this.getPathQuery('sysName', subItem.path));
-      if (isUrl(path)) {
+      if (isUrl(path) && !isUrl(subItem.path)) {
         this.$nextTick(() => {
           // 当前页面路径
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
           // this.$store.dispatch('setBreadCrumbs', { alias, path })
 
-          const getAlias = this.getPathQuery('sysName', subItem.path) !== false ? this.getPathQuery('sysName', subItem.path) : alias;
-          if(this.getPathQuery('sysName', subItem.path) !== false){
-            this.prePath = subItem.path;
+          const getAlias = this.getPathQuery('sysName', subItem.path) !== false ? this.getPathQuery('sysName', subItem.path) : alias
+          if (this.getPathQuery('sysName', subItem.path) !== false) {
+            this.prePath = subItem.path
           }
-          openSubSystem(getAlias, subItem.path, null, subItem.query);
-          this.$refs.iframe.loading = true;
+          openSubSystem(getAlias, subItem.path, null, subItem.query)
+          this.$refs.iframe.loading = true
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //
@@ -365,7 +366,10 @@ export default {
         if (this.sysName && alias === this.sysName) this.$refs.iframe.parseRouter()
       } else {
         const { alias, path } = subItem
-        if (alias === 'oa') return (window.location.href = `${path}?token=${getToken()}`)
+        if (alias === 'oa') {
+          if (path.indexOf('windw')) return window.open(`${path}?token=${getToken()}`)
+          return (window.location.href = `${path}?token=${getToken()}`)
+        }
         this.$router.push({
           path: subItem.path
         })
@@ -449,19 +453,17 @@ export default {
     },
     // 面包屑
     breadcrumbClick(v, index) {
-      console.log(v, index)
       let pathCrumbs = v.path
       let { path } = this.$route
       let { children } = this.getBreadCrumbs
-      // console.log(path,pathCrumbs)
+
       if (path === pathCrumbs || this.getBreadCrumbs.children.length - 1 == index) return false
       //保留点击之前导航层级数
       let i = children.indexOf(v)
       let len = children.length
       let priorToDifference = len - (i + 1)
-      console.log(priorToDifference)
+
       if (priorToDifference >= 0 && i !== 0) {
-        console.log(11)
         // let newchild = children.slice(0, priorToDifference)
         // let breadCrumbs = ''
         // for (let i = 0; i < newchild.length; i++) {
@@ -581,7 +583,7 @@ export default {
   position: relative;
   .title-bar {
     display: flex;
-    position: relative;
+    position: fixed;
     z-index: 2;
     height: @header-height;
     width: 100%;
@@ -652,7 +654,9 @@ export default {
   .container {
     position: relative;
     display: flex;
-    height: calc(100% - @header-height);
+    // height: calc(100% - @header-height);
+    height: 100%;
+    padding-top: @header-height;
   }
   // display: flex;
   .side-bar {
@@ -717,8 +721,9 @@ export default {
     }
   }
   .main-container {
-    height: 100%;
+    // height: 100%;
     width: 100%;
+    height: calc(100% - 6px);
 
     .main-router {
       height: 100%;
