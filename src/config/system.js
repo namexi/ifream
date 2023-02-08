@@ -184,7 +184,8 @@ export const subSysTemConfig = {
       selfAssessment: '/selfAssessment',
       auditProcessing: '/auditProcessing',
       evaluation: '/evaluation',
-      valuesManagement: '/valuesManagement'
+      valuesManagement: '/valuesManagement',
+      sureKpiListSee: '/kpi/sureKpiSee'
     }
   },
   customer: {
