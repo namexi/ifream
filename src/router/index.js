@@ -60,6 +60,9 @@ const router = new Router({
   ]
 })
 router.beforeEach((to, from, next) => {
+  const urlToken = getQueryString('token')
+  const token = getToken()
+  if (to.path == '/' && token) openSubSystem('customer', '/oaIndex', null)
   next()
 })
 export default router
