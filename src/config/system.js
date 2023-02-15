@@ -185,7 +185,9 @@ export const subSysTemConfig = {
       auditProcessing: '/auditProcessing',
       evaluation: '/evaluation',
       valuesManagement: '/valuesManagement',
-      sureKpiListSee: '/kpi/sureKpiSee'
+      sureKpiListSee: '/kpi/sureKpiSee',
+      commissionEditTag: '/newCommission/editTag',
+      commissionEditReport: '/newCommission/editReport'
     }
   },
   customer: {
