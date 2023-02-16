@@ -625,7 +625,9 @@ export const subSysTemConfig = {
     name: 'blogger',
     url: `${prefixUrl}/blogger/index.html`,
     pages: {
-      taskSettings: '/taskSettings'
+      taskSettings: '/taskSettings',
+      lkProductEditAdmin: '/lkProductEditAdmin',
+      lkProductEditNormal: '/lkProductEditNormal',
     }
   }
 }
