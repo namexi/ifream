@@ -184,7 +184,10 @@ export const subSysTemConfig = {
       selfAssessment: '/selfAssessment',
       auditProcessing: '/auditProcessing',
       evaluation: '/evaluation',
-      valuesManagement: '/valuesManagement'
+      valuesManagement: '/valuesManagement',
+      sureKpiListSee: '/kpi/sureKpiSee',
+      commissionEditTag: '/newCommission/editTag',
+      commissionEditReport: '/newCommission/editReport'
     }
   },
   customer: {
@@ -625,7 +628,9 @@ export const subSysTemConfig = {
     name: 'blogger',
     url: `${prefixUrl}/blogger/index.html`,
     pages: {
-      taskSettings: '/taskSettings'
+      taskSettings: '/taskSettings',
+      lkProductEditAdmin: '/lkProductEditAdmin',
+      lkProductEditNormal: '/lkProductEditNormal'
     }
   }
 }
