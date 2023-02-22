@@ -510,7 +510,9 @@ export const subSysTemConfig = {
       managementCoupon: '/list/managementCoupon',
       wineSceneList: '/wineScene/list',
       merchantsBrandList: '/wineScene/brandlist',
-      merchantDecorationShop: '/merchant/decorationShop'
+      merchantDecorationShop: '/merchant/decorationShop',
+      closedLoopCommission:'/closedLoop/commission',
+      closedLoopList:'/closedLoop/list'
     }
   },
   dyfxweb: {
