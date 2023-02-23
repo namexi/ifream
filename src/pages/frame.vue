@@ -233,7 +233,7 @@ export default {
             if (breadCrumbs.length > 1) {
               obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}?breadCrumbs=${breadCrumbs[len - 2]}`
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
-            } else if (breadCrumbs.length == 1) {
+            } else {
               obj[breadCrumbs[len - 1]] = `${breadCrumbs[len - 1]}`
               sessionStorage.setItem('breadCrumbs-path', JSON.stringify(obj))
             }
@@ -351,33 +351,19 @@ export default {
               for (let j = 0; j < len; j++) {
                 let item = arr[j]
                 if (item.children && item.children.length > 0) {
-                  //v1.0
-                  // let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
-                  // v1.0.1
-                  let newarr1 = item.children.filter((el) => {
-                    let newarrPath = el.path.replace(/\//g, '')
-                    let breadCrumbsPathStr = obj.breadCrumbs[i].replace(/\//g, '')
-                    let reg = new RegExp('^' + newarrPath)
-                    // console.log(reg.test(breadCrumbsPathStr), el.path, obj.breadCrumbs[i])
-                    return reg.test(breadCrumbsPathStr)
-                  })[0]
+                  let newarr1 = item.children.filter((el) => `${obj.breadCrumbs[i]}/`.indexOf(`${el.path}/`) !== -1)[0]
                   if (newarr1) {
-                    // 删掉所有/
-                    // let newarrPath = newarr1.path.replace(/\//g, '')
-                    // let breadCrumbsPathStr = obj.breadCrumbs[i].replace(/\//g, '')
-                    // let reg = new RegExp('^' + newarrPath)
-                    // console.log(reg.test(breadCrumbsPathStr), newarr1.path, obj.breadCrumbs[i])
-                    // if (newarr1.path === obj.breadCrumbs[i] || reg.test(breadCrumbsPathStr)) {
-                    newarr1 = {
-                      ...newarr1,
-                      path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
+                    // if (newarr1.length > 1) newarr1 = this.finditem(newarr1, obj.breadCrumbs[i])
+                    // console.log(JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]], newarr1.path)
+                    // JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]].indexOf(newarr1.path) !== -1
+                    if (newarr1.path === obj.breadCrumbs[i]) {
+                      newarr1 = {
+                        ...newarr1,
+                        path: breadCrumbsPath ? JSON.parse(breadCrumbsPath)[obj.breadCrumbs[i]] || obj.breadCrumbs[i] : obj.breadCrumbs[i]
+                      }
+                      newfindArr = [item]
+                      newchildSuperiorArr.push(newarr1)
                     }
-                    newfindArr = [item]
-                    newchildSuperiorArr.push(newarr1)
-                    // } else {
-                    // 可能有动态路由 也有可能是命名差不多的
-                    // todo:模糊查找需重写
-                    // }
                   }
                   continue
                 }
@@ -408,8 +394,8 @@ export default {
       }
 
       if (childArr.length == 0) {
-        this.$message.error('当前菜单没有配置')
-        return 0
+        // this.$message.error('当前菜单没有配置')
+        // return 0
       }
 
       // 最终面包屑
