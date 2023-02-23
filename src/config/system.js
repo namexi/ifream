@@ -513,9 +513,7 @@ export const subSysTemConfig = {
       managementCoupon: '/list/managementCoupon',
       wineSceneList: '/wineScene/list',
       merchantsBrandList: '/wineScene/brandlist',
-      merchantDecorationShop: '/merchant/decorationShop',
-      closedLoopCommission:'/closedLoop/commission',
-      closedLoopList:'/closedLoop/list'
+      merchantDecorationShop: '/merchant/decorationShop'
     }
   },
   dyfxweb: {
@@ -632,7 +630,7 @@ export const subSysTemConfig = {
     pages: {
       taskSettings: '/taskSettings',
       lkProductEditAdmin: '/lkProductEditAdmin',
-      lkProductEditNormal: '/lkProductEditNormal'
+      lkProductEditNormal: '/lkProductEditNormal',
     }
   }
 }
