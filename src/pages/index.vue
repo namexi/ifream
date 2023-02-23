@@ -106,7 +106,7 @@
                 <img v-if="noFavorites" src="../assets/icon/icon_menu_star_active@2x.png" alt="" />
                 <img v-else src="../assets/icon/icon_menu_star_default@2x.png" alt="" />
               </div>
-            </div> 
+            </div>
           </div>-->
           <div class="search-results" v-if="search.name">
             共找到<span>{{ menuItemList.length }}</span> 个与<span>{{ search.name }}</span> 相关的菜单
@@ -219,7 +219,6 @@ export default {
   },
   watch: {
     $route(val, v) {
-      // console.log(val,v)
       this.prePath = val.path
       this.sysName = val.query.sysName
     }
@@ -319,6 +318,17 @@ export default {
       this.collapsed = !this.collapsed
       this.openKeys = null // 关闭所有打开的二级菜单，防止二级菜单飘窗
     },
+    getPathQuery(variable, path) {
+      // 获取path参数值
+      var vars = path.split('?')
+      for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split('=')
+        if (pair[0] == variable) {
+          return pair[1]
+        }
+      }
+      return false
+    },
     handleClick({ superItem, subItem }, event, clear = true) {
       // debugger
       // 再次点击
@@ -336,7 +346,13 @@ export default {
           const { path } = subItem
           const iframeDom = this.$refs.iframe.$refs.frame
           // this.$store.dispatch('setBreadCrumbs', { alias, path })
-          openSubSystem(alias, subItem.path, null, subItem.query)
+
+          const getAlias = this.getPathQuery('sysName', subItem.path) !== false ? this.getPathQuery('sysName', subItem.path) : alias
+          if (this.getPathQuery('sysName', subItem.path) !== false) {
+            this.prePath = subItem.path
+          }
+          openSubSystem(getAlias, subItem.path, null, subItem.query)
+          this.$refs.iframe.loading = true
           // 重复点击
           if (this.prePath && this.prePath.indexOf(path) !== -1) {
             //
