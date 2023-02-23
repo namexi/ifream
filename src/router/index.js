@@ -18,7 +18,7 @@ const router = new Router({
     {
       path: '/',
       name: 'home',
-      redirect: 'welcome',
+      // redirect: 'welcome',
       component: (resolve) => require(['Pages/index'], resolve),
       children: [
         {
@@ -59,7 +59,11 @@ const router = new Router({
     }
   ]
 })
+
 router.beforeEach((to, from, next) => {
+  const urlToken = getQueryString('token')
+  const token = getToken()
+  if (to.path == '/' && token) openSubSystem('customer', '/oaIndex', null)
   next()
 })
 export default router
