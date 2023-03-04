@@ -630,7 +630,15 @@ export const subSysTemConfig = {
     pages: {
       taskSettings: '/taskSettings',
       lkProductEditAdmin: '/lkProductEditAdmin',
-      lkProductEditNormal: '/lkProductEditNormal',
+      lkProductEditNormal: '/lkProductEditNormal'
+    }
+  },
+  baidu: {
+    name: 'baidu',
+    url: `${prefixUrl}/baidu/index.html`,
+    pages: {
+      productAuditManageDetail: '/productAuditManageDetail',
+      storeMatchingManageDetail: '/storeMatchingManageDetail'
     }
   }
 }
